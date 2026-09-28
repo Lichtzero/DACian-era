@@ -1,122 +1,137 @@
-# DACian-era
-digisite artifact
+# Running the Reader Prototype Locally
 
-# Reader Prototype
+## Requirements
 
-A web-based two-device prototype consisting of a **phone Reader interface** and a **laptop Field Receiver**, connected through a Node.js WebSocket server.
+Install:
 
-## What it does
+* **Node.js** — https://nodejs.org/
+* A modern web browser such as Chrome, Safari, or Firefox
+* A phone and laptop on the same Wi-Fi network if testing the two-device setup
 
-The phone is used to:
+Check that Node.js is installed:
 
-* Adjust frequency and band
-* Start/stop listening
-* Detect a hidden audio signal
-* Receive vibration feedback when near the target frequency
-* Locate and mend the signal
-* Enter an observation/log
-* Receive a new frequency after completing an interaction
-
-The laptop displays the shared Reader activity and field state, including:
-
-* Element
-* Frequency
-* Band
-* Listening state
-* Reader observations/logs
-* Signal/field information
-
-## How it works
-
-```text
-PHONE READER
-     │
-     │ WebSocket
-     ▼
-NODE.JS SERVER
-     │
-     │ WebSocket
-     ▼
-LAPTOP FIELD RECEIVER
+```bash
+node -v
+npm -v
 ```
 
-The server maintains the shared state between both interfaces.
+## 1. Open the project
 
-## Technology
+Open Terminal and navigate to the `network` folder:
 
-* HTML
-* CSS
-* JavaScript
-* Node.js
-* WebSocket (`ws`)
-* Web Audio API
-* Browser Vibration API
-* LocalStorage
-
-## Server
-
-Main server:
-
-```text
-network/server.js
+```bash
+cd path/to/reader-prototype-WATER/network
 ```
 
-Run with:
+## 2. Install dependencies
+
+If the project contains `package.json`, run:
+
+```bash
+npm install
+```
+
+## 3. Start the server
+
+Run:
 
 ```bash
 node server.js
 ```
 
-Server:
-
-```text
-Port: 8787
-WebSocket: /ws
-```
-
-Expected output:
+You should see:
 
 ```text
 READER SERVER RUNNING
 ```
 
-## Phone
-
-The phone interface is accessed through:
+The server runs on:
 
 ```text
-/phone/index.html
+http://localhost:8787
 ```
 
-During testing, the local server can be exposed to the phone using ngrok- copy paste to web browser
+WebSocket connection:
 
-FIELD RECIVER INTERFACE
-```bash
-https://debatable-casino-lent.ngrok-free.dev/laptop/index.html
+```text
+ws://localhost:8787/ws
 ```
-READER INTERFACE
+
+Keep this Terminal window running while using the prototype.
+
+## 4. Open the Field Receiver
+
+On the laptop, open:
+
+```text
+http://localhost:8787/laptop/index.html
+```
+
+## 5. Connect the phone
+
+Find the laptop's local IP address.
+
+### macOS
+
 ```bash
+ipconfig getifaddr en0
+```
+
+If that returns nothing, try:
+
+```bash
+ipconfig getifaddr en1
+```
+
+### windows 
+
+```bash
+ipconfig
+```
+
+You will get an address, paste it 
+
+On the phone, open:
+
+```text
+http://"your ip address here"/phone/index.html
+```
+
+Both devices must be connected to the same Wi-Fi network.
+
+## 6. Start using the prototype
+
+Once both interfaces are open:
+
+```text
+Laptop → Field Receiver
+Phone  → Reader
+```
+
+The phone communicates with the laptop through the Node.js server.
+
+Changes made on the Reader are sent to the Field Receiver through WebSocket.
+
+## Optional: Using ngrok
+
+If the phone cannot access the laptop through the local network, expose the server using ngrok:
+
+```bash
+ngrok http 8787
+```
+
+Open the HTTPS address on the phone:
+
+```text
 https://debatable-casino-lent.ngrok-free.dev/phone/index.html
 ```
 
-## Current prototype
+## Stopping the server
 
-### Water
+In the Terminal running the server:
 
-* Frequency range: 180–1160 Hz
-* Hidden target frequency
-* Audio signal
-* Frequency-based detection
-* Continuous vibration while within the signal range
-* MEND interaction
-* Observation logging
-* New frequency generated after completion
+```text
+Ctrl + C
+```
 
-## Current state
-
-This is a functional prototype for testing the interaction between:
-
-**frequency → listening → signal detection → vibration → mend → observation → new frequency**
-
-The system is currently designed for local development and testing.
-
+This stops the local Reader server.
