@@ -88,10 +88,14 @@ The phone interface is accessed through:
 /phone/index.html
 ```
 
-During testing, the local server can be exposed to the phone using ngrok.
-
+During testing, the local server can be exposed to the phone using ngrok- copy paste to web browser
+FIELD RECIVER INTERFACE
 ```bash
-ngrok http 8787
+https://debatable-casino-lent.ngrok-free.dev/laptop/index.html
+```
+READER INTERFACE
+```bash
+https://debatable-casino-lent.ngrok-free.dev/phone/index.html
 ```
 
 ## Current prototype
