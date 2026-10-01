@@ -11,14 +11,12 @@ const __dirname = path.dirname(__filename);
 
 // If server.js is inside "network"
 // and laptop/phone are siblings:
-const networkDir = path.resolve(__dirname, '..');
+const networkDir = __dirname;
 
 const PORT =
   Number(process.env.PORT || 8787);
 
 
-const NGROK_URL =
-  'https://debatable-casino-lent.ngrok-free.dev';
 
 
 const clients = new Set();
