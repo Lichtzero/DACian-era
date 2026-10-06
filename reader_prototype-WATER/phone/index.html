@@ -1,0 +1,263 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<title>READER 04 — WATER</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<main class="device">
+
+  <div class="screen">
+
+    <div class="top">
+      <span>DAC-04 / WATER</span>
+      <span id="status">STANDBY</span>
+    </div>
+
+    <div id="instruction" class="instruction">
+      FOLLOW THE CURRENT
+    </div>
+
+    <div class="readout">
+      <span>FLOW</span>
+      <strong id="freqValue">440</strong>
+      <span>HZ</span>
+    </div>
+
+    <div class="meter">
+      <i id="meterFill"></i>
+    </div>
+
+  </div>
+
+
+  <!-- FIELD LINK -->
+
+  <div class="phone-header-bar">
+    <span class="status-tag">LINKED</span>
+    <span class="dac-tag">DAC-04 WATER</span>
+    <span class="mode-tag" id="status-mode">SEARCHING</span>
+  </div>
+
+
+  <!-- RADAR -->
+
+  <div id="radar-container" class="radar-container hidden">
+
+    <svg
+      class="radar-svg"
+      viewBox="0 0 200 120"
+      width="200"
+      height="120"
+    >
+
+      <path
+        d="M 10,100 A 90,90 0 0,1 190,100"
+        fill="none"
+        stroke="#86e3ce"
+        stroke-width="2"
+      />
+
+      <path
+        d="M 40,100 A 60,60 0 0,1 160,100"
+        fill="none"
+        stroke="#86e3ce"
+        stroke-width="1"
+        stroke-dasharray="4"
+      />
+
+      <g id="compass-dial">
+
+        <line
+          x1="100"
+          y1="10"
+          x2="100"
+          y2="20"
+          stroke="#86e3ce"
+          stroke-width="2"
+        />
+
+        <text
+          x="100"
+          y="8"
+          fill="#86e3ce"
+          font-size="8"
+          text-anchor="middle"
+        >
+          N
+        </text>
+
+      </g>
+
+      <!-- THIS IS NOW CONTROLLED BY JAVASCRIPT -->
+
+      <line
+        id="radar-needle"
+        x1="100"
+        y1="100"
+        x2="100"
+        y2="15"
+        stroke="#ffffff"
+        stroke-width="2"
+      />
+
+    </svg>
+
+    <div
+      id="heading-display"
+      class="heading-text"
+    >
+      SEARCHING
+    </div>
+
+  </div>
+
+
+  <!-- READER MESSAGE -->
+
+  <div
+    id="phone-instruction-comment"
+    class="instruction-box"
+  >
+    Scanning frequencies... Adjust to find resonance.
+  </div>
+
+
+  <!-- CONTROLS -->
+
+  <section class="controls">
+
+  <section class="controls">
+  <label>
+    FLOW
+    <input id="freq" type="range" min="80" max="1200" value="440">
+  </label>
+
+  <label>
+    DEPTH
+    <input id="band" type="range" min="20" max="500" value="120">
+  </label>
+
+  <div class="row">
+    <button id="listen">LISTEN</button>
+  </div>
+
+  <button id="mend" class="mend-button hidden" disabled>
+    MEND
+  </button>
+</section>
+    </div>
+
+    <button
+      id="findFilament"
+      class="filament-button hidden-control"
+      disabled
+    >
+      LOCATE FILLÁMEND
+    </button>
+
+  </section>
+
+
+  <!-- OBSERVATION -->
+
+  <section id="filament-observation" class="filament-observation">
+
+  <div class="observation-header">
+    <span>FIELD RECORD</span>
+    <span id="observation-status">FILLÁMEND NOT LOCATED</span>
+  </div>
+
+  <div class="observation-prompt">
+    WHAT DID YOU NOTICE?
+  </div>
+
+  <textarea
+    id="logAttempt"
+    placeholder="Describe what you heard, felt, noticed..."
+    readonly
+  ></textarea>
+
+  <button
+    id="record"
+    class="record-button"
+    disabled
+  >
+    LOG OBSERVATION
+  </button>
+
+</section>
+
+  <!-- KEYPAD -->
+
+  <div
+    id="keypad"
+    class="keypad"
+    aria-label="Reader QWERTY keypad"
+  >
+
+    <div class="key-row row-q">
+      <button data-key="Q">Q</button>
+      <button data-key="W">W</button>
+      <button data-key="E">E</button>
+      <button data-key="R">R</button>
+      <button data-key="T">T</button>
+      <button data-key="Y">Y</button>
+      <button data-key="U">U</button>
+      <button data-key="I">I</button>
+      <button data-key="O">O</button>
+      <button data-key="P">P</button>
+    </div>
+
+    <div class="key-row row-a">
+      <button data-key="A">A</button>
+      <button data-key="S">S</button>
+      <button data-key="D">D</button>
+      <button data-key="F">F</button>
+      <button data-key="G">G</button>
+      <button data-key="H">H</button>
+      <button data-key="J">J</button>
+      <button data-key="K">K</button>
+      <button data-key="L">L</button>
+    </div>
+
+    <div class="key-row row-z">
+      <button data-key="Z">Z</button>
+      <button data-key="X">X</button>
+      <button data-key="C">C</button>
+      <button data-key="V">V</button>
+      <button data-key="B">B</button>
+      <button data-key="N">N</button>
+      <button data-key="M">M</button>
+    </div>
+
+    <div class="key-row row-bottom">
+      <button
+        class="space-key"
+        data-key="SPACE"
+      >
+        SPACE
+      </button>
+
+      <button
+        class="back-key"
+        data-key="BACK"
+      >
+        ⌫
+      </button>
+    </div>
+
+  </div>
+
+</main>
+
+<script src="reader.js"></script>
+
+</body>
+</html>

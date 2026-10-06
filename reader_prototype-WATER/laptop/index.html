@@ -1,0 +1,26 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FIELD RECEIVER</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<main class="world">
+  <header><span>FIELD RECEIVER</span><span id="connection">NO READER</span></header><br>
+  <!-- Insert inside laptop/index.html header or top bar -->
+<div class="user-profile-widget">
+    <span id="user-name">USER:</span> <strong id="profile-name">Tide-234</strong> <span id="user-element">ELEMENT:</span><strong id="profile-element">WATER</strong>
+</div>
+  <section class="scene">
+    
+    <div class="scene-meta"><span id="fieldTitle">FIELD 01 / WATER</span><span id="state">WAITING</span></div>
+    <canvas id="cymatic" width="1100" height="620"></canvas>
+    <div class="scene-copy"><p id="sceneText"></p></div>
+  </section>
+  <section class="lower">
+    <div class="instruction"><small>READER INSTRUCTION</small><strong id="instruction">FOLLOW THE CURRENT</strong></div>
+    <div class="telemetry"><span>FREQ <b id="freq">—</b></span><span>BAND <b id="band">—</b></span><span>READER <b id="reader">—</b></span></div>
+  </section>
+  <section class="log">
+    <small>OBSERVATION</small><p id="observation">No attempt logged.</p>
+    <div class="gemma"><span></span><p id="gemma">Awaiting a Reader observation.</p><p id="context">Press opt key for Context.</p></div>
+  </section>
+  <div id="optionHelp" class="option-help"><b>OPTION — CONTEXT</b><span id="optionText"></span></div>
+</main>
+<script src="app.js"></script></body></html>
