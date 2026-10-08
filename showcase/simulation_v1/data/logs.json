@@ -1,0 +1,47 @@
+[
+  {
+    "id": "log-dac04-001",
+    "username": "Tide-234",
+    "element": "WATER",
+    "freq": 440,
+    "band": 120,
+    "observation": "Submerged acoustic node located near ancient stone pier. Low muffled vocal formant detected at 440 Hz. Silt resonance mended successfully.",
+    "transmission": "SOMETHING MOVES BENEATH THE SURFACE.",
+    "bearing": 182,
+    "heading": 180,
+    "voiceFrequency": 440,
+    "status": "MENDED",
+    "timestamp": "2026-09-28T14:22:10.000Z",
+    "epoch": "EPOCH 04.12"
+  },
+  {
+    "id": "log-dac04-002",
+    "username": "Dune-419",
+    "element": "SAND",
+    "freq": 520,
+    "band": 160,
+    "observation": "High friction crackle along western dune ridge. Quartz grains reorganizing into Chladni figures at 520 Hz. Buried phrase recovered after 40s sweep.",
+    "transmission": "THE GROUND REMEMBERS WHAT PASSES THROUGH IT.",
+    "bearing": 94,
+    "heading": 90,
+    "voiceFrequency": 520,
+    "status": "MENDED",
+    "timestamp": "2026-09-30T09:45:33.000Z",
+    "epoch": "EPOCH 04.18"
+  },
+  {
+    "id": "log-dac04-003",
+    "username": "Current-812",
+    "element": "WATER",
+    "freq": 380,
+    "band": 90,
+    "observation": "Aqueous hydrophone pulse stabilized. Fluid particle vortex formed double nodal circle on monitoring receiver.",
+    "transmission": "THE CURRENT DOES NOT BEGIN WHERE YOU THINK.",
+    "bearing": 270,
+    "heading": 268,
+    "voiceFrequency": 380,
+    "status": "MENDED",
+    "timestamp": "2026-10-02T18:11:05.000Z",
+    "epoch": "EPOCH 04.22"
+  }
+]

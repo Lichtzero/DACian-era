@@ -1,0 +1,197 @@
+/* ==========================================================================
+   READER ARCHIVE — TYPOGRAPHY & TECHNICAL LABELS
+   ========================================================================== */
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--text-primary);
+  letter-spacing: -0.015em;
+}
+
+.mono-display {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Hero Title */
+.hero-title {
+  font-size: clamp(3.2rem, 7vw, 6.4rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  margin-bottom: 0.75rem;
+}
+
+.hero-subtitle {
+  font-family: var(--font-mono);
+  font-size: clamp(0.85rem, 1.4vw, 1.15rem);
+  color: var(--accent-rust);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hero-subtitle::before {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 2px;
+  background-color: var(--accent-rust);
+}
+
+.hero-intro {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.4rem, 2.2vw, 2rem);
+  color: var(--text-secondary);
+  line-height: 1.35;
+  max-width: 32ch;
+  margin-bottom: 2.5rem;
+}
+
+/* Section Headings */
+.section-meta-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.section-num {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--accent-rust);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.section-line {
+  flex: 1;
+  height: 1px;
+  background-color: var(--border-light);
+}
+
+.section-title {
+  font-size: clamp(2rem, 3.5vw, 3.2rem);
+  font-weight: 400;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.section-tagline {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  margin-bottom: 2.5rem;
+  max-width: 60ch;
+}
+
+/* Archival Labels & Badges */
+.archival-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+}
+
+.archival-badge.alert {
+  border-color: var(--accent-rust);
+  color: var(--accent-rust);
+  background: var(--accent-rust-glow);
+}
+
+.archival-badge.active {
+  border-color: var(--accent-teal);
+  color: var(--accent-teal);
+  background: var(--accent-teal-glow);
+}
+
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent-rust);
+  display: inline-block;
+  animation: pulse-fade 2s infinite ease-in-out;
+}
+
+.pulse-dot.teal {
+  background-color: var(--accent-teal);
+}
+
+@keyframes pulse-fade {
+  0%, 100% { opacity: 0.3; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+/* Archival Stamp */
+.archival-stamp {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 6px 12px;
+  border: 2px solid var(--accent-rust);
+  color: var(--accent-rust);
+  transform: rotate(-1.5deg);
+  opacity: 0.9;
+  font-weight: 700;
+  user-select: none;
+}
+
+/* Fragment Quotes */
+.field-fragment-quote {
+  font-family: var(--font-serif);
+  font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+  line-height: 1.45;
+  color: var(--text-primary);
+  border-left: 2px solid var(--accent-rust);
+  padding-left: 1.75rem;
+  margin: 2rem 0;
+  font-style: italic;
+}
+
+.field-fragment-author {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-style: normal;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  text-transform: uppercase;
+}
+
+/* Technical Telemetry Text */
+.telemetry-val {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--text-primary);
+}
+
+/* Registration Crosshairs */
+.reg-cross {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--border-medium);
+  user-select: none;
+}

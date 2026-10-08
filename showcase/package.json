@@ -1,0 +1,14 @@
+{
+  "name": "reader-archival-guide",
+  "version": "1.0.0",
+  "description": "Official Field Documentation and Integrated Simulation for READER (DAC-04)",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "sim": "node simulation/server.js",
+    "all": "node server.js & node simulation/server.js"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}

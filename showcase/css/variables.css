@@ -1,0 +1,53 @@
+/* ==========================================================================
+   READER ARCHIVE — CSS VARIABLES & DESIGN TOKENS
+   Speculative Field Instrument & Archival Research Manual
+   ========================================================================== */
+
+:root {
+  /* Surface & Paper Colors */
+  --bg-primary: #f6f3eb;
+  --bg-surface: #efe9dc;
+  --bg-card: #fbf9f3;
+  --bg-dark: #191816;
+  --bg-dark-card: #22201d;
+  --bg-highlight: #e6dfcf;
+
+  /* Typography / Ink Colors */
+  --text-primary: #1d1b18;
+  --text-secondary: #524e47;
+  --text-muted: #79746b;
+  --text-faint: #a29c91;
+  --text-inverse: #f4efe4;
+  --text-inverse-muted: #9c978e;
+
+  /* Instrument & Signal Accents */
+  --accent-rust: #b9422e;
+  --accent-rust-glow: rgba(185, 66, 46, 0.15);
+  --accent-teal: #284c45;
+  --accent-teal-glow: rgba(40, 76, 69, 0.18);
+  --accent-amber: #94621c;
+  --accent-amber-glow: rgba(148, 98, 28, 0.15);
+  --accent-cyan: #4a9e91;
+
+  /* Structural Rules & Borders */
+  --border-light: #ded6c5;
+  --border-medium: #c2b8a4;
+  --border-dark: #403c36;
+  --border-dashed: #b3a995;
+
+  /* Typography Stacks */
+  --font-mono: 'Space Mono', 'JetBrains Mono', 'SFMono-Regular', 'Menlo', 'Consolas', monospace;
+  --font-serif: 'Newsreader', 'Spectral', 'EB Garamond', 'Georgia', serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif;
+
+  /* Dimensions & Spacing */
+  --max-width: 1240px;
+  --max-readable: 740px;
+  --header-height: 56px;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+
+  /* Transitions */
+  --trans-fast: 0.15s ease;
+  --trans-base: 0.25s ease;
+}

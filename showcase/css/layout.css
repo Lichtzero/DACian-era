@@ -1,0 +1,264 @@
+/* ==========================================================================
+   READER ARCHIVE — LAYOUT, GRIDS & ARCHIVAL FRAMES
+   ========================================================================== */
+
+/* Outer Shell & Main Frame */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overscroll-behavior-y: none; /* Prevents viewport canvas bounce gaps */
+  scroll-behavior: smooth;
+}
+
+.archive-shell {
+  max-width: var(--max-width);
+  margin: 0 auto;              /* Centers layout container horizontally only */
+  padding: 0 1.5rem;
+  position: relative;
+  border-left: 1px solid var(--border-light);
+  border-right: 1px solid var(--border-light);
+  background-color: var(--bg-primary);
+  min-height: 100vh;
+  overflow: clip;
+}
+
+/* Header & Instrument Bar */
+.archive-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: rgba(246, 243, 235, 0.95);
+  backdrop-filter: blur(8px);
+  margin: 0 -1.5rem;
+  padding: 0 1.5rem;
+}
+
+.header-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+}
+
+.header-meta-left {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.header-meta-right {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.header-nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.header-nav-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.brand-sigil {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.15em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-primary);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-link {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  padding: 6px 4px;
+  position: relative;
+  transition: color var(--trans-fast);
+  white-space: nowrap;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--accent-rust);
+}
+
+.nav-link.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--accent-rust);
+}
+
+.nav-cta-btn {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background-color: var(--text-primary);
+  color: var(--bg-primary);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color var(--trans-fast), transform var(--trans-fast);
+}
+
+.nav-cta-btn:hover {
+  background-color: var(--accent-rust);
+  transform: translateY(-1px);
+}
+
+/* Archival Section Container */
+.archive-section {
+  padding: 3rem 0;
+  position: relative;
+}
+
+.archive-section:last-of-type {
+  border-bottom: none;
+}
+
+/* Pins the top section cleanly under the navigation toolbar framing context */
+.archive-shell .archive-section:first-of-type {
+  padding-top: 0;
+}
+
+/* Section Header Bar */
+.section-archival-header {
+  margin-top: 0;
+  margin-bottom: 3.5rem;
+}
+
+/* Corner registration marks on sections */
+.corner-reg {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--border-medium);
+  line-height: 1;
+}
+
+.corner-reg.tl { top: 12px; left: 0; }
+.corner-reg.tr { top: 12px; right: 0; }
+.corner-reg.bl { bottom: 12px; left: 0; }
+.corner-reg.br { bottom: 12px; right: 0; }
+
+/* Grid Systems */
+.grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+.grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.grid-4col {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.grid-1-2 {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+.grid-2-1 {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+/* Archival Cards & Plates */
+.archival-plate {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 2rem;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.archival-plate-dark {
+  background: var(--bg-dark);
+  color: var(--text-inverse);
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius-sm);
+  padding: 2.25rem;
+  position: relative;
+}
+
+.plate-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+.archival-plate-dark .plate-header {
+  border-bottom-color: var(--border-dark);
+}
+
+.plate-title {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.archival-plate-dark .plate-title {
+  color: var(--text-inverse);
+}
+
+.plate-index {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--accent-rust);
+  letter-spacing: 0.08em;
+}
+
+/* Footer / Colophon */
+.archive-footer {
+  padding: 5rem 0 3rem;
+  border-top: 2px solid var(--border-dark);
+  background-color: var(--bg-surface);
+  margin: 0 -1.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
