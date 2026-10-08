@@ -92,11 +92,11 @@ During testing, the local server can be exposed to the phone using ngrok- copy p
 
 FIELD RECIVER INTERFACE
 ```bash
-https://debatable-casino-lent.ngrok-free.dev/laptop/index.html
+https://dacian-era.onrender.com/laptop/index.html
 ```
 READER INTERFACE
 ```bash
-https://debatable-casino-lent.ngrok-free.dev/phone/index.html
+https://dacian-era.onrender.com/phone/index.html
 ```
 
 ## Current prototype
