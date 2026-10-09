@@ -84,6 +84,7 @@ window.DAC_PARTICLE_MAP = (function () {
   let viewMode = 'phone';  // 'phone' | 'laptop'
   let onClickFilament = null;
   let animFrame = null;
+  let resizeObserver = null;
   let tick = 0;
   let isRunning = false;
   let center = { lat: CONFIG.REF_LAT, lng: CONFIG.REF_LNG };
@@ -428,6 +429,12 @@ window.DAC_PARTICLE_MAP = (function () {
     canvas.addEventListener('click',      handleCanvasClick);
     canvas.addEventListener('touchstart', handleCanvasClick, { passive: true });
 
+    if (typeof ResizeObserver !== 'undefined') {
+      resizeObserver?.disconnect();
+      resizeObserver = new ResizeObserver(() => resize());
+      if (canvas.parentElement) resizeObserver.observe(canvas.parentElement);
+    }
+
     resize();
 
     if (!isRunning) {
@@ -466,8 +473,15 @@ window.DAC_PARTICLE_MAP = (function () {
   function resize() {
     if (!canvas) return;
     const parent = canvas.parentElement;
-    canvas.width  = parent ? parent.clientWidth  : 600;
-    canvas.height = parent ? parent.clientHeight : 420;
+    const bounds = parent?.getBoundingClientRect();
+    const width = Math.round(bounds?.width || parent?.clientWidth || 600);
+    const height = Math.round(bounds?.height || parent?.clientHeight || 420);
+    // A hidden tab can report a zero-sized parent. Keep the last valid buffer
+    // until ResizeObserver sees the map after it becomes visible.
+    if (!width || !height) return;
+    if (canvas.width === width && canvas.height === height) return;
+    canvas.width = width;
+    canvas.height = height;
     rebuildAllParticles();
   }
 
@@ -484,6 +498,8 @@ window.DAC_PARTICLE_MAP = (function () {
    */
   function destroy() {
     isRunning = false;
+    resizeObserver?.disconnect();
+    resizeObserver = null;
     if (animFrame) cancelAnimationFrame(animFrame);
     if (canvas) {
       canvas.removeEventListener('click',      handleCanvasClick);
