@@ -119,23 +119,26 @@ window.DAC_STORE = (function () {
       audioDataUrl: entry.audioDataUrl || null,
       hasAudio: Boolean(entry.audioDataUrl),
       audioDurationSec: entry.audioDurationSec || 0,
+      visibility: entry.shareToNetwork ? 'shared' : 'local',
       densityState: 'Traced'
     };
 
     inMemoryFilaments.unshift(newFilament);
     persistLocal();
 
-    // Broadcast or sync with backend if online
+    // Publish only after the contributor explicitly chooses to share.
     try {
-      fetch('/api/logs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...newFilament,
-          text: newFilament.observation,
-          source: 'experimental_reader'
-        })
-      }).catch(() => {});
+      if (entry.shareToNetwork) {
+        fetch('/api/logs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...newFilament,
+            text: newFilament.observation,
+            source: 'experimental_reader'
+          })
+        }).catch(() => {});
+      }
     } catch (e) {}
 
     return newFilament;
@@ -194,6 +197,7 @@ window.DAC_STORE = (function () {
             }
           });
           persistLocal();
+          window.dispatchEvent(new CustomEvent('filaments:updated'));
         }
       }
     } catch (err) {
@@ -202,6 +206,8 @@ window.DAC_STORE = (function () {
   }
 
   initStore();
+  // Keep the phone and laptop views in step while they remain open.
+  setInterval(syncWithBackend, 30000);
 
   return {
     getFilaments,

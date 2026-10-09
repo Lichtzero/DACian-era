@@ -84,6 +84,7 @@ window.DAC_PARTICLE_MAP = (function () {
   let animFrame = null;
   let tick = 0;
   let isRunning = false;
+  let center = { lat: CONFIG.REF_LAT, lng: CONFIG.REF_LNG };
 
   // -------------------------------------------------------------------------
   // GEO → CANVAS PROJECTION
@@ -93,8 +94,8 @@ window.DAC_PARTICLE_MAP = (function () {
     if (!canvas) return { x: 0, y: 0 };
     const W = canvas.width;
     const H = canvas.height;
-    const dx =  (lng - CONFIG.REF_LNG) * CONFIG.GEO_SCALE;
-    const dy = -(lat - CONFIG.REF_LAT) * CONFIG.GEO_SCALE; // Y inverted (north up)
+    const dx = (lng - center.lng) * CONFIG.GEO_SCALE * Math.cos(center.lat * Math.PI / 180);
+    const dy = -(lat - center.lat) * CONFIG.GEO_SCALE; // Y inverted (north up)
     return {
       x: W / 2 + dx,
       y: H / 2 + dy
@@ -108,6 +109,15 @@ window.DAC_PARTICLE_MAP = (function () {
   function spawnParticlesForFilament(f) {
     if (!canvas) return [];
     const pos = geoToCanvas(f.lat, f.lng);
+    // Co-located visits remain selectable: fan them into fine time layers.
+    const nearby = filaments.filter((other) => {
+      const dx = (other.lng - f.lng) * 111320 * Math.cos(f.lat * Math.PI / 180);
+      const dy = (other.lat - f.lat) * 110540;
+      return Math.hypot(dx, dy) < 8;
+    }).sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+    const layer = nearby.findIndex((other) => other.id === f.id);
+    const layerOffset = (layer - (nearby.length - 1) / 2) * 11;
+    pos.y += layerOffset;
     const def = f.element === 'SAND' ? CONFIG.SAND : CONFIG.WATER;
     const count = CONFIG.BASE_PARTICLES + (f.isSeed ? CONFIG.SEED_BONUS : 0);
     const result = [];
@@ -360,6 +370,12 @@ window.DAC_PARTICLE_MAP = (function () {
     rebuildAllParticles();
   }
 
+  function setCenter(lat, lng) {
+    if (!Number.isFinite(Number(lat)) || !Number.isFinite(Number(lng))) return;
+    center = { lat: Number(lat), lng: Number(lng) };
+    rebuildAllParticles();
+  }
+
   /**
    * Highlight a specific filament by ID.
    * Pass null to deselect.
@@ -413,6 +429,7 @@ window.DAC_PARTICLE_MAP = (function () {
   return {
     init,
     updateFilaments,
+    setCenter,
     selectFilament,
     setRadius,
     resize,

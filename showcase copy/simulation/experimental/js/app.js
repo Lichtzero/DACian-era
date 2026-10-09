@@ -21,6 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const freqDisplay = document.getElementById('freq-display-val');
   const bandDisplay = document.getElementById('band-display-val');
   const filterToggleBtn = document.getElementById('filter-mode-toggle');
+  const monitorSlider = document.getElementById('monitor-slider-input');
+  const monitorDisplay = document.getElementById('monitor-display-val');
 
   const canvas = document.getElementById('field-sensor-canvas');
   const ctx = canvas ? canvas.getContext('2d') : null;
@@ -31,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const obsPrompt = document.getElementById('observation-prompt');
   const obsInput = document.getElementById('observation-text-input');
   const depositBtn = document.getElementById('deposit-filament-btn');
+  const shareInput = document.getElementById('share-filament-input');
   const gpsCoordDisplay = document.getElementById('log-gps-display');
   const contextHint = document.getElementById('element-context-hint');
 
@@ -72,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (ctx && canvas && window.DAC_ELEMENTS) {
       const telemetry = window.DAC_AUDIO ? window.DAC_AUDIO.getAcousticTelemetry() : null;
       window.DAC_ELEMENTS.renderElementCanvas(ctx, canvas.width, canvas.height, telemetry);
+      document.body.style.setProperty('--sound-energy', String(Math.min(1, telemetry ? telemetry.rms * 5 : 0)));
     }
     requestAnimationFrame(animLoop);
   }
@@ -158,10 +162,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  if (monitorSlider) {
+    monitorSlider.addEventListener('input', (e) => {
+      const level = Number(e.target.value);
+      window.DAC_AUDIO.setMonitorVolume(level);
+      if (monitorDisplay) monitorDisplay.textContent = `${Math.round(level * 100)}%`;
+    });
+  }
+
   if (filterToggleBtn) {
     filterToggleBtn.addEventListener('click', () => {
       const isFiltered = window.DAC_AUDIO.toggleFilterMode(!window.DAC_AUDIO.getState().isFilteredMode);
-      filterToggleBtn.textContent = isFiltered ? 'FOCUS: BANDPASS' : 'FOCUS: RAW AMBIENT';
+      filterToggleBtn.textContent = isFiltered ? 'FILTERED' : 'RAW SOUND';
       filterToggleBtn.style.color = isFiltered ? 'var(--accent-water)' : 'var(--text-secondary)';
     });
   }
@@ -221,6 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (window.DAC_MAP) {
+      window.DAC_MAP.centerOn(loc.lat, loc.lng);
       window.DAC_MAP.updateUserPositionMarker();
       window.DAC_MAP.recenterOnUser();
     }
@@ -231,11 +244,15 @@ document.addEventListener('DOMContentLoaded', () => {
     window.DAC_GEO.setProximityHandler((filament, distMeters) => {
       if (proximityBanner && proximityText) {
         proximityBanner.style.display = 'flex';
-        proximityText.innerHTML = `<span>✦</span> FILAMENT NEARBY [${distMeters}M]: "${filament.observation.slice(0, 45)}..."`;
+        proximityText.innerHTML = '<span>✦</span> A SOUND TRACE IS CLOSE BY';
         proximityBanner.onclick = () => openFilamentDetail(filament);
       }
     });
   }
+  window.addEventListener('reader:location-updated', (event) => {
+    const loc = event.detail;
+    if (loc && window.DAC_MAP) window.DAC_MAP.centerOn(loc.lat, loc.lng);
+  });
 
   // -------------------------------------------------------------------------
   // 5. INTERACTIVE MAP & BOTTOM SHEET
@@ -369,13 +386,15 @@ document.addEventListener('DOMContentLoaded', () => {
         freq: freq,
         band: band,
         audioDataUrl: recordedAudioPayload ? recordedAudioPayload.dataUrl : null,
-        audioDurationSec: recordedAudioPayload ? recordedAudioPayload.durationSec : 0
+        audioDurationSec: recordedAudioPayload ? recordedAudioPayload.durationSec : 0,
+        shareToNetwork: Boolean(shareInput && shareInput.checked)
       });
 
       // Reset form
       if (obsInput) obsInput.value = '';
       recordedAudioPayload = null;
       if (recordStatus) recordStatus.textContent = 'NONE';
+      if (shareInput) shareInput.checked = false;
 
       // Update Map
       if (window.DAC_MAP) {

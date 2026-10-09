@@ -74,6 +74,7 @@ window.DAC_GEO = (function () {
           timestamp: pos.timestamp,
           isSimulated: false
         };
+        window.dispatchEvent(new CustomEvent('reader:location-updated', { detail: currentLocation }));
         checkProximity();
       },
       (err) => {
@@ -118,7 +119,7 @@ window.DAC_GEO = (function () {
   function checkProximity() {
     if (!currentLocation || !window.DAC_STORE) return;
     const filaments = window.DAC_STORE.getFilaments();
-    const thresholdMeters = 250; // 250m encounter bubble
+    const thresholdMeters = 5; // reveal a trace only at close range
 
     for (const f of filaments) {
       if (f.lat && f.lng) {

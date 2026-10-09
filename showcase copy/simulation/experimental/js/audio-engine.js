@@ -13,6 +13,7 @@ window.DAC_AUDIO = (function () {
   let micSourceNode = null;
   let filterNode = null;
   let gainNode = null;
+  let monitorGainNode = null;
   let analyserNode = null;
   let syntheticOsc = null;
   let syntheticGain = null;
@@ -30,6 +31,7 @@ window.DAC_AUDIO = (function () {
   let isSyntheticFallback = false;
   let currentFreq = 440;
   let currentBand = 120;
+  let monitorVolume = 0.7;
   let isFilteredMode = true; // true = through bandpass filter; false = raw pass-through
 
   // Buffers for visualization
@@ -113,10 +115,10 @@ window.DAC_AUDIO = (function () {
 
     // To prevent feedback squeal through device speakers while still allowing analysis:
     // Analyser is active, but we attenuate speaker output unless headphones are detected
-    const monitorGain = audioCtx.createGain();
-    monitorGain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-    gainNode.connect(monitorGain);
-    monitorGain.connect(audioCtx.destination);
+    monitorGainNode = audioCtx.createGain();
+    monitorGainNode.gain.setValueAtTime(monitorVolume, audioCtx.currentTime);
+    gainNode.connect(monitorGainNode);
+    monitorGainNode.connect(audioCtx.destination);
   }
 
   function setupSyntheticFallback() {
@@ -146,7 +148,9 @@ window.DAC_AUDIO = (function () {
    */
   async function startListening() {
     initAudioContext();
-    if (!isMicPermitted && !isSyntheticFallback) {
+    if (!micStream && !syntheticOsc && isSyntheticFallback) {
+      setupSyntheticFallback();
+    } else if (!micStream && !syntheticOsc) {
       await requestMicrophone();
     }
     isListening = true;
@@ -195,6 +199,14 @@ window.DAC_AUDIO = (function () {
     if (syntheticOsc && audioCtx) {
       syntheticOsc.frequency.setTargetAtTime(currentFreq, audioCtx.currentTime, 0.05);
     }
+  }
+
+  function setMonitorVolume(value) {
+    monitorVolume = Math.max(0, Math.min(1, Number(value) || 0));
+    if (audioCtx && monitorGainNode) {
+      monitorGainNode.gain.setTargetAtTime(monitorVolume, audioCtx.currentTime, 0.04);
+    }
+    return monitorVolume;
   }
 
   /**
@@ -337,6 +349,7 @@ window.DAC_AUDIO = (function () {
     startListening,
     stopListening,
     setTuning,
+    setMonitorVolume,
     toggleFilterMode,
     startRecordingAudio,
     stopRecordingAudio,

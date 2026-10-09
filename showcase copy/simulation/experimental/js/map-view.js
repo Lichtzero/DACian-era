@@ -61,6 +61,10 @@ window.DAC_MAP = (function () {
     window.DAC_PARTICLE_MAP.updateFilaments(filaments);
   }
 
+  function centerOn(lat, lng) {
+    if (window.DAC_PARTICLE_MAP) window.DAC_PARTICLE_MAP.setCenter(lat, lng);
+  }
+
   /**
    * No-op on the particle map (user position is implicit — always canvas centre
    * on phone; no marker needed on laptop overview).
@@ -91,6 +95,7 @@ window.DAC_MAP = (function () {
   return {
     initMap,
     renderFilamentsOnMap,
+    centerOn,
     updateUserPositionMarker,
     recenterOnUser,
     invalidateSize,

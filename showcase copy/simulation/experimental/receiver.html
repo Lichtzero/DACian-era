@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FIELD RECEIVER // Experimental Geographic Archive & Observatory (DAC-04)</title>
+  <title>Mendwave — Shared sound map</title>
 
   <meta name="description" content="Laptop Field Receiver: complementary cartographic archive, filament distribution, density layers, and situated listening records.">
 
@@ -129,7 +129,7 @@
       <div style="display: flex; align-items: center; gap: 0.75rem;">
         <span class="brand-dot"></span>
         <span style="font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.12em; color: var(--text-primary);">
-          FIELD RECEIVER // EXPERIMENTAL CARTOGRAPHY & ARCHIVE
+          MENDWAVE // SHARED SOUND MAP
         </span>
         <span class="status-chip active-mic">DAC-04-RECEIVER</span>
       </div>
@@ -152,8 +152,8 @@
       <!-- LEFT: Wide Geospatial Cartography View -->
       <div class="receiver-map-pane">
         <div style="padding: 0.75rem 1.25rem; background: var(--bg-surface); border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 0.72rem;">
-          <span>GEOGRAPHIC CONTEXT // SPREAD OF SITUATED FILAMENTS</span>
-          <span style="color: var(--accent-water);">CARTOGRAPHY ACTIVE</span>
+          <span>SHARED SOUND TRACES</span>
+          <span style="color: var(--accent-water);">MAP</span>
         </div>
 
         <div id="receiver-leaflet-map" style="flex: 1;"></div>
@@ -171,10 +171,10 @@
         <div class="archive-pane-header">
           <div>
             <div style="font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; color: var(--text-primary);">
-              SITUATED FILAMENT LEDGER
+              SOUND TRACES
             </div>
             <div style="font-size: 0.72rem; color: var(--text-muted);">
-              Accumulation of unguided field encounters
+              Shared and saved listening traces
             </div>
           </div>
 
@@ -419,6 +419,10 @@
 
       initReceiverMap();
       renderList();
+      window.addEventListener('filaments:updated', () => {
+        renderList();
+        renderMapMarkers();
+      });
 
       // Auto-select first filament
       const first = window.DAC_STORE ? window.DAC_STORE.getFilaments()[0] : null;
