@@ -37,15 +37,15 @@ window.DAC_PARTICLE_MAP = (function () {
     REF_LNG: 73.8567,
 
     // Particles generated per filament
-    BASE_PARTICLES: 55,
+    BASE_PARTICLES: 110,
     SEED_BONUS: 25,      // seed filaments get more particles (richer history)
 
     // WATER particle behaviour
     WATER: {
       color: { r: 78,  g: 205, b: 196 },       // cyan
       spread: { rx: 52, ry: 32 },               // elliptical — wider than tall
-      sizeRange: [0.5, 2.0],
-      alphaRange: [0.12, 0.52],
+      sizeRange: [0.8, 2.2],
+      alphaRange: [0.28, 0.78],
       motionType: 'wave',                        // sinusoidal flowing drift
       speedRange: [0.4, 1.1],
       phaseSpread: Math.PI * 2,
@@ -55,8 +55,8 @@ window.DAC_PARTICLE_MAP = (function () {
     SAND: {
       color: { r: 212, g: 163, b: 115 },        // warm silica amber
       spread: { rx: 36, ry: 36 },               // circular — granular
-      sizeRange: [0.4, 1.4],
-      alphaRange: [0.15, 0.55],
+      sizeRange: [0.7, 1.8],
+      alphaRange: [0.28, 0.72],
       motionType: 'drift',                       // slow settling, occasional jitter
       speedRange: [0.05, 0.22],
       phaseSpread: Math.PI * 2,
@@ -76,6 +76,8 @@ window.DAC_PARTICLE_MAP = (function () {
   // -------------------------------------------------------------------------
   let canvas = null;
   let ctx = null;
+  let topologyCanvas = null;
+  let topologyCtx = null;
   let particles = [];
   let filaments = [];
   let selectedId = null;
@@ -166,6 +168,7 @@ window.DAC_PARTICLE_MAP = (function () {
     for (const f of filaments) {
       particles.push(...spawnParticlesForFilament(f));
     }
+    if (canvas) renderSignalContours(canvas.width, canvas.height);
   }
 
   // -------------------------------------------------------------------------
@@ -217,9 +220,24 @@ window.DAC_PARTICLE_MAP = (function () {
     const senseR = CONFIG.PHONE_RADIUS;
     const fadeStart = senseR * (1 - CONFIG.FADE_FRACTION);
 
-    // Black void
-    ctx.fillStyle = CONFIG.BG;
+    // Deep teal field with a faint survey grid under the signal relief.
+    ctx.fillStyle = '#02090d';
     ctx.fillRect(0, 0, W, H);
+    const fieldGlow = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(W, H) * 0.72);
+    fieldGlow.addColorStop(0, 'rgba(0, 75, 78, 0.24)');
+    fieldGlow.addColorStop(1, 'rgba(0, 8, 12, 0)');
+    ctx.fillStyle = fieldGlow;
+    ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = 'rgba(107, 197, 194, 0.055)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < W; x += 48) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+    for (let y = 0; y < H; y += 48) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+
+    if (topologyCanvas) ctx.drawImage(topologyCanvas, 0, 0);
 
     // Disable shadow by default (enabled per-particle when glowing)
     ctx.shadowBlur = 0;
@@ -251,6 +269,8 @@ window.DAC_PARTICLE_MAP = (function () {
       }
     }
 
+    if (isPhone) drawUserMarker(cx, cy);
+
     // Phone: soft radial vignette to black — natural fade, no visible ring
     if (isPhone) {
       const grad = ctx.createRadialGradient(cx, cy, senseR * 0.62, cx, cy, senseR * 1.15);
@@ -266,6 +286,61 @@ window.DAC_PARTICLE_MAP = (function () {
     }
 
     animFrame = requestAnimationFrame(render);
+  }
+
+  function renderSignalContours(W, H) {
+    if (!topologyCanvas || !topologyCtx) {
+      topologyCanvas = document.createElement('canvas');
+      topologyCtx = topologyCanvas.getContext('2d');
+    }
+    if (topologyCanvas.width !== W || topologyCanvas.height !== H) {
+      topologyCanvas.width = W;
+      topologyCanvas.height = H;
+    }
+    topologyCtx.clearRect(0, 0, W, H);
+    const seen = new Set();
+    for (const f of filaments) {
+      const key = `${Number(f.lat).toFixed(4)}:${Number(f.lng).toFixed(4)}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      const centerPoint = geoToCanvas(f.lat, f.lng);
+      if (centerPoint.x < -150 || centerPoint.x > W + 150 || centerPoint.y < -150 || centerPoint.y > H + 150) continue;
+      const color = f.element === 'SAND' ? [199, 154, 103] : [43, 190, 194];
+      const seed = (Math.round(Number(f.lat) * 10000) * 37 + Math.round(Number(f.lng) * 10000) * 17) % 91;
+      const maxR = Math.min(118, Math.max(W, H) * 0.33);
+      for (let ring = 1; ring <= 8; ring++) {
+        const rx = 18 + ring * maxR / 8;
+        const ry = rx * (0.42 + (seed % 28) / 100);
+        topologyCtx.beginPath();
+        for (let step = 0; step <= 96; step++) {
+          const angle = step / 96 * Math.PI * 2;
+          const warp = 1 + 0.13 * Math.sin(angle * 3 + seed) + 0.07 * Math.cos(angle * 5 - seed * 0.3);
+          const x = centerPoint.x + Math.cos(angle) * rx * warp;
+          const y = centerPoint.y + Math.sin(angle) * ry * warp;
+          if (!step) topologyCtx.moveTo(x, y); else topologyCtx.lineTo(x, y);
+        }
+        topologyCtx.closePath();
+        topologyCtx.strokeStyle = `rgba(${color.join(',')},${ring % 4 === 0 ? 0.28 : 0.10})`;
+        topologyCtx.lineWidth = ring % 4 === 0 ? 1.25 : 0.75;
+        topologyCtx.stroke();
+      }
+    }
+  }
+
+  function drawUserMarker(x, y) {
+    ctx.save();
+    ctx.strokeStyle = 'rgba(230,255,251,0.88)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(x, y, 8, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.fillStyle = '#f2fffc';
+    ctx.shadowColor = '#48e3dc';
+    ctx.shadowBlur = 12;
+    ctx.beginPath();
+    ctx.arc(x, y, 3, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
   }
 
   function drawDot(x, y, size, col, alpha, glow) {
@@ -416,6 +491,8 @@ window.DAC_PARTICLE_MAP = (function () {
     }
     canvas = null;
     ctx = null;
+    topologyCanvas = null;
+    topologyCtx = null;
     particles = [];
   }
 

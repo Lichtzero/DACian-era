@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mendwave — Shared sound map</title>
+  <title>Global map — Reader</title>
 
-  <meta name="description" content="Laptop Field Receiver: complementary cartographic archive, filament distribution, density layers, and situated listening records.">
+  <meta name="description" content="Browse the global map and archive of saved listening pins.">
 
   <!-- Google Fonts: Editorial Serif, Precision Sans, Technical Monospace -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,19 +19,11 @@
 
   <style>
     /* Receiver-Specific Desktop Dashboard Styles */
-    .receiver-dashboard-grid {
-      display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      gap: 1.75rem;
-      flex: 1;
-      height: calc(100vh - 120px);
-      min-height: 600px;
-    }
+    .receiver-dashboard-grid { display:flex; flex-direction:column; gap:1.25rem; height:auto; min-height:0; }
 
     @media (max-width: 990px) {
       .receiver-dashboard-grid {
-        grid-template-columns: 1fr;
-        height: auto;
+        display:flex;
       }
     }
 
@@ -42,13 +34,15 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      min-height: 0;
       position: relative;
     }
 
     #receiver-leaflet-map {
       width: 100%;
       height: 100%;
-      min-height: 480px;
+      height: min(48vh, 450px);
+      min-height: 300px;
     }
 
     .receiver-archive-pane {
@@ -57,7 +51,8 @@
       border-radius: var(--radius-md);
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      overflow: visible;
+      min-height: 420px;
     }
 
     .archive-pane-header {
@@ -71,7 +66,7 @@
 
     .archive-list-container {
       flex: 1;
-      overflow-y: auto;
+      overflow: visible;
       padding: 1rem 1.5rem;
       display: flex;
       flex-direction: column;
@@ -119,50 +114,41 @@
       font-size: 0.7rem;
       color: var(--text-muted);
     }
+    .global-back-link { color:var(--text-muted); font-family:var(--font-mono); font-size:.75rem; text-decoration:none; letter-spacing:.08em; }
+    .global-back-link:hover { color:var(--text-primary); }
+    .global-map-label { color:var(--text-muted); font-family:var(--font-mono); font-size:.76rem; font-weight:400; letter-spacing:.08em; }
+    .archive-toolbar { display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+    .archive-sort { background:#081419; color:var(--text-secondary); border:1px solid var(--border-medium); border-radius:999px; padding:.55rem .85rem; font:inherit; }
+    .archive-list-container { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); align-content:start; max-height:none; }
+    .filament-row-item { background:rgba(6,17,22,.96); }
+    .inspector-detail-box { background:#061116; border-radius:16px; }
+    .map-tile-note { color:var(--text-muted); font: .66rem var(--font-mono); }
   </style>
 </head>
 <body>
 
-  <!-- Top Technical Strip -->
   <header class="field-header">
     <div class="field-header-row">
-      <div style="display: flex; align-items: center; gap: 0.75rem;">
-        <span class="brand-dot"></span>
-        <span style="font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.12em; color: var(--text-primary);">
-          MENDWAVE // SHARED SOUND MAP
-        </span>
-        <span class="status-chip active-mic">DAC-04-RECEIVER</span>
-      </div>
-
-      <div style="display: flex; gap: 0.75rem; align-items: center;">
-        <a href="index.html" class="status-chip" style="text-decoration: none; color: var(--accent-water);" title="Open Handheld Phone Reader">
-          📱 OPEN PHONE READER ↗
-        </a>
-        <a href="/index.html" class="status-chip" style="text-decoration: none; color: var(--text-secondary);" title="Return to Case Study">
-          OBSERVATORY CASE STUDY ↗
-        </a>
-      </div>
+      <span class="global-map-label">GLOBAL MAP</span>
+      <a href="index.html" class="global-back-link">← BACK TO READER</a>
     </div>
   </header>
 
-  <!-- Main Grid: Map Overview on Left, Archive Inspector on Right -->
   <main class="field-container" style="padding-top: 1.25rem;">
     <div class="receiver-dashboard-grid">
 
       <!-- LEFT: Wide Geospatial Cartography View -->
       <div class="receiver-map-pane">
         <div style="padding: 0.75rem 1.25rem; background: var(--bg-surface); border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 0.72rem;">
-          <span>SHARED SOUND TRACES</span>
-          <span style="color: var(--accent-water);">MAP</span>
+          <span>WORLD VIEW</span>
+          <span class="map-tile-note">MAP TILES: CARTO · OPENSTREETMAP · OPENTOPOMAP</span>
         </div>
 
         <div id="receiver-leaflet-map" style="flex: 1;"></div>
 
         <div class="density-stats-strip">
-          <span>ARCHIVAL DENSITY:</span>
-          <span>UNTRACED: <strong style="color: var(--text-muted);">2 ZONES</strong></span>
-          <span>TRACED: <strong style="color: var(--accent-water);" id="stat-traced">2 TRACES</strong></span>
-          <span>LAYERED: <strong style="color: var(--accent-rust);" id="stat-layered">2 ACCUMULATIONS</strong></span>
+          <span>TRACES: <strong style="color: var(--accent-water);" id="stat-traced">0</strong></span>
+          <span id="map-tile-status" class="map-tile-note">No map key needed · Carto / OpenTopoMap</span>
         </div>
       </div>
 
@@ -171,17 +157,21 @@
         <div class="archive-pane-header">
           <div>
             <div style="font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; color: var(--text-primary);">
-              SOUND TRACES
-            </div>
-            <div style="font-size: 0.72rem; color: var(--text-muted);">
-              Shared and saved listening traces
+              ARCHIVE
             </div>
           </div>
 
-          <div style="display: flex; gap: 0.35rem;" id="filter-buttons">
-            <button class="status-chip active" data-filter="ALL" style="cursor: pointer;">ALL</button>
-            <button class="status-chip" data-filter="WATER" style="cursor: pointer;">WATER</button>
-            <button class="status-chip" data-filter="SAND" style="cursor: pointer;">SAND</button>
+          <div class="archive-toolbar">
+            <div style="display:flex; gap:.35rem;" id="filter-buttons">
+              <button class="status-chip active" data-filter="ALL" style="cursor: pointer;">ALL</button>
+              <button class="status-chip" data-filter="WATER" style="cursor: pointer;">WATER</button>
+              <button class="status-chip" data-filter="SAND" style="cursor: pointer;">SAND</button>
+            </div>
+            <select id="archive-sort" class="archive-sort" aria-label="Sort archive">
+              <option value="recent">Newest</option>
+              <option value="nearby">Nearest to me</option>
+              <option value="density">Most traces nearby</option>
+            </select>
           </div>
         </div>
 
@@ -193,23 +183,18 @@
         <!-- Inspector Detail Box for Selected Filament -->
         <div id="receiver-inspector" class="inspector-detail-box">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; font-family: var(--font-mono); font-size: 0.7rem;">
-            <span id="inspect-tag" style="color: var(--accent-water); font-weight: 700;">FILAMENT // SELECT TO INSPECT</span>
+            <span id="inspect-tag" style="color: var(--accent-water); font-weight: 700;">SELECT A PIN</span>
             <span id="inspect-timestamp" style="color: var(--text-muted);">STANDBY</span>
           </div>
 
           <div id="inspect-observation" style="font-family: var(--font-serif); font-style: italic; font-size: 1.15rem; color: var(--text-primary); line-height: 1.5; margin: 0.5rem 0;">
-            Select a filament on the map or from the ledger to inspect its situated observation and audio trace.
+            Choose a pin or archive card to see its note and location.
           </div>
 
           <div id="inspect-meta" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">
-            TUNING: --- Hz // SECTOR: ---
+            LOCATION · DATE · CLIP
           </div>
 
-          <div id="inspect-audio-row" style="margin-top: 0.75rem; display: none;">
-            <button id="inspect-play-btn" class="btn-play-trace" style="font-size: 0.75rem; padding: 6px 14px;">
-              PLAY RECORDED ENCOUNTER SOUND
-            </button>
-          </div>
         </div>
 
       </div>
@@ -230,51 +215,51 @@
       let markersLayer = null;
       let activeFilter = 'ALL';
       let selectedFilament = null;
-      let audioPlayer = null;
+      let sortMode = 'recent';
+      let userLocation = null;
+      let userMarker = null;
 
       const listContainer = document.getElementById('receiver-filament-list');
       const inspectTag = document.getElementById('inspect-tag');
       const inspectTimestamp = document.getElementById('inspect-timestamp');
       const inspectObservation = document.getElementById('inspect-observation');
       const inspectMeta = document.getElementById('inspect-meta');
-      const inspectAudioRow = document.getElementById('inspect-audio-row');
-      const inspectPlayBtn = document.getElementById('inspect-play-btn');
+      const sortSelect = document.getElementById('archive-sort');
 
       // 1. Initialize Leaflet Map on Receiver
       function initReceiverMap() {
-        if (typeof L === 'undefined') return;
+        if (typeof L === 'undefined') {
+          document.getElementById('receiver-leaflet-map').textContent = 'Map library unavailable. Check your connection and reload.';
+          return;
+        }
 
         map = L.map('receiver-leaflet-map', {
-          center: [18.5204, 73.8567],
-          zoom: 12,
+          center: [20, 0],
+          zoom: 2,
           zoomControl: true,
-          attributionControl: false
+          attributionControl: true,
+          scrollWheelZoom: false,
+          dragging: !window.matchMedia('(max-width: 900px)').matches,
+          touchZoom: false,
+          minZoom: 2
         });
 
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        const baseTiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
           maxZoom: 19,
-          subdomains: 'abcd'
+          subdomains: 'abcd',
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        }).addTo(map);
+        baseTiles.on('tileerror', () => {
+          const status = document.getElementById('map-tile-status');
+          if (status) status.textContent = 'Map tiles unavailable · check your connection';
+        });
+        L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+          maxZoom: 17,
+          opacity: 0.16,
+          attribution: '&copy; <a href="https://opentopomap.org">OpenTopoMap</a> (SRTM)'
         }).addTo(map);
 
         markersLayer = L.layerGroup().addTo(map);
-
-        // Untraced overlays
-        const untracedZones = [
-          { lat: 18.5450, lng: 73.8150, radius: 1200, name: 'Pashan Wetland Periphery' },
-          { lat: 18.5020, lng: 73.8950, radius: 1400, name: 'Hadapsar Quarry Flats' }
-        ];
-
-        untracedZones.forEach((z) => {
-          L.circle([z.lat, z.lng], {
-            color: '#736d62',
-            weight: 1,
-            dashArray: '4, 8',
-            fillColor: '#736d62',
-            fillOpacity: 0.04,
-            radius: z.radius
-          }).addTo(map);
-        });
-
         renderMapMarkers();
       }
 
@@ -283,28 +268,38 @@
         markersLayer.clearLayers();
 
         const filaments = window.DAC_STORE.getFilaments(activeFilter);
-
+        const traceCount = document.getElementById('stat-traced');
+        if (traceCount) traceCount.textContent = filaments.length;
+        const groups = new Map();
         filaments.forEach((f) => {
           if (!f.lat || !f.lng) return;
+          const key = `${Number(f.lat).toFixed(4)}:${Number(f.lng).toFixed(4)}`;
+          if (!groups.has(key)) groups.set(key, []);
+          groups.get(key).push(f);
+        });
+
+        groups.forEach((group) => {
+          const f = group[group.length - 1];
 
           const isWater = f.element === 'WATER';
-          const color = isWater ? '#4ecdc4' : '#d4a373';
-          const glow = isWater ? 'rgba(78, 205, 196, 0.4)' : 'rgba(212, 163, 115, 0.4)';
+          const color = isWater ? '#48e3dc' : '#e0b47b';
+          const glow = isWater ? 'rgba(72, 227, 220, 0.46)' : 'rgba(224, 180, 123, 0.42)';
 
           const iconHtml = `
-            <div style="width:22px;height:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;">
-              <div style="position:absolute;width:100%;height:100%;border-radius:50%;background:${glow};animation:pulse 2s infinite;"></div>
-              <div style="width:9px;height:9px;border-radius:${isWater ? '50%' : '1px'};background:${color};border:1px solid #fff;"></div>
+            <div style="width:26px;height:26px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;">
+              <div style="position:absolute;width:100%;height:100%;border-radius:50%;background:${glow};box-shadow:0 0 18px ${glow};"></div>
+              <div style="width:${group.length > 1 ? '19px' : '9px'};height:${group.length > 1 ? '19px' : '9px'};display:grid;place-items:center;border-radius:50%;background:${color};border:1px solid #fff;color:#031013;font:700 9px sans-serif;">${group.length > 1 ? group.length : ''}</div>
             </div>`;
 
           const customIcon = L.divIcon({
             html: iconHtml,
-            iconSize: [22, 22],
-            iconAnchor: [11, 11]
+            iconSize: [26, 26],
+            iconAnchor: [13, 13]
           });
 
           const m = L.marker([f.lat, f.lng], { icon: customIcon });
           m.on('click', () => selectFilament(f));
+          if (group.length > 1) m.bindTooltip(`${group.length} pins in this place`);
           markersLayer.addLayer(m);
         });
       }
@@ -313,6 +308,19 @@
       function renderList() {
         if (!listContainer || !window.DAC_STORE) return;
         const filaments = window.DAC_STORE.getFilaments(activeFilter);
+        const center = userLocation || (map?.getCenter ? map.getCenter() : { lat: 0, lng: 0 });
+        const distance = (f) => window.DAC_GEO.calculateDistanceMeters(center.lat, center.lng, f.lat, f.lng);
+        const areaCounts = new Map();
+        filaments.forEach((f) => {
+          const key = `${Math.round(f.lat * 100)}:${Math.round(f.lng * 100)}`;
+          areaCounts.set(key, (areaCounts.get(key) || 0) + 1);
+        });
+        if (sortMode === 'nearby') filaments.sort((a, b) => distance(a) - distance(b));
+        if (sortMode === 'density') filaments.sort((a, b) => {
+          const keyA = `${Math.round(a.lat * 100)}:${Math.round(a.lng * 100)}`;
+          const keyB = `${Math.round(b.lat * 100)}:${Math.round(b.lng * 100)}`;
+          return areaCounts.get(keyB) - areaCounts.get(keyA) || distance(a) - distance(b);
+        });
 
         listContainer.innerHTML = filaments.map((f) => {
           const isWater = f.element === 'WATER';
@@ -322,16 +330,14 @@
           return `
             <div class="filament-row-item ${f.element.toLowerCase()} ${isSelected ? 'active' : ''}" data-id="${f.id}">
               <div style="display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:0.68rem;">
-                <span style="color:${elemColor};font-weight:700;">[${f.element}] // ${f.regionName || 'Field Coordinates'}</span>
+                <span style="color:${elemColor};font-weight:700;">${f.element} · ${f.regionName || 'Field Coordinates'}</span>
                 <span style="color:var(--text-muted);">${new Date(f.timestamp).toLocaleDateString()}</span>
               </div>
               <div style="font-family:var(--font-serif);font-style:italic;font-size:0.95rem;color:var(--text-primary);line-height:1.4;">
                 “${f.observation.slice(0, 90)}${f.observation.length > 90 ? '...' : ''}”
               </div>
               <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted);display:flex;gap:1rem;">
-                <span>TUNING: ${f.freq} Hz</span>
-                <span>STATUS: ${f.isSeed ? 'ARCHIVAL SEED' : 'FIELD TRACE'}</span>
-                ${f.hasAudio ? '<span style="color:var(--accent-water);">● AUDIO RECORDED</span>' : ''}
+                <span>${f.hasAudio && f.audioDataUrl ? 'CLIP ATTACHED' : 'NO CLIP'}</span>
               </div>
             </div>
           `;
@@ -350,56 +356,14 @@
         selectedFilament = f;
         renderList();
 
-        inspectTag.textContent = `[${f.element}] // ${f.regionName || 'SITUATED SECTOR'}`;
+        inspectTag.textContent = `${f.element} · ${f.regionName || 'AREA'}`;
         inspectTag.style.color = f.element === 'WATER' ? 'var(--accent-water)' : 'var(--accent-sand)';
         inspectTimestamp.textContent = new Date(f.timestamp).toLocaleString();
         inspectObservation.textContent = `“${f.observation}”`;
-        inspectMeta.textContent = `TUNING: ${f.freq} Hz (Band: ${f.band} Hz) // ${f.isSeed ? 'HISTORICAL ARCHIVE RECORD' : 'SITUATED FIELD TRACE'}`;
-
-        if (f.hasAudio && (f.audioDataUrl || f.isSeed)) {
-          inspectAudioRow.style.display = 'block';
-          inspectPlayBtn.onclick = () => {
-            if (audioPlayer) {
-              audioPlayer.pause();
-              audioPlayer = null;
-              inspectPlayBtn.textContent = 'PLAY RECORDED ENCOUNTER SOUND';
-              return;
-            }
-
-            if (f.audioDataUrl) {
-              audioPlayer = new Audio(f.audioDataUrl);
-              audioPlayer.play();
-              inspectPlayBtn.textContent = 'PAUSE SOUND';
-              audioPlayer.onended = () => {
-                inspectPlayBtn.textContent = 'PLAY RECORDED ENCOUNTER SOUND';
-                audioPlayer = null;
-              };
-            } else {
-              // Synthetic acoustic trace
-              const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-              const aCtx = new AudioContextClass();
-              const osc = aCtx.createOscillator();
-              const g = aCtx.createGain();
-              osc.frequency.setValueAtTime(f.freq, aCtx.currentTime);
-              osc.type = f.element === 'WATER' ? 'sine' : 'sawtooth';
-              g.gain.setValueAtTime(0.12, aCtx.currentTime);
-              g.gain.exponentialRampToValueAtTime(0.001, aCtx.currentTime + 3);
-              osc.connect(g);
-              g.connect(aCtx.destination);
-              osc.start();
-              osc.stop(aCtx.currentTime + 3);
-              inspectPlayBtn.textContent = 'RESONATING...';
-              setTimeout(() => {
-                inspectPlayBtn.textContent = 'PLAY RECORDED ENCOUNTER SOUND';
-              }, 3000);
-            }
-          };
-        } else {
-          inspectAudioRow.style.display = 'none';
-        }
+        inspectMeta.textContent = `${new Date(f.timestamp).toLocaleString()} · ${f.hasAudio && f.audioDataUrl ? 'CLIP ATTACHED' : 'NO CLIP'}`;
 
         if (map && f.lat && f.lng) {
-          map.setView([f.lat, f.lng], 14, { animate: true });
+          map.setView([f.lat, f.lng], Math.max(map.getZoom(), 10), { animate: true });
         }
       }
 
@@ -417,6 +381,22 @@
         });
       }
 
+      sortSelect?.addEventListener('change', () => {
+        sortMode = sortSelect.value;
+        if (sortMode === 'nearby' && navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((position) => {
+            userLocation = { lat: position.coords.latitude, lng: position.coords.longitude };
+            if (userMarker) userMarker.remove();
+            userMarker = L.circleMarker([userLocation.lat, userLocation.lng], {
+              radius: 6, color: '#effffb', weight: 2, fillColor: '#48e3dc', fillOpacity: 1
+            }).addTo(map);
+            renderList();
+          }, () => renderList(), { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 });
+        } else {
+          renderList();
+        }
+      });
+
       initReceiverMap();
       renderList();
       window.addEventListener('filaments:updated', () => {
@@ -424,9 +404,6 @@
         renderMapMarkers();
       });
 
-      // Auto-select first filament
-      const first = window.DAC_STORE ? window.DAC_STORE.getFilaments()[0] : null;
-      if (first) selectFilament(first);
     });
   </script>
 </body>

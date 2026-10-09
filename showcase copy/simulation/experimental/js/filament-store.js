@@ -23,7 +23,7 @@ window.DAC_STORE = (function () {
       freq: 420,
       band: 110,
       timestamp: '2026-09-14T06:40:00.000Z',
-      hasAudio: true,
+      hasAudio: false,
       audioDurationSec: 12,
       densityState: 'Layered'
     },
@@ -52,7 +52,7 @@ window.DAC_STORE = (function () {
       freq: 380,
       band: 90,
       timestamp: '2026-09-22T18:30:00.000Z',
-      hasAudio: true,
+      hasAudio: false,
       audioDurationSec: 18,
       densityState: 'Traced'
     },
@@ -126,7 +126,7 @@ window.DAC_STORE = (function () {
     inMemoryFilaments.unshift(newFilament);
     persistLocal();
 
-    // Publish only after the contributor explicitly chooses to share.
+    // Saved pins are shared with the global archive and synchronized to readers.
     try {
       if (entry.shareToNetwork) {
         fetch('/api/logs', {
@@ -191,8 +191,9 @@ window.DAC_STORE = (function () {
                 freq: log.freq || 440,
                 band: log.band || 120,
                 timestamp: log.timestamp || new Date().toISOString(),
-                hasAudio: Boolean(log.audioRecording),
-                audioDataUrl: log.audioRecording || null
+                hasAudio: Boolean(log.audioDataUrl || log.audioRecording),
+                audioDataUrl: log.audioDataUrl || log.audioRecording || null,
+                visibility: 'shared'
               });
             }
           });

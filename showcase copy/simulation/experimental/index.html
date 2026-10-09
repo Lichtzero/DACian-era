@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Mendwave Reader — Listen</title>
+  <title>Reader — Listen</title>
 
-  <meta name="description" content="Phone-first unguided environmental listening, voluntary element selection, geospatial exploration, and anonymous filament discovery.">
+  <meta name="description" content="Listen to nearby sound, save a map pin, and explore recorded places.">
 
   <!-- Google Fonts: Editorial Serif, Precision Sans, Technical Monospace -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,14 +24,14 @@
     <div class="field-header-row">
       <a href="/index.html" class="brand-badge" title="Return to DACian Era Observatory Case Study">
         <span class="brand-dot"></span>
-        <span>MENDWAVE READER</span>
+        <span>READER</span>
       </a>
 
       <div class="field-status-badges">
         <span id="status-chip-mic" class="status-chip">MIC: STANDBY</span>
         <span id="status-chip-gps" class="status-chip">GPS: SEARCHING...</span>
-        <a href="receiver.html" class="status-chip" style="text-decoration: none; color: var(--text-secondary);" title="Open Laptop Receiver overview">
-          LAPTOP VIEW ↗
+        <a href="receiver.html" class="status-chip" style="text-decoration: none; color: var(--text-secondary);" title="Open global map">
+          GLOBAL MAP ↗
         </a>
       </div>
     </div>
@@ -40,21 +40,11 @@
   <!-- View Switcher Tabs (For mobile navigation) -->
   <div class="view-tabs-bar">
     <button type="button" id="tab-sensor" class="tab-btn active">Listen</button>
-    <button type="button" id="tab-map" class="tab-btn">Explore map</button>
+    <button type="button" id="tab-map" class="tab-btn">Radar</button>
   </div>
 
   <!-- Main Container -->
   <main class="field-container">
-
-    <!-- Proximity Alert Banner (shown when near a recorded filament) -->
-    <div id="proximity-alert-banner" class="proximity-banner" style="display: none;">
-      <div id="proximity-banner-text" class="proximity-banner-text">
-        <span>✦</span> FILAMENT NEARBY DETECTED
-      </div>
-      <span style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent-water); text-decoration: underline; cursor: pointer;">
-        INSPECT TRACE →
-      </span>
-    </div>
 
     <!-- Dual Layout: SENSOR on Left, MAP on Right (on Desktop) / Stacked on Phone -->
     <div class="field-work-grid">
@@ -66,39 +56,33 @@
 
         <!-- 1. Voluntary Element Selector (WATER vs SAND) -->
         <div id="element-card" class="element-toggle-card mode-water">
-          <div class="element-toggle-header">
-            <span>CHOOSE A LISTENING LENS</span>
-            <span>YOUR CHOICE</span>
-          </div>
-
           <div class="element-button-row">
             <button type="button" id="select-water-btn" class="element-select-btn elem-water active">
               <span class="elem-title">
-                <span style="color: var(--accent-water);">[≈]</span> WATER
+                <span style="color: var(--accent-water);">≈</span> WATER
               </span>
-              <span class="elem-sub">Flow, resonance, continuity, echoes</span>
             </button>
 
             <button type="button" id="select-sand-btn" class="element-select-btn elem-sand">
               <span class="elem-title">
-                <span style="color: var(--accent-sand);">[∴]</span> SAND
+                <span style="color: var(--accent-sand);">∴</span> SAND
               </span>
-              <span class="elem-sub">Residue, friction, strata, remnants</span>
             </button>
           </div>
 
-          <div id="element-context-hint" class="element-context-hint">
-            Contextual Signal: Ground sensor scanning alluvial and structural strata...
-          </div>
         </div>
 
         <!-- 2. Acoustic Sensor & Dynamic Cymatic Canvas -->
         <div class="sensor-stage-card">
           <div class="sensor-header">
             <span>LIVE SOUND</span>
-            <button type="button" id="filter-mode-toggle" class="status-chip" style="cursor: pointer; background: transparent;">
-              FILTERED
-            </button>
+            <label for="filter-mode-select" class="sr-only">Sound filter</label>
+            <select id="filter-mode-select" class="sound-filter-select" aria-label="Sound filter">
+              <option value="bandpass">Band-pass</option>
+              <option value="lowpass">Low-pass</option>
+              <option value="highpass">High-pass</option>
+              <option value="raw">Raw</option>
+            </select>
           </div>
 
           <!-- Dynamic Canvas (Ripples for Water, Granular Grains for Sand) -->
@@ -127,7 +111,7 @@
 
             <div class="sensor-slider-group">
               <div class="sensor-slider-label">
-                <span>MONITOR LEVEL · HEADPHONES RECOMMENDED</span>
+              <span>MONITOR LEVEL · HEADPHONES ADVISED</span>
                 <strong id="monitor-display-val" style="color: #fff;">70%</strong>
               </div>
               <input type="range" id="monitor-slider-input" min="0" max="1" value="0.7" step="0.05" aria-label="Headphone monitor level">
@@ -146,7 +130,7 @@
 
             <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-muted); margin-top: 0.25rem;">
               <span>AUDIO CLIP ATTACHED: <strong id="record-status-display" style="color: var(--accent-water);">NONE</strong></span>
-              <span>RECORDING IS VOLUNTARY & OPT-IN</span>
+              <span>CLIPS STOP AFTER 20 SECONDS</span>
             </div>
           </div>
         </div>
@@ -154,29 +138,20 @@
         <!-- 3. Anonymous Observation & Filament Deposition Form -->
         <div class="logging-stage-card">
           <div class="logging-header">
-            <span>LEAVE A SOUND TRACE</span>
-            <span class="status-chip">NO ACCOUNT</span>
+            <span>LEAVE A TRACE</span>
           </div>
 
-          <div id="observation-prompt" class="observation-prompt-text">
-            What currents, acoustic echoes, or fluid transitions are moving through this place?
-          </div>
-
-          <textarea id="observation-text-input" class="observation-textarea" placeholder="Record what you notice in this environment... (e.g., deep vibration from the river culvert, dry leaves scraping stone, distant pump drone)"></textarea>
-          <label class="share-choice">
-            <input type="checkbox" id="share-filament-input">
-            <span><strong>Share this trace with Mendwave</strong><small>Off by default. Sharing includes its location and any clip you attach.</small></span>
-          </label>
+          <textarea id="observation-text-input" class="observation-textarea" placeholder="What is this trace about?"></textarea>
           <div id="deposit-inline-error" class="field-inline-error"></div>
 
           <div class="log-meta-bar">
             <div>
-              <span>SITUATED COORDINATES: </span>
+              <span>LOCATION: </span>
               <strong id="log-gps-display" style="color: var(--text-primary);">18.5204, 73.8567</strong>
             </div>
 
             <button type="button" id="deposit-filament-btn" class="btn-deposit-log">
-              Leave trace
+              Save pin
             </button>
           </div>
         </div>
@@ -189,8 +164,8 @@
       <div id="section-map">
         <div class="map-stage-card">
           <div class="map-header">
-            <span>SIGNAL FIELD // PARTICLE CARTOGRAPHY</span>
-            <span style="font-size: 0.68rem; color: var(--accent-water);">PHONE SENSING RADIUS</span>
+            <span>AREA SCAN</span>
+            <span style="font-size: 0.68rem; color: var(--accent-water);">NEARBY TRACES</span>
           </div>
 
           <!-- Holographic Particle Map Canvas -->
@@ -203,33 +178,32 @@
             <div style="display: flex; gap: 1.25rem; flex-wrap: wrap;">
               <div class="legend-item">
                 <span class="legend-dot water"></span>
-                <span>WATER FILAMENT</span>
+                <span>WATER PIN</span>
               </div>
               <div class="legend-item">
                 <span class="legend-dot sand"></span>
-                <span>SAND FILAMENT</span>
+                <span>SAND PIN</span>
               </div>
               <div class="legend-item">
                 <span class="legend-dot untraced"></span>
-                <span>UNRESOLVED VOID</span>
+                <span>UNSCANNED</span>
               </div>
             </div>
             <div style="display: flex; align-items: center; gap: 0.75rem; font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-muted);">
-              <span>SENSE RADIUS</span>
+              <span>SCAN RANGE</span>
               <input type="range" id="radius-slider" min="80" max="480" value="260" step="10"
                 style="flex: 1; accent-color: var(--accent-water); cursor: pointer;">
-              <strong id="radius-display" style="color: var(--text-primary); min-width: 3ch;">260</strong>
+              <strong id="radius-display" style="color: var(--text-primary); min-width: 4ch;">3.2 km</strong>
             </div>
           </div>
         </div>
 
-        <!-- Sparse Archives Notice -->
         <div style="background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: var(--radius-sm); padding: 1.25rem; margin-top: 1.25rem;">
           <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-rust); margin-bottom: 0.5rem; text-transform: uppercase;">
-            SPARSE ZONES // INVITATION TO ATTENTION
+            AREA SCAN
           </div>
           <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.55;">
-            Where the map displays untraced gaps, the Reader has little recorded human listening. You do not need to seek special landmarks: pausing anywhere and leaving an authentic observation anchors a new filament for others to encounter.
+            Nearby pins appear within range. Tap one to open its note or recording.
           </p>
         </div>
       </div>
@@ -267,18 +241,17 @@
 
       <!-- Playback box if audio exists -->
       <div id="drawer-player-box" class="drawer-audio-player">
-        <div>
-          <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">
-            ASSOCIATED SOUND TRACE
+        <div class="cassette-player" id="cassette-player">
+          <div class="cassette-label"><span>FIELD RECORDING</span><span id="cassette-speed-label">1.0×</span></div>
+          <div class="cassette-window">
+            <span class="cassette-reel"></span><span class="cassette-tape"></span><span class="cassette-reel"></span>
           </div>
-          <div style="font-size: 0.72rem; color: var(--text-muted);">
-            Recorded encounter from previous visitor (distinct from current live microphone).
+          <div class="cassette-controls">
+            <button type="button" id="drawer-play-audio-btn" class="btn-play-trace">▶ PLAY</button>
+            <label for="cassette-speed-input">SPEED</label>
+            <input id="cassette-speed-input" type="range" min="0.7" max="1.4" value="1" step="0.1">
           </div>
         </div>
-
-        <button type="button" id="drawer-play-audio-btn" class="btn-play-trace">
-          PLAY RECORDED SOUND
-        </button>
       </div>
     </div>
   </div>

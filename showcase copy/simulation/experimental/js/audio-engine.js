@@ -33,6 +33,7 @@ window.DAC_AUDIO = (function () {
   let currentBand = 120;
   let monitorVolume = 0.7;
   let isFilteredMode = true; // true = through bandpass filter; false = raw pass-through
+  let filterType = 'bandpass';
 
   // Buffers for visualization
   let timeDataArray = null;
@@ -87,13 +88,13 @@ window.DAC_AUDIO = (function () {
 
     // 2. Bandpass Filter
     filterNode = audioCtx.createBiquadFilter();
-    filterNode.type = 'bandpass';
+    filterNode.type = filterType;
     filterNode.frequency.setValueAtTime(currentFreq, audioCtx.currentTime);
     filterNode.Q.setValueAtTime(currentFreq / Math.max(currentBand, 10), audioCtx.currentTime);
 
     // 3. Gain Node (monitor volume, default subtle to avoid feedback loop)
     gainNode = audioCtx.createGain();
-    gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+    gainNode.gain.setValueAtTime(0.6, audioCtx.currentTime);
 
     // 4. Analyser Node
     analyserNode = audioCtx.createAnalyser();
@@ -209,6 +210,24 @@ window.DAC_AUDIO = (function () {
     return monitorVolume;
   }
 
+  function setFilterType(type) {
+    const accepted = ['bandpass', 'lowpass', 'highpass', 'raw'];
+    filterType = accepted.includes(type) ? type : 'bandpass';
+    isFilteredMode = filterType !== 'raw';
+    if (filterNode) filterNode.type = isFilteredMode ? filterType : 'bandpass';
+    if (micSourceNode && filterNode && gainNode) {
+      micSourceNode.disconnect();
+      filterNode.disconnect();
+      if (isFilteredMode) {
+        micSourceNode.connect(filterNode);
+        filterNode.connect(gainNode);
+      } else {
+        micSourceNode.connect(gainNode);
+      }
+    }
+    return filterType;
+  }
+
   /**
    * Toggle between Filtered Focus and Raw Ambient Sound
    */
@@ -245,14 +264,13 @@ window.DAC_AUDIO = (function () {
     recordingStartTime = Date.now();
 
     try {
-      mediaRecorder = new MediaRecorder(micStream, { mimeType: 'audio/webm' });
-    } catch (e) {
-      try {
-        mediaRecorder = new MediaRecorder(micStream);
-      } catch (err) {
-        console.error('MediaRecorder initialization failed:', err);
-        return false;
-      }
+      const preferredTypes = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg;codecs=opus'];
+      const mimeType = preferredTypes.find((type) => MediaRecorder.isTypeSupported?.(type));
+      mediaRecorder = new MediaRecorder(micStream, mimeType ? { mimeType, audioBitsPerSecond: 96000 } : undefined);
+    } catch (err) {
+      console.error('MediaRecorder initialization failed:', err);
+      isRecordingAudio = false;
+      return false;
     }
 
     mediaRecorder.ondataavailable = (e) => {
@@ -284,13 +302,14 @@ window.DAC_AUDIO = (function () {
       isRecordingAudio = false;
 
       mediaRecorder.onstop = () => {
-        const blob = new Blob(recordedChunks, { type: 'audio/webm' });
+        const blob = new Blob(recordedChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
         const reader = new FileReader();
         reader.onloadend = () => {
           resolve({
             blob: blob,
             dataUrl: reader.result,
-            durationSec: Math.floor((Date.now() - recordingStartTime) / 1000)
+            durationSec: Math.floor((Date.now() - recordingStartTime) / 1000),
+            mimeType: mediaRecorder.mimeType || blob.type
           });
         };
         reader.readAsDataURL(blob);
@@ -350,6 +369,7 @@ window.DAC_AUDIO = (function () {
     stopListening,
     setTuning,
     setMonitorVolume,
+    setFilterType,
     toggleFilterMode,
     startRecordingAudio,
     stopRecordingAudio,

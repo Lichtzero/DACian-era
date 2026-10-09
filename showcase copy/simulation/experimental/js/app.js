@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const bandSlider = document.getElementById('band-slider-input');
   const freqDisplay = document.getElementById('freq-display-val');
   const bandDisplay = document.getElementById('band-display-val');
-  const filterToggleBtn = document.getElementById('filter-mode-toggle');
+  const filterModeSelect = document.getElementById('filter-mode-select');
   const monitorSlider = document.getElementById('monitor-slider-input');
   const monitorDisplay = document.getElementById('monitor-display-val');
 
@@ -33,14 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const obsPrompt = document.getElementById('observation-prompt');
   const obsInput = document.getElementById('observation-text-input');
   const depositBtn = document.getElementById('deposit-filament-btn');
-  const shareInput = document.getElementById('share-filament-input');
   const gpsCoordDisplay = document.getElementById('log-gps-display');
   const contextHint = document.getElementById('element-context-hint');
 
   const statusMicChip = document.getElementById('status-chip-mic');
   const statusGpsChip = document.getElementById('status-chip-gps');
-  const proximityBanner = document.getElementById('proximity-alert-banner');
-  const proximityText = document.getElementById('proximity-banner-text');
 
   // Bottom Sheet Drawer Elements
   const drawer = document.getElementById('filament-drawer');
@@ -52,6 +49,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const drawerSettings = document.getElementById('drawer-settings');
   const drawerPlayerBox = document.getElementById('drawer-player-box');
   const drawerPlayBtn = document.getElementById('drawer-play-audio-btn');
+  const cassettePlayer = document.getElementById('cassette-player');
+  const cassetteSpeed = document.getElementById('cassette-speed-input');
+  const cassetteSpeedLabel = document.getElementById('cassette-speed-label');
 
   let recordedAudioPayload = null;
   let activeAudioPlayer = null;
@@ -74,7 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function animLoop() {
     if (ctx && canvas && window.DAC_ELEMENTS) {
       const telemetry = window.DAC_AUDIO ? window.DAC_AUDIO.getAcousticTelemetry() : null;
-      window.DAC_ELEMENTS.renderElementCanvas(ctx, canvas.width, canvas.height, telemetry);
+      const isListening = window.DAC_AUDIO?.getState().isListening;
+      window.DAC_ELEMENTS.renderElementCanvas(ctx, canvas.width, canvas.height, telemetry, isListening);
       document.body.style.setProperty('--sound-energy', String(Math.min(1, telemetry ? telemetry.rms * 5 : 0)));
     }
     requestAnimationFrame(animLoop);
@@ -134,6 +135,15 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
       } else {
+        if (window.DAC_AUDIO.getState().isRecordingAudio) {
+          const result = await window.DAC_AUDIO.stopRecordingAudio();
+          recordBtn.classList.remove('recording');
+          recordBtn.innerHTML = '<span>◉</span> RECORD CLIP';
+          if (result) {
+            recordedAudioPayload = result;
+            if (recordStatus) recordStatus.textContent = `ATTACHED (${result.durationSec}s)`;
+          }
+        }
         window.DAC_AUDIO.stopListening();
         listenBtn.innerHTML = '<span>▶</span> BEGIN LISTENING';
         listenBtn.classList.remove('listening');
@@ -170,13 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if (filterToggleBtn) {
-    filterToggleBtn.addEventListener('click', () => {
-      const isFiltered = window.DAC_AUDIO.toggleFilterMode(!window.DAC_AUDIO.getState().isFilteredMode);
-      filterToggleBtn.textContent = isFiltered ? 'FILTERED' : 'RAW SOUND';
-      filterToggleBtn.style.color = isFiltered ? 'var(--accent-water)' : 'var(--text-secondary)';
-    });
-  }
+  if (filterModeSelect) filterModeSelect.addEventListener('change', (e) => window.DAC_AUDIO.setFilterType(e.target.value));
 
   // Explicit Audio Recording
   if (recordBtn) {
@@ -186,6 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!state.isRecordingAudio) {
         const started = window.DAC_AUDIO.startRecordingAudio((sec) => {
           if (recordStatus) recordStatus.textContent = `REC: ${sec}s`;
+          if (sec >= 20 && window.DAC_AUDIO.getState().isRecordingAudio) recordBtn.click();
         });
         if (started) {
           recordBtn.classList.add('recording');
@@ -239,16 +244,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Proximity callback
-  if (window.DAC_GEO) {
-    window.DAC_GEO.setProximityHandler((filament, distMeters) => {
-      if (proximityBanner && proximityText) {
-        proximityBanner.style.display = 'flex';
-        proximityText.innerHTML = '<span>✦</span> A SOUND TRACE IS CLOSE BY';
-        proximityBanner.onclick = () => openFilamentDetail(filament);
-      }
-    });
-  }
   window.addEventListener('reader:location-updated', (event) => {
     const loc = event.detail;
     if (loc && window.DAC_MAP) window.DAC_MAP.centerOn(loc.lat, loc.lng);
@@ -259,6 +254,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // -------------------------------------------------------------------------
   function openFilamentDetail(f) {
     if (!drawer) return;
+    if (activeAudioPlayer) {
+      activeAudioPlayer.pause();
+      activeAudioPlayer = null;
+    }
+    if (cassetteSpeed) cassetteSpeed.value = '1';
+    if (cassetteSpeedLabel) cassetteSpeedLabel.textContent = '1.0×';
 
     drawerElementBadge.textContent = f.element;
     drawerElementBadge.className = `status-chip ${f.element === 'WATER' ? 'active-mic' : 'active-gps'}`;
@@ -267,7 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
     drawerObservation.textContent = `“${f.observation}”`;
     drawerSettings.textContent = `TUNING RECORD: ${f.freq} Hz (Band: ${f.band} Hz) // ${f.isSeed ? 'Historical Archival Seed' : 'Anonymous Field Trace'}`;
 
-    if (f.hasAudio && (f.audioDataUrl || f.isSeed)) {
+    if (f.hasAudio && f.audioDataUrl) {
       drawerPlayerBox.style.display = 'flex';
       drawerPlayBtn.onclick = () => playTraceAudio(f);
     } else {
@@ -275,6 +276,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     drawer.classList.add('open');
+    if (drawerPlayBtn) drawerPlayBtn.textContent = '▶ PLAY';
+    if (cassettePlayer) cassettePlayer.classList.remove('playing');
     // Highlight selected filament cluster in particle map
     if (window.DAC_PARTICLE_MAP) window.DAC_PARTICLE_MAP.selectFilament(f.id);
   }
@@ -283,38 +286,32 @@ document.addEventListener('DOMContentLoaded', () => {
     if (activeAudioPlayer) {
       activeAudioPlayer.pause();
       activeAudioPlayer = null;
-      drawerPlayBtn.textContent = 'PLAY RECORDED SOUND';
+      drawerPlayBtn.textContent = '▶ PLAY';
+      cassettePlayer?.classList.remove('playing');
       return;
     }
 
     if (f.audioDataUrl) {
       activeAudioPlayer = new Audio(f.audioDataUrl);
-      activeAudioPlayer.play();
-      drawerPlayBtn.textContent = 'PAUSE SOUND';
+      activeAudioPlayer.playbackRate = Number(cassetteSpeed?.value || 1);
+      activeAudioPlayer.play().catch(() => {
+        drawerPlayBtn.textContent = 'PLAY UNAVAILABLE';
+      });
+      drawerPlayBtn.textContent = 'Ⅱ PAUSE';
+      cassettePlayer?.classList.add('playing');
       activeAudioPlayer.onended = () => {
-        drawerPlayBtn.textContent = 'PLAY RECORDED SOUND';
+        drawerPlayBtn.textContent = '▶ PLAY';
+        cassettePlayer?.classList.remove('playing');
         activeAudioPlayer = null;
       };
-    } else {
-      // Synthetic acoustic resonance representation of the trace
-      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-      const ctx = new AudioContextClass();
-      const osc = ctx.createOscillator();
-      const g = ctx.createGain();
-      osc.frequency.setValueAtTime(f.freq, ctx.currentTime);
-      osc.type = f.element === 'WATER' ? 'sine' : 'sawtooth';
-      g.gain.setValueAtTime(0.12, ctx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 3);
-      osc.connect(g);
-      g.connect(ctx.destination);
-      osc.start();
-      osc.stop(ctx.currentTime + 3);
-      drawerPlayBtn.textContent = 'RESONATING...';
-      setTimeout(() => {
-        drawerPlayBtn.textContent = 'PLAY TRACE RESONANCE';
-      }, 3000);
     }
   }
+
+  cassetteSpeed?.addEventListener('input', () => {
+    const speed = Number(cassetteSpeed.value);
+    if (activeAudioPlayer) activeAudioPlayer.playbackRate = speed;
+    if (cassetteSpeedLabel) cassetteSpeedLabel.textContent = `${speed.toFixed(1)}×`;
+  });
 
   if (drawerCloseBtn) {
     drawerCloseBtn.addEventListener('click', () => {
@@ -323,6 +320,8 @@ document.addEventListener('DOMContentLoaded', () => {
         activeAudioPlayer.pause();
         activeAudioPlayer = null;
       }
+      if (drawerPlayBtn) drawerPlayBtn.textContent = '▶ PLAY';
+      if (cassettePlayer) cassettePlayer.classList.remove('playing');
       // Deselect filament highlight
       if (window.DAC_PARTICLE_MAP) window.DAC_PARTICLE_MAP.selectFilament(null);
     });
@@ -332,6 +331,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.DAC_MAP) {
     window.DAC_MAP.initMap('field-particle-map', openFilamentDetail);
   }
+  window.addEventListener('filaments:updated', () => {
+    if (window.DAC_MAP) window.DAC_MAP.renderFilamentsOnMap();
+  });
 
   // Radius slider (phone sensing radius for particle map)
   const radiusSlider  = document.getElementById('radius-slider');
@@ -339,7 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (radiusSlider) {
     radiusSlider.addEventListener('input', (e) => {
       const r = Number(e.target.value);
-      if (radiusDisplay) radiusDisplay.textContent = r;
+      if (radiusDisplay) radiusDisplay.textContent = `${(r * 111320 / 9000 / 1000).toFixed(1)} km`;
       if (window.DAC_PARTICLE_MAP) window.DAC_PARTICLE_MAP.setRadius(r);
     });
   }
@@ -358,7 +360,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const errEl = document.createElement('div');
           errEl.id = 'deposit-inline-error';
           errEl.className = 'field-inline-error visible';
-          errEl.textContent = 'OBSERVATION REQUIRED — write what you hear before depositing a filament.';
+          errEl.textContent = 'Add a short note before saving this pin.';
           obsInput.parentElement.insertBefore(errEl, obsInput.nextSibling);
         } else {
           existingErr.classList.add('visible');
@@ -370,14 +372,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       depositBtn.disabled = true;
-      depositBtn.textContent = 'DEPOSITING TRACE...';
+      depositBtn.textContent = 'SAVING PIN...';
 
       const loc = window.DAC_GEO ? window.DAC_GEO.getLocation() : { lat: 18.5204, lng: 73.8567 };
       const element = window.DAC_ELEMENTS ? window.DAC_ELEMENTS.getElement() : 'WATER';
       const freq = freqSlider ? Number(freqSlider.value) : 440;
       const band = bandSlider ? Number(bandSlider.value) : 120;
 
-      const newFilament = await window.DAC_STORE.createFilament({
+      await window.DAC_STORE.createFilament({
         observation: text,
         element: element,
         lat: loc.lat,
@@ -387,14 +389,13 @@ document.addEventListener('DOMContentLoaded', () => {
         band: band,
         audioDataUrl: recordedAudioPayload ? recordedAudioPayload.dataUrl : null,
         audioDurationSec: recordedAudioPayload ? recordedAudioPayload.durationSec : 0,
-        shareToNetwork: Boolean(shareInput && shareInput.checked)
+        shareToNetwork: true
       });
 
       // Reset form
       if (obsInput) obsInput.value = '';
       recordedAudioPayload = null;
       if (recordStatus) recordStatus.textContent = 'NONE';
-      if (shareInput) shareInput.checked = false;
 
       // Update Map
       if (window.DAC_MAP) {
@@ -402,13 +403,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       depositBtn.disabled = false;
-      depositBtn.textContent = 'TRACE DEPOSITED ✓';
+      depositBtn.textContent = 'PIN SAVED';
       setTimeout(() => {
-        depositBtn.textContent = 'DEPOSIT FILAMENT INTO STRATA';
+        depositBtn.textContent = 'Save pin';
       }, 2500);
 
-      // Open new filament
-      openFilamentDetail(newFilament);
+      // The pin appears on the radar; open it only when selected there.
     });
   }
 
