@@ -19,11 +19,11 @@
 
   <style>
     /* Receiver-Specific Desktop Dashboard Styles */
-    .receiver-dashboard-grid { display:flex; flex-direction:column; gap:1.25rem; height:auto; min-height:0; }
+    .receiver-dashboard-grid { display:grid; grid-template-columns:minmax(0, 1.25fr) minmax(340px, .85fr); align-items:start; gap:1.25rem; height:auto; min-height:0; }
 
     @media (max-width: 990px) {
       .receiver-dashboard-grid {
-        display:flex;
+        grid-template-columns:minmax(0, 1fr);
       }
     }
 
@@ -33,16 +33,29 @@
       border-radius: var(--radius-md);
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      overflow: visible;
       min-height: 0;
       position: relative;
     }
 
     #receiver-leaflet-map {
       width: 100%;
-      height: 100%;
-      height: min(48vh, 450px);
-      min-height: 300px;
+      height: clamp(440px, 68vh, 720px);
+      min-height: 380px;
+      background: #031014;
+      isolation: isolate;
+    }
+
+    #receiver-leaflet-map::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 400;
+      pointer-events: none;
+      opacity: .26;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 560'%3E%3Cg fill='none' stroke='%2348e3dc' stroke-opacity='.34' stroke-width='1'%3E%3Cpath d='M-40 120C80 50 120 180 220 125S380 35 480 105s170 80 270 10 140-30 190 20'/%3E%3Cpath d='M-40 142C80 72 120 202 220 147S380 57 480 127s170 80 270 10 140-30 190 20'/%3E%3Cpath d='M-40 164C80 94 120 224 220 169S380 79 480 149s170 80 270 10 140-30 190 20'/%3E%3Cpath d='M-30 370c90-60 150-20 210 35s150 65 220 0 140-80 210-15 150 55 250-5'/%3E%3Cpath d='M-30 394c90-60 150-20 210 35s150 65 220 0 140-80 210-15 150 55 250-5'/%3E%3Cpath d='M-30 418c90-60 150-20 210 35s150 65 220 0 140-80 210-15 150 55 250-5'/%3E%3Cpath d='M545 185c25-38 80-48 112-18s27 83-8 105-89 9-103-31 17-78 61-78 68 41 47 70-61 24-72-3 11-49 34-43'/%3E%3Cpath d='M560 190c20-28 60-34 84-12s20 61-7 78-66 7-77-23 13-57 45-57 50 30 35 52-45 18-53-2 8-36 25-32'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: cover;
+      mix-blend-mode: screen;
     }
 
     .receiver-archive-pane {
@@ -119,7 +132,7 @@
     .global-map-label { color:var(--text-muted); font-family:var(--font-mono); font-size:.76rem; font-weight:400; letter-spacing:.08em; }
     .archive-toolbar { display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
     .archive-sort { background:#081419; color:var(--text-secondary); border:1px solid var(--border-medium); border-radius:999px; padding:.55rem .85rem; font:inherit; }
-    .archive-list-container { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); align-content:start; max-height:none; }
+    .archive-list-container { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); align-content:start; max-height:none; overflow:visible; }
     .filament-row-item { background:rgba(6,17,22,.96); }
     .inspector-detail-box { background:#061116; border-radius:16px; }
     .map-tile-note { color:var(--text-muted); font: .66rem var(--font-mono); }
@@ -141,14 +154,14 @@
       <div class="receiver-map-pane">
         <div style="padding: 0.75rem 1.25rem; background: var(--bg-surface); border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 0.72rem;">
           <span>WORLD VIEW</span>
-          <span class="map-tile-note">MAP TILES: CARTO · OPENSTREETMAP · OPENTOPOMAP</span>
+          <span class="map-tile-note">OPEN MAP · TRACE CONTOURS</span>
         </div>
 
         <div id="receiver-leaflet-map" style="flex: 1;"></div>
 
         <div class="density-stats-strip">
           <span>TRACES: <strong style="color: var(--accent-water);" id="stat-traced">0</strong></span>
-          <span id="map-tile-status" class="map-tile-note">No map key needed · Carto / OpenTopoMap</span>
+          <span id="map-tile-status" class="map-tile-note">Open map data · contour overlay</span>
         </div>
       </div>
 
@@ -253,12 +266,6 @@
           const status = document.getElementById('map-tile-status');
           if (status) status.textContent = 'Map tiles unavailable · check your connection';
         });
-        L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-          maxZoom: 17,
-          opacity: 0.16,
-          attribution: '&copy; <a href="https://opentopomap.org">OpenTopoMap</a> (SRTM)'
-        }).addTo(map);
-
         markersLayer = L.layerGroup().addTo(map);
         renderMapMarkers();
       }
