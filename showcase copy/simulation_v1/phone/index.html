@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>READER 04 — HANDHELD FIELD INSTRUMENT</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="element-water">
+
+<main class="device">
+
+  <!-- TOP ELEMENT SELECTOR -->
+  <div class="element-selector-bar">
+    <button type="button" id="element-water-btn" class="elem-btn active" data-element="WATER">
+      FIELD 01: WATER
+    </button>
+    <button type="button" id="element-sand-btn" class="elem-btn" data-element="SAND">
+      FIELD 02: SAND
+    </button>
+  </div>
+
+  <!-- RESEARCHER CODENAME & TELEMETRY -->
+  <div class="user-id-bar">
+    <span>USER: <strong id="user-codename">Tide-234</strong></span>
+    <span>FIELD: <strong id="element-tag-display">WATER</strong></span>
+  </div>
+
+  <!-- DEVICE SCREEN -->
+  <div class="screen">
+    <div class="top">
+      <span id="dac-display-title">DAC-04 / WATER</span>
+      <span id="status">STANDBY</span>
+    </div>
+
+    <div id="instruction" class="instruction">
+      FOLLOW THE CURRENT
+    </div>
+
+    <div class="readout">
+      <span id="flow-label">FLOW</span>
+      <strong id="freqValue">440</strong>
+      <span>HZ</span>
+    </div>
+
+    <div class="meter">
+      <i id="meterFill"></i>
+    </div>
+  </div>
+
+  <!-- FIELD LINK STATUS -->
+  <div class="phone-header-bar">
+    <span class="status-tag" id="link-status-badge">LINKED</span>
+    <span class="dac-tag" id="dac-tag-badge">DAC-04 WATER</span>
+    <span class="mode-tag" id="status-mode">SEARCHING</span>
+  </div>
+
+  <!-- RADAR / COMPASS -->
+  <div id="radar-container" class="radar-container hidden">
+    <svg class="radar-svg" viewBox="0 0 200 120" width="200" height="120">
+      <path id="radar-arc-outer" d="M 10,100 A 90,90 0 0,1 190,100" fill="none" stroke="#86e3ce" stroke-width="2" />
+      <path id="radar-arc-inner" d="M 40,100 A 60,60 0 0,1 160,100" fill="none" stroke="#86e3ce" stroke-width="1" stroke-dasharray="4" />
+      <g id="compass-dial">
+        <line x1="100" y1="10" x2="100" y2="20" stroke="#86e3ce" stroke-width="2" />
+        <text x="100" y="8" fill="#86e3ce" font-size="8" text-anchor="middle">N</text>
+      </g>
+      <line id="radar-needle" x1="100" y1="100" x2="100" y2="15" stroke="#ffffff" stroke-width="2" />
+    </svg>
+    <div id="heading-display" class="heading-text">SEARCHING</div>
+  </div>
+
+  <!-- INSTRUCTION BOX -->
+  <div id="phone-instruction-comment" class="instruction-box">
+    Scanning frequencies... Adjust to find resonance.
+  </div>
+
+  <!-- CONTROLS -->
+  <section class="controls">
+    <label>
+      <span id="freq-slider-label">FLOW</span>
+      <input id="freq" type="range" min="80" max="1200" value="440">
+    </label>
+
+    <label>
+      <span id="band-slider-label">DEPTH</span>
+      <input id="band" type="range" min="20" max="500" value="120">
+    </label>
+
+    <div class="row">
+      <button id="listen" class="listen-button">LISTEN</button>
+    </div>
+
+    <button id="mend" class="mend-button hidden" disabled>
+      MEND SIGNAL
+    </button>
+
+    <button id="findFilament" class="filament-button hidden-control" disabled>
+      LOCATE FILLÁMEND
+    </button>
+  </section>
+
+  <!-- LIVE ACOUSTIC FEED TRANSDUCER & RECORDER -->
+  <div class="live-recording-widget">
+    <div class="live-rec-header">
+      <span>ACOUSTIC TRANSDUCER</span>
+      <span id="rec-status-tag" class="rec-idle">IDLE</span>
+    </div>
+    <div class="live-rec-controls">
+      <button id="start-rec-btn" class="rec-btn">● REC LIVE FEED</button>
+      <button id="stop-rec-btn" class="rec-btn stop" style="display:none;">■ STOP REC</button>
+      <button id="play-rec-btn" class="rec-btn play" style="display:none;">▶ PLAY SAMPLE</button>
+    </div>
+    <div class="rec-meter-bar">
+      <div id="rec-meter-level" class="rec-meter-level"></div>
+    </div>
+    <div id="rec-memo-text" class="rec-memo-text">No live acoustic sample captured.</div>
+  </div>
+
+  <!-- OBSERVATION / FIELD RECORD -->
+  <section id="filament-observation" class="filament-observation">
+    <div class="observation-header">
+      <span>FIELD RECORD</span>
+      <span id="observation-status">FILLÁMEND NOT LOCATED</span>
+    </div>
+
+    <div class="observation-prompt">
+      WHAT DID YOU NOTICE?
+    </div>
+
+    <textarea
+      id="logAttempt"
+      placeholder="Describe what you heard, felt, noticed in the field..."
+      readonly
+    ></textarea>
+
+    <button id="record" class="record-button" disabled>
+      LOG OBSERVATION
+    </button>
+  </section>
+
+  <!-- QWERTY KEYPAD -->
+  <div id="keypad" class="keypad" aria-label="Reader QWERTY keypad">
+    <div class="key-row row-q">
+      <button data-key="Q">Q</button><button data-key="W">W</button><button data-key="E">E</button><button data-key="R">R</button><button data-key="T">T</button><button data-key="Y">Y</button><button data-key="U">U</button><button data-key="I">I</button><button data-key="O">O</button><button data-key="P">P</button>
+    </div>
+    <div class="key-row row-a">
+      <button data-key="A">A</button><button data-key="S">S</button><button data-key="D">D</button><button data-key="F">F</button><button data-key="G">G</button><button data-key="H">H</button><button data-key="J">J</button><button data-key="K">K</button><button data-key="L">L</button>
+    </div>
+    <div class="key-row row-z">
+      <button data-key="Z">Z</button><button data-key="X">X</button><button data-key="C">C</button><button data-key="V">V</button><button data-key="B">B</button><button data-key="N">N</button><button data-key="M">M</button>
+    </div>
+    <div class="key-row row-bottom">
+      <button class="space-key" data-key="SPACE">SPACE</button>
+      <button class="back-key" data-key="BACK">⌫</button>
+    </div>
+  </div>
+
+  <!-- FIELD SATELLITE LINKS -->
+  <div class="phone-footer-nav">
+    <a href="/laptop/" target="_blank" class="phone-nav-link">FIELD RECEIVER ↗</a>
+    <a href="/archive/" target="_blank" class="phone-nav-link">ARCHIVE LOGS ↗</a>
+    <a href="/repair/" target="_blank" class="phone-nav-link">REPAIR BAY ↗</a>
+  </div>
+
+</main>
+
+<script src="reader.js"></script>
+</body>
+</html>

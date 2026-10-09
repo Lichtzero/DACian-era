@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>READER // Field Instrument DAC-04 — Official Archival Documentation</title>
+  
+  <meta name="description" content="Official field documentation and onboarding guide for the READER (DAC-04), a speculative field instrument for perceiving what cannot be directly heard.">
+  
+  <!-- Modern Reset, Design Tokens & Component Styles -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/typography.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- Configuration File -->
+  <script src="config.js"></script>
+</head>
+<body>
+  <div id="top"></div>
+  
+  <!-- ====================================================================
+       ARCHIVAL OUTER SHELL
+       ==================================================================== -->
+  
+  <div class="archive-shell">
+    
+
+    <!-- ==================================================================
+         STICKY INSTRUMENT HEADER & METADATA BAR
+         ================================================================== -->
+    <header class="archive-header">
+      <!-- Top Technical Telemetry Strip -->
+      <div class="header-top-bar">
+        <div class="header-meta-left">
+          <span><b class="pulse-dot"></b> REF: <strong>DAC-04-ARCHIVE</strong></span>
+          <!--<span>SERIES: <strong>SPECULATIVE ARTIFACT</strong></span>-->
+          <!--<span>CALIBRATION: <strong>240 HZ LOCKED</strong></span>-->
+        </div>
+        <div class="header-meta-right">
+          <!--<span> <strong>Documentation and onboarding manual for speculative artifact</strong></span>-->
+          <button id="open-config-btn" class="archival-badge" title="Inspect or update simulation endpoints">
+            ⚙ CONFIG: <span class="js-sim-url-display">http://localhost:8787/laptop/</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="header-nav-bar">
+        <a href="#" class="brand-sigil" data-target="top">
+          <span style="color: var(--accent-rust);">[+]</span> Up // Home
+        </a>
+
+        <nav class="nav-links">
+         <a href="#" class="nav-link" data-target="the-world">The World</a>
+         <a href="#" class="nav-link" data-target="artifact">Artifact</a>
+         <a href="#" class="nav-link" data-target="first-field">First Field</a>
+         <a href="#" class="nav-link" data-target="field-setup">Field Setup</a>
+         <a href="#" class="nav-link" data-target="demonstration">Demonstration</a>
+         <a href="#" class="nav-link" data-target="field-notes">Field Notes</a>
+         <a href="#" class="nav-link" data-target="about-maker">About</a>
+        </nav>
+
+       <!-- <a href="http://localhost:8787/laptop/" class="nav-cta-btn js-enter-sim-btn">
+          ENTER SIMULATION →
+        </a> -->
+      </div>
+    </header>
+
+    <!-- ==================================================================
+         01. HERO / LANDING SECTION
+         ================================================================== -->
+  
+  <main class="archive-content">
+    <section id="landing" class="archive-section">
+      <br><br><br>
+      <div class="hero-grid">
+        <div class="hero-content">
+          <h1 class="hero-title">DAC-ian Era</h1>
+          <div class="hero-subtitle">FIELD INSTRUMENT // Artifact : Elie-Reader</div>
+          
+          <p class="hero-intro">
+            A world where digital memory has dissolved into physical matter. 
+          </p>
+
+          <p style="font-family: var(--font-mono); font-size: 0.95rem; color: var(--text-secondary); max-width: 48ch; margin-bottom: 2rem;">
+            A Speculative Exploration of a plausible future As part of studio curriculum <br> Masters of Design in Human Centerd Design
+          </p>
+
+         <!--<p style="font-family: var(--font-mono); font-size: 0.95rem; color: var(--text-secondary); max-width: 48ch; margin-bottom: 2rem;">
+            Recovered from a world where digital memory has dissolved into physical matter. 
+            The READER translates buried electromagnetic, acoustic, and hydrological residue 
+            into perceptible frequency, vibration, and cymatic form.
+          </p>-->
+
+          <!--<div class="hero-cta-group">
+            <a href="http://localhost:8787/laptop/" class="btn-primary js-enter-sim-btn">
+              ENTER THE FIELD →
+            </a>
+            <a href="#" class="btn-secondary" data-target="the-world">
+              BEGIN WITH THE GUIDE ↓
+            </a>
+          </div>-->
+        </div>
+
+        <!-- Hero Oscilloscope / Signal Trace Frame -->
+        <div class="hero-instrument-box">
+          <div class="instrument-screen-top">
+            <span>OSCILLOSCOPE // TRACE 01</span>
+            <span id="signal-state-display" style="color: var(--accent-cyan);">RESONANCE LOCKED [WATER]</span>
+          </div>
+
+          <div class="oscilloscope-canvas-wrapper">
+            <canvas id="hero-oscilloscope" class="oscilloscope-canvas"></canvas>
+            <div class="oscilloscope-grid-overlay"></div>
+          </div>
+
+          <div class="instrument-screen-bottom">
+            <span>BASE: <strong id="freq-val-display" style="color:#fff;">240 HZ</strong></span>
+            <span>BAND: <strong style="color:#fff;">80HZ - 120 HZ</strong></span>
+            <span>DAC/04: <strong style= "color:#fff;">Elie-Reader</strong></span>
+            <!--<span>COUPLING: <strong>HAPTIC-ACOUSTIC</strong></span>-->
+          </div>
+
+          <div class="interactive-tuner-slider">
+            <label for="freq-tuner-input">SWEEP FREQUENCY:</label>
+            <input type="range" id="freq-tuner-input" min="80" max="1200" value="440" step="1">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         02. THE WORLD (DACIANS & SPECULATIVE FRAGMENTS)
+         ================================================================== -->
+    <section id="the-world" class="archive-section">
+      <br><br><br>
+
+      <div class="section-archival-header">
+        <div class="section-meta-header">
+          <span class="section-num">02 // SPECULATIVE WORLD</span>
+          <div class="section-line"></div>
+          <span class="archival-badge">ANTHROPOLOGICAL DOSSIER</span>
+        </div>
+        <h2 class="section-title">The World of the DACians</h2>
+        <p class="section-tagline">
+          In a future where information has returned to the physical, signals are not stored in servers—they are found, repaired, and remembered.
+        </p>
+      </div>
+
+      <div class="grid-2col" style="margin-bottom: 3.5rem;">
+        <div>
+          <p class="world-lead-text">
+            The DACians belong to an era in which digital information has become increasingly 
+            analogue, physical, repairable, and ephemeral. They do not maintain disembodied cloud servers. 
+            Instead, memory is understood as something suspended inside silt, trapped between quartz crystals, 
+            or lingering in the acoustic resonance of old foundations.
+          </p>
+
+          <div class="field-fragment-quote">
+            “The DACians do not separate information from the materials that carry it.”
+            <span class="field-fragment-author">OBSERVATION LOG // DAC-WORLD ARCHIVE</span>
+          </div>
+
+          <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">
+            In this world, a message is not broadcast outward across fiber optic wires; it is deposited into 
+            an environment. A researcher must travel into the field with sensitive physical transducers 
+            to physically meet the signal at its point of resting.
+          </p>
+        </div>
+
+        <div>
+          <div class="archival-plate">
+            <div class="plate-header">
+              <span class="plate-title">TENETS OF DACIAN SIGNAL ECOLOGY</span>
+              <span class="plate-index">DOC // REF-08</span>
+            </div>
+
+            <ul style="display: flex; flex-direction: column; gap: 1.25rem;">
+              <li style="display: flex; gap: 1rem; font-size: 0.92rem;">
+                <span style="font-family: var(--font-mono); color: var(--accent-rust); font-weight: 700;">[01]</span>
+                <div>
+                  <strong>SIGNALS ARE FOUND, NOT TRANSMITTED</strong>
+                  <p style="color: var(--text-secondary); margin-top: 0.25rem;">Information does not seek the user. The user must calibrate their physical instrument to the frequency of the ground.</p>
+                </div>
+              </li>
+              <li style="display: flex; gap: 1rem; font-size: 0.92rem;">
+                <span style="font-family: var(--font-mono); color: var(--accent-rust); font-weight: 700;">[02]</span>
+                <div>
+                  <strong>DAMAGE IS NOT LOSS</strong>
+                  <p style="color: var(--text-secondary); margin-top: 0.25rem;">A corrupted signal is not deleted or thrown away. It simply requires tactile mending and human presence to restore.</p>
+                </div>
+              </li>
+              <li style="display: flex; gap: 1rem; font-size: 0.92rem;">
+                <span style="font-family: var(--font-mono); color: var(--accent-rust); font-weight: 700;">[03]</span>
+                <div>
+                  <strong>THE READER AS MEDIATOR</strong>
+                  <p style="color: var(--text-secondary); margin-top: 0.25rem;">The READER does not originate thoughts; it acts as a mechanical lens extending human sensory perception into the invisible realm.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fragment Cards -->
+      <div class="fragment-grid">
+        <div class="fragment-card">
+          <div class="fragment-badge">FIELD FRAGMENT // 01</div>
+          <div class="fragment-body">
+            “Signals are not simply transmitted. They are found, tuned, interpreted, and repaired.”
+          </div>
+          <div class="fragment-meta">
+            <span>COLLECTED BY [CREATOR]</span>
+            <span>SAMPLE: HYDRO-01</span>
+          </div>
+        </div>
+
+        <div class="fragment-card">
+          <div class="fragment-badge">FIELD FRAGMENT // 02</div>
+          <div class="fragment-body">
+            “A damaged signal is not necessarily lost. It may simply require another way of listening.”
+          </div>
+          <div class="fragment-meta">
+            <span>COLLECTED BY [CREATOR]</span>
+            <span>SAMPLE: SILT-04</span>
+          </div>
+        </div>
+
+        <div class="fragment-card">
+          <div class="fragment-badge">FIELD FRAGMENT // 03</div>
+          <div class="fragment-body">
+            “The instrument speaks through sound, vibration, and frequency proximity before words emerge.”
+          </div>
+          <div class="fragment-meta">
+            <span>COLLECTED BY [CREATOR]</span>
+            <span>SAMPLE: RESIDUE-09</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Material Matrix -->
+      <div class="material-matrix">
+        <div class="material-node">
+          <div class="material-num">SUBSTRATE // A</div>
+          <div class="material-name">Aqueous Silt</div>
+          <div class="material-desc">
+            Submerged particles that trap deep acoustic low-pass tones. Resonates around 440 Hz in calm water.
+          </div>
+        </div>
+        <div class="material-node">
+          <div class="material-num">SUBSTRATE // B</div>
+          <div class="material-name">Quartz Residue</div>
+          <div class="material-desc">
+            Shifting granular sand that generates high dry friction. Retains high-frequency vocal formants at 520 Hz.
+          </div>
+        </div>
+        <div class="material-node">
+          <div class="material-num">SUBSTRATE // C</div>
+          <div class="material-name">Alloy Filament</div>
+          <div class="material-desc">
+            Thin conductive veins woven through ancient masonry. Requires continuous manual touch to mend.
+          </div>
+        </div>
+        <div class="material-node">
+          <div class="material-num">SUBSTRATE // D</div>
+          <div class="material-name">The Cymatic Medium</div>
+          <div class="material-desc">
+            Fluid or particle surfaces that rearrange under acoustic pressure to reveal geometric patterns.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         03. WHAT IS THE READER?
+         ================================================================== -->
+    <section id="artifact" class="archive-section">
+      <!--<span class="corner-reg tl">+</span>
+      <span class="corner-reg tr">+</span>-->
+      <br><br><br>
+
+      <div class="section-archival-header">
+        <div class="section-meta-header">
+          <span class="section-num">03 // INSTRUMENT SPECIFICATION</span>
+          <div class="section-line"></div>
+          <span class="archival-badge alert">FIELD HARDWARE</span>
+        </div>
+        <h2 class="section-title">What is the READER?</h2>
+        <p class="section-tagline">
+          The READER is a field instrument used to locate and interpret signals embedded within an environment.
+        </p>
+      </div>
+
+      <p style="font-size: 1.05rem; color: var(--text-secondary); max-width: 65ch; margin-bottom: 2rem;">
+        The system relies on a dual-apparatus interaction model: a stationary monitoring receiver 
+        and an agile handheld instrument held in the field researcher's palm. Together, they form 
+        a closed loop between observation, resonance tuning, and physical repair.
+      </p>
+
+      <!-- Interactive Instrument Topology Diagram -->
+      <div class="topology-diagram-container">
+        <div class="plate-header">
+          <span class="plate-title">SYSTEM TOPOLOGY // TRANSMISSION & SENSORY INTERPRETATION</span>
+          <span class="plate-index">SCHEMATIC DAC-04-T</span>
+        </div>
+
+        <div class="topology-schematic">
+          <!-- Node 1: Field Receiver -->
+          <div class="topology-node active-field">
+            <div class="topology-node-icon">💻</div>
+            <div class="topology-node-title">FIELD RECEIVER</div>
+            <div class="archival-badge" style="margin-bottom: 0.5rem;">LAPTOP STATION</div>
+            <p class="topology-node-desc">
+              Visual monitoring terminal. Renders real-time cymatic particle physics, monitors network telemetry, and records the researcher’s observation log.
+            </p>
+          </div>
+
+          <!-- Arrow 1 -->
+          <div class="topology-arrow">
+            <span>TRANSMISSION</span>
+            <div class="topology-arrow-line"></div>
+            <span>SIGNAL</span>
+          </div>
+
+          <!-- Node 2: Handheld Reader -->
+          <div class="topology-node active-field">
+            <div class="topology-node-icon">📱</div>
+            <div class="topology-node-title">READER</div>
+            <div class="archival-badge alert" style="margin-bottom: 0.5rem;">HANDHELD INSTRUMENT</div>
+            <p class="topology-node-desc">
+              Phone-based sensor. Sweeps frequency spectrum, emits buried acoustic layers, pulses with haptic vibration, and executes the MEND interaction.
+            </p>
+          </div>
+
+          <!-- Arrow 2 -->
+          <div class="topology-arrow">
+            <span>FREQUENCY</span>
+            <div class="topology-arrow-line"></div>
+            <span>SENSORY CUES</span>
+          </div>
+
+          <!-- Node 3: User Perception -->
+          <div class="topology-node">
+            <div class="topology-node-icon">👁️👂✋</div>
+            <div class="topology-node-title">FIELD RESEARCHER</div>
+            <div class="archival-badge" style="margin-bottom: 0.5rem;">PERCEPTION & TOUCH</div>
+            <p class="topology-node-desc">
+              The human interpreter. Listens for buried phrases, feels for frequency proximity, locates the fillámend, and records qualitative field notes.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Instrument Comparison Specifications -->
+      <div class="instrument-spec-grid">
+        <div class="spec-column archival-plate">
+          <h4>FIELD RECEIVER (LAPTOP)</h4>
+          <div class="spec-list">
+            <div class="spec-item">
+              <span class="spec-label">Primary Role</span>
+              <span class="spec-value">Stationary Monitor & Archive</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Visual Field</span>
+              <span class="spec-value">Dynamic Cymatic Particle Canvas</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Telemetry Readout</span>
+              <span class="spec-value">Live Frequency, Band, & Status</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Observation Sink</span>
+              <span class="spec-value">Permanent Field Log Record</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="spec-column archival-plate">
+          <h4>READER (HANDHELD SMARTPHONE)</h4>
+          <div class="spec-list">
+            <div class="spec-item">
+              <span class="spec-label">Primary Role</span>
+              <span class="spec-value">Mobile Sensor & Tuning Probe</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Sensory Output</span>
+              <span class="spec-value">WebAudio Layers & Haptic Vibration</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Controls</span>
+              <span class="spec-value">Flow (Freq), Depth (Band), Listen, Mend</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Input Mechanism</span>
+              <span class="spec-value">On-Screen Archival QWERTY Keypad</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         04. FIRST TIME? START HERE (TUTORIAL)
+         ================================================================== -->
+    <section id="first-field" class="archive-section">
+     <!--<span class="corner-reg tl">+</span>
+      <span class="corner-reg tr">+</span>-->
+      <br><br><br>
+
+      <div class="section-archival-header">
+        <div class="section-meta-header">
+          <span class="section-num">04 // FIRST-TIME USER TUTORIAL</span>
+          <div class="section-line"></div>
+          <span class="archival-badge alert">MANDATORY PROTOCOL</span>
+        </div>
+        <h2 class="section-title">First Field: How to Use</h2>
+        <p class="section-tagline">
+          Your first encounter with the READER. Follow this numbered onboarding sequence to prepare, tune, locate, and mend.
+        </p>
+      </div>
+
+      <!-- Step Navigation Strip -->
+      <div id="tutorial-nav-strip" class="tutorial-nav-strip">
+        <!-- Rendered dynamically by tutorial.js -->
+      </div>
+
+      <!-- Active Step Display Card -->
+      <div id="tutorial-active-card" class="step-card-active">
+        <!-- Rendered dynamically by tutorial.js -->
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         05. FIELD SETUP & CHECKLIST
+         ================================================================== -->
+    <section id="field-setup" class="archive-section">
+       <!--<span class="corner-reg tl">+</span>
+      <span class="corner-reg tr">+</span>-->
+      <br><br><br>
+
+      <div class="section-archival-header">
+        <div class="section-meta-header">
+          <span class="section-num">05 // TECHNICAL DEPLOYMENT</span>
+          <div class="section-line"></div>
+          <span class="archival-badge">HARDWARE & ENVIRONMENT</span>
+        </div>
+        <h2 class="section-title">Field Setup</h2>
+        <p class="section-tagline">
+          Distinguish between mandatory equipment and optimal acoustic conditions before engaging the instrument.
+        </p>
+      </div>
+
+      <div class="grid-2col">
+        <!-- Requirements Specification -->
+        <div>
+          <div class="archival-plate" style="margin-bottom: 2rem;">
+            <div class="plate-header">
+              <span class="plate-title">REQUIRED SPECIFICATIONS</span>
+              <span class="archival-badge alert">MANDATORY</span>
+            </div>
+            <ul style="display: flex; flex-direction: column; gap: 0.85rem; font-size: 0.9rem;">
+              <li><strong>Laptop Computer:</strong> To run the FIELD RECEIVER visual station.</li>
+              <li><strong>Smartphone:</strong> Held in hand to act as the physical READER instrument.</li>
+              <li><strong>Modern Web Browser:</strong> Full WebAudio & WebSocket compliance (Chrome, Safari, Firefox).</li>
+              <li><strong>Audio Playback:</strong> Phone volume enabled to hear buried acoustic layers.</li>
+              <li><strong>Vibration Support:</strong> Phone haptics enabled for proximity pulse feedback.</li>
+              <li><strong>Network Connection:</strong> Both devices linked to the same local network or server.</li>
+              <li><strong>READER Access / QR Code:</strong> Connection mechanism to pair the phone.</li>
+            </ul>
+          </div>
+
+          <div class="archival-plate">
+            <div class="plate-header">
+              <span class="plate-title">RECOMMENDED FOR IMMERSION</span>
+              <span class="archival-badge">RECOMMENDED</span>
+            </div>
+            <ul style="display: flex; flex-direction: column; gap: 0.85rem; font-size: 0.9rem; color: var(--text-secondary);">
+              <li>🎧 <strong>Over-Ear Headphones:</strong> Drastically enhances detection of buried voice harmonics.</li>
+              <li>🔇 <strong>Quiet Environment:</strong> Minimizes acoustic competition with the subtle drone.</li>
+              <li>🖥️ <strong>Full-Screen Browser Mode:</strong> Maximizes cymatic visual clarity on the laptop.</li>
+              <li>✋ <strong>Phone Held Firmly in Hand:</strong> Enables immediate detection of resonant haptic pulses.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Interactive Checklist Card -->
+        <div>
+          <div class="setup-checklist-card">
+            <div class="plate-header">
+              <span class="plate-title">BEFORE YOU BEGIN // CHECKLIST</span>
+              <span id="checklist-status-badge" class="archival-badge">PREPARATION: 0/6 VERIFIED</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
+              Click each condition as you complete your physical setup. Your progress is remembered automatically:
+            </p>
+
+            <div id="interactive-checklist-items" class="checklist-items">
+              <!-- Rendered dynamically by checklist.js -->
+            </div>
+
+            <div style="margin-top: 1.75rem; padding-top: 1rem; border-top: 1px dashed var(--border-light); display: flex; justify-content: space-between; align-items: center;">
+              <button id="checklist-reset-btn" class="archival-badge" style="cursor: pointer;">
+                RESET CHECKLIST
+              </button>
+              <span style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-muted);">
+                PERSISTENT IN LOCALSTORAGE
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         06. QR CODE / CONNECTION BLOCK
+         ================================================================== -->
+    <section id="qr-access" class="archive-section">
+      <!--<span class="corner-reg tl">+</span>
+      <span class="corner-reg tr">+</span>-->
+      <br><br><br>
+
+      <div class="section-archival-header">
+        <div class="section-meta-header">
+          <span class="section-num">06 // CONNECTION PROTOCOL</span>
+          <div class="section-line"></div>
+          <span class="archival-badge active">PAIRING TERMINAL</span>
+        </div>
+        <h2 class="section-title">Reader Access</h2>
+        <p class="section-tagline">
+          Scan to open the field instrument on your handheld smartphone.
+        </p>
+      </div>
+
+      <div class="qr-access-plate">
+        <div class="archival-stamp">PAIRING SYMBOL // DAC-04</div>
+
+        <div class="qr-box-visual">
+          <canvas id="qr-code-canvas"></canvas>
+          <div id="qr-placeholder-text" class="qr-placeholder-text">[ READER QR CODE ]</div>
+        </div>
+
+        <div style="max-width: 48ch; margin-bottom: 1rem;">
+          <h4 style="font-family: var(--font-mono); font-size: 0.95rem; margin-bottom: 0.35rem;">SCAN WITH SMARTPHONE CAMERA</h4>
+          <p style="font-size: 0.85rem; color: var(--text-secondary);">
+            Point your phone’s camera at the access matrix above to launch the handheld READER interface directly.
+          </p>
+        </div>
+
+        <div class="qr-target-url">
+          DIRECT LINK: <span class="js-phone-url-display">http://localhost:8787/phone/</span>
+        </div>
+
+        <button id="copy-phone-url-btn" class="archival-badge" style="margin-top: 1rem; cursor: pointer;">
+          COPY PHONE URL TO CLIPBOARD
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         07. DEMONSTRATION VIDEO
+         ================================================================== -->
+    <section id="demonstration" class="archive-section">
+       <!--<span class="corner-reg tl">+</span>
+      <span class="corner-reg tr">+</span>-->
+      <br><br><br>
+
+      <div class="section-archival-header">
+        <div class="section-meta-header">
+          <span class="section-num">07 // OPERATIONAL ARCHIVE</span>
+          <div class="section-line"></div>
+          <span class="archival-badge alert">DOCUMENTARY RECORD</span>
+        </div>
+        <h2 class="section-title">Field Demonstration</h2>
+        <p class="section-tagline">
+          Watch a complete field interaction before entering the simulation.
+        </p>
+      </div>
+
+      <div class="video-frame-outer">
+        <div class="video-frame-inner">
+          <div class="video-placeholder-display">
+            <div class="video-play-btn" title="Watch Field Demonstration">▶</div>
+            <div style="font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; letter-spacing: 0.12em; color: #fff;">
+              [ DEMO VIDEO ]
+            </div>
+            <p style="font-family: var(--font-serif); font-style: italic; color: var(--text-inverse-muted); max-width: 50ch; font-size: 0.95rem;">
+              A recorded field session documenting pairing, frequency sweep through underwater silt, locating the buried fillámend, and tactile mending.
+            </p>
+            <span class="archival-badge" style="border-color: rgba(255, 255, 255, 0.2); color: var(--accent-cyan); background: rgba(0, 0, 0, 0.4);">
+              MEDIA REF: [DEMO VIDEO URL] // A3-ELIE-READER
+            </span>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.5rem;">
+          <h4 style="font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.1em; color: var(--text-inverse); text-transform: uppercase;">
+            CYCLE PHASES DEMONSTRATED:
+          </h4>
+          <div id="demo-stage-timeline" class="demo-stage-timeline">
+            <!-- Rendered by main.js -->
+          </div>
+          <div id="demo-stage-description" style="margin-top: 1rem; font-size: 0.82rem; color: var(--text-inverse-muted); font-family: var(--font-mono);">
+            01 — CONNECT: Pairing the handheld Reader to the laptop Field Receiver via WebSocket relay.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         08. FIELD NOTES & RESEARCH ARCHIVE
+         ================================================================== -->
+    <section id="field-notes" class="archive-section">
+     <!--<span class="corner-reg tl">+</span>
+      <span class="corner-reg tr">+</span>-->
+      <br><br><br>
+
+      <div class="section-archival-header">
+        <div class="section-meta-header">
+          <span class="section-num">08 // RESEARCH ARCHIVE</span>
+          <div class="section-line"></div>
+          <span class="archival-badge">RESEARCH ARTIFACTS</span>
+        </div>
+        <h2 class="section-title">Field Notes & Observations</h2>
+        <p class="section-tagline">
+          The READER emerged through experimentation across acoustic physics, speculative anthropology, and physical computing.
+        </p>
+      </div>
+
+      <!-- Filter Bar -->
+      <div id="field-notes-filter-bar" class="notes-filter-bar">
+        <button class="note-filter-btn active" data-category="ALL">ALL ARTIFACTS</button>
+        <button class="note-filter-btn" data-category="OBSERVATIONS">OBSERVATIONS</button>
+        <button class="note-filter-btn" data-category="MATERIALS">MATERIALS</button>
+        <button class="note-filter-btn" data-category="SOUND">SOUND</button>
+        <button class="note-filter-btn" data-category="FREQUENCY">FREQUENCY</button>
+        <button class="note-filter-btn" data-category="INTERACTION">INTERACTION</button>
+        <button class="note-filter-btn" data-category="WORLD-BUILDING">WORLD-BUILDING</button>
+      </div>
+
+      <!-- Cards Grid -->
+      <div id="field-notes-cards-container" class="notes-cards-grid">
+        <!-- Rendered dynamically by field-notes.js -->
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         09. ABOUT THE CREATOR / MAKER
+         ================================================================== -->
+    <section id="about-maker" class="archive-section">
+  <!--<span class="corner-reg tl">+</span>
+      <span class="corner-reg tr">+</span>-->
+      <br><br><br>
+
+      <div class="section-archival-header">
+        <div class="section-meta-header">
+          <span class="section-num">09 // RESEARCHER PROFILE</span>
+          <div class="section-line"></div>
+          <span class="archival-badge">ARCHIVAL MAKER DOSSIER</span>
+        </div>
+        <h2 class="section-title">About the Maker</h2>
+        <p class="section-tagline">
+          Design research situated between human-centred systems, sensory perception, and speculative material worlds.
+        </p>
+      </div>
+
+      <div class="maker-profile-card">
+        <div class="plate-header">
+          <span class="plate-title">RESEARCHER SPECIFICATION</span>
+          <span class="plate-index">DOSSIER // DAC-04-R</span>
+        </div>
+
+        <h3 id="creator-name-display" class="maker-name">[CREATOR NAME]</h3>
+        <div id="creator-role-display" class="maker-role">Speculative Designer & Systems Researcher</div>
+
+        <p id="creator-bio-display" class="maker-bio">
+          [CREATOR BIO: Focused on human-centred design, design research, systems, perception, speculative worlds, and invisible interactions between people, materials, and environments.]
+        </p>
+
+        <div class="grid-2col" style="gap: 2rem; margin-top: 2rem;">
+          <div>
+            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">INSTITUTION / PROGRAM</span>
+            <div id="creator-inst-display" style="font-weight: 600; margin-top: 0.25rem;">[PROGRAM / INSTITUTION]</div>
+          </div>
+          <div>
+            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">DESIGN PRACTICE / PORTFOLIO</span>
+            <div style="margin-top: 0.25rem;">
+              <a id="creator-portfolio-link" href="#" style="color: var(--accent-rust); text-decoration: underline; font-family: var(--font-mono); font-size: 0.82rem;">
+                [DESIGN PRACTICE / WEBSITE / PORTFOLIO]
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="maker-facets-list">
+          <span class="maker-facet-tag">Human-Centred Design</span>
+          <span class="maker-facet-tag">Design Research</span>
+          <span class="maker-facet-tag">Systemic Perception</span>
+          <span class="maker-facet-tag">Speculative Worlds</span>
+          <span class="maker-facet-tag">Analogue Computing</span>
+          <span class="maker-facet-tag">Invisible Interactions</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         10. ENTER THE SIMULATION (TRANSITION CTA)
+         ================================================================== -->
+    <section id="enter-simulation" class="archive-section" style="border-bottom: none;">
+       <!--<span class="corner-reg tl">+</span>
+      <span class="corner-reg tr">+</span>-->
+      <br><br><br>
+
+      <div class="transition-hero-card">
+        <div class="transition-lead-label">
+          READY TO ENTER THE FIELD?
+        </div>
+
+        <h2 class="transition-headline">
+          THE DOCUMENTATION ENDS HERE.<br>
+          THE FIELD BEGINS.
+        </h2>
+
+        <p class="transition-subtext">
+          Step beyond archival records and engage directly with the active DAC-04 simulation.
+        </p>
+
+        <a href="http://localhost:8787/laptop/" class="btn-enter-simulation js-enter-sim-btn">
+          ENTER SIMULATION →
+        </a>
+
+        <div style="margin-top: 2.5rem;">
+          <div class="sim-url-meta-box">
+            <span>TARGET SIMULATION ENDPOINT:</span>
+            <strong class="sim-url-code js-sim-url-display">http://localhost:8787/laptop/</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+    <!-- ==================================================================
+         ARCHIVAL FOOTER & COLOPHON
+         ================================================================== -->
+    <footer class="archive-footer">
+      <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem; margin-bottom: 2rem;">
+        <div>
+          <div style="font-family: var(--font-mono); font-weight: 700; font-size: 1rem; letter-spacing: 0.1em; margin-bottom: 0.5rem;">
+            Speculative // Human Centered Design
+          </div>
+         <!-- <p style="font-size: 0.8rem; color: var(--text-secondary); max-width: 44ch;">
+            Official field documentation and onboarding manual for the DACian speculative instrument.
+          </p>-->
+        </div>
+
+        <div style="display: flex; gap: 2.5rem; font-family: var(--font-mono); font-size: 0.75rem;">
+          <!--<div>
+            <div style="color: var(--accent-rust); font-weight: 700; margin-bottom: 0.5rem;">SECTIONS</div>
+            <ul style="display: flex; flex-direction: column; gap: 0.35rem; color: var(--text-secondary);">
+              <li><a href="#the-world">The World</a></li>
+              <li><a href="#artifact">Artifact</a></li>
+              <li><a href="#first-field">First Field</a></li>
+              <li><a href="#field-setup">Field Setup</a></li>
+              <li><a href="#demonstration">Demonstration</a></li>
+            </ul>
+          </div>-->
+          <div>
+            <div style="color: var(--accent-rust); font-weight: 700; margin-bottom: 0.5rem;">METADATA</div>
+            <ul style="display: flex; flex-direction: column; gap: 0.35rem; color: var(--text-secondary);">
+              <li>DOC-REF: DAC-04-ARCHIVE</li>
+              <li>RELEASE: ONBOARDING PASS</li>
+              <li>PROTOCOL: WEBSOCKET</li>
+              <li>FREQUENCY: 440 HZ</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div style="border-top: 1px solid var(--border-light); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted);">
+        <div>
+          ARCHIVAL RECORD © DACIAN EXPEDITION // ALL RIGHTS RESERVED.
+        </div>
+        <div style="font-style: italic;">
+          Notice: Website operates as responsive documentation. Simulation utilizes dual phone/laptop configuration.
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ====================================================================
+       IN-PAGE CONFIGURATION QUICK-SWITCH MODAL
+       ==================================================================== -->
+  <div id="config-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.75); z-index: 9999; align-items: center; justify-content: center; padding: 1.5rem;">
+    <div style="background: var(--bg-card); border: 2px solid var(--border-dark); border-radius: 4px; padding: 2.5rem; max-width: 580px; width: 100%; box-shadow: 0 16px 40px rgba(0,0,0,0.3);">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-light); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+        <span class="plate-title">ENDPOINT CONFIGURATION</span>
+        <button id="close-config-btn" style="font-family: var(--font-mono); font-size: 1.25rem;">✕</button>
+      </div>
+
+      <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
+        You can configure the simulation destination URL here without modifying code. 
+        Changes take effect immediately across all buttons and the QR code.
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+        <div>
+          <label style="display: block; font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; margin-bottom: 0.35rem;">
+            SIMULATION_URL (Laptop Field Receiver):
+          </label>
+          <input type="text" id="modal-sim-url-input" style="width: 100%; padding: 10px 12px; font-family: var(--font-mono); font-size: 0.85rem; border: 1px solid var(--border-medium); border-radius: 2px;">
+        </div>
+
+        <div>
+          <label style="display: block; font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; margin-bottom: 0.35rem;">
+            PHONE_READER_URL (Handheld Phone Link / QR Target):
+          </label>
+          <input type="text" id="modal-phone-url-input" style="width: 100%; padding: 10px 12px; font-family: var(--font-mono); font-size: 0.85rem; border: 1px solid var(--border-medium); border-radius: 2px;">
+        </div>
+      </div>
+
+      <div style="margin-top: 2rem; display: flex; justify-content: flex-end; gap: 1rem;">
+        <button id="save-config-btn" class="btn-primary" style="padding: 10px 20px; font-size: 0.8rem;">
+          SAVE & APPLY ENDPOINTS
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modular Scripts -->
+  <script src="js/signal-canvas.js"></script>
+  <script src="js/tutorial.js"></script>
+  <script src="js/checklist.js"></script>
+  <script src="js/field-notes.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

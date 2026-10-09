@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REPAIR BAY // DAC-04 Signal Filament Mending Station</title>
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/reset.css">
+  <link rel="stylesheet" href="../../css/typography.css">
+  <style>
+    body {
+      background: #090c0a;
+      color: #c4d0c1;
+      padding: 24px;
+      font-family: var(--font-mono);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .repair-enclosure {
+      width: 100%;
+      max-width: 900px;
+      background: #111713;
+      border: 2px solid #283a2b;
+      border-radius: 6px;
+      padding: 24px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+    }
+    .bay-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #243527;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+    .bay-title {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #a7d59b;
+    }
+    .bay-status {
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 2px;
+      background: #1e2a20;
+      color: #86e3ce;
+      border: 1px solid #334a37;
+    }
+    .canvas-box {
+      position: relative;
+      width: 100%;
+      height: 320px;
+      background: #060907;
+      border: 1px solid #1c271e;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      cursor: grab;
+    }
+    .canvas-box:active {
+      cursor: grabbing;
+    }
+    #repair-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .repair-controls-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .control-card {
+      background: #151e17;
+      border: 1px solid #273729;
+      padding: 12px 16px;
+      border-radius: 4px;
+    }
+    .control-card label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: #798f7c;
+      margin-bottom: 8px;
+    }
+    .control-card input[type="range"] {
+      width: 100%;
+      accent-color: #86e3ce;
+      cursor: pointer;
+    }
+    .mended-banner {
+      display: none;
+      background: rgba(134, 227, 206, 0.12);
+      border: 1px solid #86e3ce;
+      border-radius: 4px;
+      padding: 16px;
+      text-align: center;
+      margin-bottom: 20px;
+      animation: fadeIn 0.4s ease;
+    }
+    .mended-text {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.25rem;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .mended-sub {
+      font-size: 0.75rem;
+      color: #86e3ce;
+      letter-spacing: 1px;
+    }
+    .bay-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #202c22;
+      padding-top: 16px;
+    }
+    .nav-btn {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 8px 14px;
+      background: #18231a;
+      border: 1px solid #2c3e2f;
+      color: #9cb39d;
+      text-decoration: none;
+      border-radius: 3px;
+    }
+    .nav-btn:hover {
+      background: #233427;
+      color: #86e3ce;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="repair-enclosure">
+  <div class="bay-header">
+    <div>
+      <span class="bay-title">SIGNAL FILAMENT REPAIR BAY</span>
+      <span style="font-size: 10px; color: #5a705c; margin-left: 8px;">DAC-04 // ITERATION 01</span>
+    </div>
+    <span id="bay-status-badge" class="bay-status">ALIGNING FILAMENTS</span>
+  </div>
+
+  <p style="font-size: 11px; color: #829683; margin-bottom: 16px;">
+    The recovered filament is severed into two acoustic nodes. 
+    Use the phase slider or click & drag the severed terminal on the canvas until the two waveforms bridge together.
+  </p>
+
+  <div class="canvas-box" id="canvas-container">
+    <canvas id="repair-canvas"></canvas>
+  </div>
+
+  <div id="mended-banner" class="mended-banner">
+    <div class="mended-text">“THE SIGNAL IS THIN. MEND WHAT YOU HEAR.”</div>
+    <div class="mended-sub">SIGNAL COHERENCE RESTORED // BROADCASTING MEND PROTOCOL TO FIELD RECEIVER</div>
+  </div>
+
+  <div class="repair-controls-grid">
+    <div class="control-card">
+      <label>
+        <span>PHASE ALIGNMENT (DRAG TO MATCH)</span>
+        <strong id="phase-val">0°</strong>
+      </label>
+      <input type="range" id="phase-slider" min="0" max="360" value="70">
+    </div>
+
+    <div class="control-card">
+      <label>
+        <span>CARRIER TENSION</span>
+        <strong id="tension-val">440 HZ</strong>
+      </label>
+      <input type="range" id="tension-slider" min="100" max="800" value="440">
+    </div>
+  </div>
+
+  <div class="bay-footer">
+    <button id="reset-repair-btn" class="nav-btn">RESET FILAMENT</button>
+    <div style="display: flex; gap: 8px;">
+      <a href="/laptop/" class="nav-btn">RETURN TO RECEIVER →</a>
+      <a href="/archive/" class="nav-btn">VIEW ARCHIVE →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const canvas = document.querySelector('#repair-canvas');
+const ctx = canvas.getContext('2d');
+const phaseSlider = document.querySelector('#phase-slider');
+const phaseVal = document.querySelector('#phase-val');
+const tensionSlider = document.querySelector('#tension-slider');
+const tensionVal = document.querySelector('#tension-val');
+const bayStatus = document.querySelector('#bay-status-badge');
+const mendedBanner = document.querySelector('#mended-banner');
+
+let width = canvas.width = canvas.offsetWidth;
+let height = canvas.height = canvas.offsetHeight;
+let isMended = false;
+let userDragOffset = 70; // Target is around 180 (aligned)
+let targetTension = 440;
+let phase = 0;
+
+let audioCtx = null;
+let osc = null;
+let gainNode = null;
+
+function initAudio() {
+  if (audioCtx) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  osc = audioCtx.createOscillator();
+  gainNode = audioCtx.createGain();
+  gainNode.gain.value = 0.05;
+  osc.frequency.value = targetTension;
+  osc.connect(gainNode);
+  gainNode.connect(audioCtx.destination);
+  osc.start();
+}
+
+function updateAudio(diff) {
+  if (!osc) return;
+  osc.frequency.value = targetTension;
+  if (isMended) {
+    gainNode.gain.value = 0.12;
+  } else {
+    gainNode.gain.value = Math.max(0.02, 0.1 - (diff / 180) * 0.08);
+  }
+}
+
+function draw() {
+  phase += 0.04;
+  ctx.fillStyle = '#060907';
+  ctx.fillRect(0, 0, width, height);
+
+  const cy = height / 2;
+  const midX = width / 2;
+  const currentAlign = Number(phaseSlider.value);
+  const diff = Math.abs(currentAlign - 180);
+
+  // Left Filament Piece (Incoming signal)
+  ctx.beginPath();
+  ctx.strokeStyle = isMended ? '#86e3ce' : '#d16d5a';
+  ctx.lineWidth = 2.5;
+
+  const leftEnd = midX - (isMended ? 0 : Math.max(10, diff * 0.4));
+  for (let x = 30; x <= leftEnd; x += 2) {
+    const wave = Math.sin((x * 0.04) + phase) * 35 * Math.sin((x / midX) * Math.PI * 0.5);
+    const y = cy + wave;
+    if (x === 30) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  // Right Filament Piece (Receiver terminal)
+  ctx.beginPath();
+  ctx.strokeStyle = isMended ? '#86e3ce' : '#739c80';
+  ctx.lineWidth = 2.5;
+
+  const rightStart = midX + (isMended ? 0 : Math.max(10, diff * 0.4));
+  for (let x = rightStart; x <= width - 30; x += 2) {
+    const wave = Math.sin(((x - currentAlign) * 0.04) + phase) * 35 * Math.sin(((width - x) / midX) * Math.PI * 0.5);
+    const y = cy + wave;
+    if (x === rightStart) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  // Spark / Weld point if near alignment
+  if (diff < 15 && !isMended) {
+    isMended = true;
+    bayStatus.textContent = 'MENDED & SEALED';
+    bayStatus.style.background = 'rgba(134, 227, 206, 0.2)';
+    bayStatus.style.borderColor = '#86e3ce';
+    mendedBanner.style.display = 'block';
+
+    // Broadcast MEND via WebSocket
+    try {
+      const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const ws = new WebSocket(`${protocol}//${location.host}/ws`);
+      ws.onopen = () => {
+        ws.send(JSON.stringify({
+          type: 'MEND',
+          mended: true,
+          element: 'WATER',
+          voiceFrequency: targetTension,
+          message: 'Signal mended in Repair Bay'
+        }));
+      };
+    } catch(e) {}
+  }
+
+  // Draw spark effects
+  if (isMended) {
+    for (let i = 0; i < 4; i++) {
+      ctx.fillStyle = '#86e3ce';
+      const sparkX = midX + (Math.random() - 0.5) * 20;
+      const sparkY = cy + (Math.random() - 0.5) * 20;
+      ctx.fillRect(sparkX, sparkY, 3, 3);
+    }
+  }
+
+  updateAudio(diff);
+  requestAnimationFrame(draw);
+}
+
+phaseSlider.addEventListener('input', (e) => {
+  initAudio();
+  phaseVal.textContent = `${e.target.value}°`;
+  if (Math.abs(e.target.value - 180) > 20 && isMended) {
+    isMended = false;
+    bayStatus.textContent = 'ALIGNING FILAMENTS';
+    bayStatus.style.background = '#1e2a20';
+    bayStatus.style.borderColor = '#334a37';
+    mendedBanner.style.display = 'none';
+  }
+});
+
+tensionSlider.addEventListener('input', (e) => {
+  initAudio();
+  targetTension = Number(e.target.value);
+  tensionVal.textContent = `${targetTension} HZ`;
+});
+
+document.querySelector('#reset-repair-btn').addEventListener('click', () => {
+  phaseSlider.value = 60;
+  phaseVal.textContent = '60°';
+  isMended = false;
+  bayStatus.textContent = 'ALIGNING FILAMENTS';
+  bayStatus.style.background = '#1e2a20';
+  bayStatus.style.borderColor = '#334a37';
+  mendedBanner.style.display = 'none';
+});
+
+window.addEventListener('resize', () => {
+  width = canvas.width = canvas.offsetWidth;
+  height = canvas.height = canvas.offsetHeight;
+});
+
+requestAnimationFrame(draw);
+</script>
+
+</body>
+</html>

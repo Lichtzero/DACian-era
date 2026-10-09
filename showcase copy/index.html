@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DACIAN ERA // Speculative Field Instrument & Archival Case Study</title>
+  
+  <meta name="description" content="DACian Era explores a plausible future where information has returned to the physical: environmental listening, material memory, tactile mending, and situated field records.">
+  
+  <!-- Google Fonts: Editorial Serif, Precision Sans, Technical Monospace -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@300;400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Design Tokens, Resets & Component Styles -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/typography.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- Three.js for 3D Artifact Specimen Plinth -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- Central Configuration File -->
+  <script src="config.js"></script>
+</head>
+<body>
+  <div id="top"></div>
+  
+  <!-- ====================================================================
+       ARCHIVAL OBSERVATORY SHELL
+       ==================================================================== -->
+  <div class="archive-shell">
+
+    <!-- ==================================================================
+         STICKY INSTRUMENT HEADER & METADATA BAR
+         ================================================================== -->
+    <header class="archive-header">
+      <!-- Top Telemetry Strip -->
+      <div class="header-top-bar">
+        <div class="header-meta-left">
+          <span><b class="pulse-dot"></b> REF: <strong>DAC-04 // OBSERVATORY ARCHIVE</strong></span>
+          <span class="desktop-only">STATUS: <strong>FIELD RECORD VERIFIED</strong></span>
+          <span class="desktop-only">CALIBRATION: <strong>240 HZ / SPECTRUM SCAN</strong></span>
+        </div>
+        <div class="header-meta-right">
+          <span class="desktop-only" style="color: var(--accent-rust); font-size: 0.7rem;">M.Des Research Dossier</span>
+          <button id="open-config-btn" class="archival-badge" title="Inspect or configure endpoints">
+            ⚙ SIMULATION ENDPOINT: <span class="js-sim-url-display">https://dacian-era.onrender.com</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation & Action Strip -->
+      <div class="header-nav-bar">
+        <a href="#top" class="brand-sigil">
+          <span style="color: var(--accent-rust);">[✦]</span> DACIAN ERA
+        </a>
+
+        <nav class="nav-links">
+          <a href="#the-world" class="nav-link">The World</a>
+          <a href="#why-this-world" class="nav-link">Why This World</a>
+          <a href="#the-concepts" class="nav-link">Fillámend</a>
+          <a href="#the-reader" class="nav-link">The Reader</a>
+          <a href="#controlled-prototype" class="nav-link">Controlled Prototype</a>
+          <a href="#case-study" class="nav-link">Case Study</a>
+          <a href="#experimental-direction" class="nav-link">Experimental Direction</a>
+          <a href="#about-maker" class="nav-link">About & Credits</a>
+        </nav>
+
+        <div style="display: flex; gap: 0.65rem; align-items: center;">
+          <a href="https://dacian-era.onrender.com" target="_blank" rel="noopener noreferrer" class="nav-cta-btn js-enter-sim-btn" title="Open the deployed controlled prototype">
+            LAUNCH SIMULATION ↗
+          </a>
+          <a href="/simulation/experimental/" target="_blank" rel="noopener noreferrer" class="archival-badge js-experimental-sim-btn" style="color: var(--accent-water); border-color: var(--accent-water-dim); cursor: pointer;" title="Open the new experimental field reader">
+            FIELD EXP ↗
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="archive-content">
+
+      <!-- ================================================================
+           01. OPENING / HERO SECTION
+           ================================================================ -->
+      <section id="landing" class="archive-section" style="padding-top: 2rem;">
+        <div class="hero-grid">
+          <div class="hero-content">
+            <div class="hero-subtitle">
+              SPECULATIVE FIELD INSTRUMENT // DAC-04
+            </div>
+            
+            <h1 class="hero-title" style="font-family: var(--font-serif); font-weight: 400; letter-spacing: -0.02em;">
+              DACian Era
+            </h1>
+
+            <p class="hero-intro" style="font-family: var(--font-serif); font-style: normal; color: var(--text-primary); font-size: 1.35rem; line-height: 1.45;">
+              A speculative inquiry into a future where information is not permanently stored or disembodied, but encountered through material processes, environmental listening, and traces left behind.
+            </p>
+
+            <p style="font-family: var(--font-sans); font-size: 0.96rem; color: var(--text-secondary); max-width: 58ch; line-height: 1.65; margin-bottom: 2rem;">
+              Developed as design research within the Master of Design in Human-Centred Design curriculum. This archive documents the conceptual world, the deployed controlled dual-terminal prototype, and the new experimental direction in situated environmental listening.
+            </p>
+
+            <!-- Dual Action CTAs -->
+            <div class="dual-cta-cluster">
+              <a href="https://dacian-era.onrender.com" target="_blank" rel="noopener noreferrer" class="btn-primary js-enter-sim-btn">
+                LAUNCH SIMULATION ↗
+              </a>
+              <a href="/simulation/experimental/" target="_blank" rel="noopener noreferrer" class="btn-experiment js-experimental-sim-btn">
+                <span>[◉]</span> EXPERIMENTAL FIELD READER ↗
+              </a>
+              <a href="#why-this-world" class="btn-secondary">
+                EXPLORE CASE STUDY ↓
+              </a>
+            </div>
+
+            <div style="margin-top: 1.75rem; display: flex; gap: 1.5rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">
+              <span>CONTROLLED TARGET: <strong style="color: var(--text-secondary);">dacian-era.onrender.com</strong></span>
+              <span>EXPERIMENTAL SCOPE: <strong style="color: var(--accent-water);">Situational Field & Map</strong></span>
+            </div>
+          </div>
+
+          <!-- Hero Oscilloscope & Resonance Tuner Frame -->
+          <div class="hero-instrument-box">
+            <div class="instrument-screen-top">
+              <span>OSCILLOSCOPE // SENSOR SCAN 01</span>
+              <span id="signal-state-display" style="color: var(--accent-cyan);">SEARCHING SPECTRUM...</span>
+            </div>
+
+            <div class="oscilloscope-canvas-wrapper">
+              <canvas id="hero-oscilloscope" class="oscilloscope-canvas"></canvas>
+              <div class="oscilloscope-grid-overlay"></div>
+            </div>
+
+            <div class="instrument-screen-bottom">
+              <span>BASE: <strong id="freq-val-display" style="color:#fff;">240 HZ</strong></span>
+              <span>RESONANCE: <strong style="color: var(--accent-water);">440 HZ (WATER)</strong> / <strong style="color: var(--accent-sand);">820 HZ (SAND)</strong></span>
+            </div>
+
+            <div class="interactive-tuner-slider">
+              <label for="freq-tuner-input">SWEEP CARRIER FREQUENCY:</label>
+              <input type="range" id="freq-tuner-input" min="80" max="1200" value="240" step="1">
+            </div>
+
+            <div style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-muted); margin-top: 0.65rem; text-align: center;">
+              Interactive carrier simulation: Sweep slider to observe resonance locks at 440 Hz and 820 Hz.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-transition-glyph">✦ ✦ ✦</div>
+
+      <!-- ================================================================
+           02. SECTION 2 — WHY THIS WORLD? (FRAMING & TENSION)
+           ================================================================ -->
+      <section id="why-this-world" class="archive-section">
+        <div class="section-archival-header">
+          <div class="section-meta-header">
+            <span class="section-num">02 // RESEARCH FRAMING</span>
+            <div class="section-line"></div>
+            <span class="archival-badge">THE INQUIRY</span>
+          </div>
+          <h2 class="section-title">Why This World?</h2>
+          <p class="section-tagline">
+            What happens when digital information is no longer experienced as an infinite, weightless, instantly searchable cloud?
+          </p>
+        </div>
+
+        <div class="grid-2col" style="margin-bottom: 3.5rem;">
+          <div class="case-study-narrative">
+            <p>
+              Contemporary interaction design operates under the persistent fiction that information is immaterial—floating in an invisible, weightless "cloud," instantaneously accessible, detached from geography, and permanently preserved. Yet digital memory consumes vast quantities of energy, relies on fragile physical subsea cables and data centres, and encourages an extractive relationship with knowledge.
+            </p>
+            <p>
+              <strong>DACian Era</strong> was born from a fundamental question: <em>What if the relationship between the digital and the analogue fundamentally shifted?</em> What if information did not seek you out through algorithmic push notifications, but instead remained suspended in physical substrates—in river silt, sand beds, masonry, and acoustic echoes—waiting for someone to travel there, listen, and interpret?
+            </p>
+            
+            <div class="case-study-quote">
+              “Memory is not a file on a server. It is a physical trace waiting for human presence and deliberate listening to be coaxed back into sense.”
+              <span class="case-study-quote-author">STUDIO NOTEBOOK // FRAMING RESEARCH REF-01</span>
+            </div>
+
+            <p>
+              This is not a post-apocalyptic ruin or a bleak dystopia. It is a <strong>plausible, sensory future</strong> where humanity has renegotiated its contract with speed, permanence, and memory. In this world, damage is not treated as garbage, corrupted signals are mended rather than discarded, and knowledge requires bodily presence.
+            </p>
+          </div>
+
+          <div>
+            <div class="archival-plate">
+              <div class="plate-header">
+                <span class="plate-title">CORE PHILOSOPHICAL TENETS</span>
+                <span class="plate-index">DAC-TENET-DOC</span>
+              </div>
+
+              <ul style="display: flex; flex-direction: column; gap: 1.5rem; list-style: none; padding: 0;">
+                <li style="display: flex; gap: 1rem;">
+                  <span style="font-family: var(--font-mono); color: var(--accent-rust); font-weight: 700;">[01]</span>
+                  <div>
+                    <strong style="font-family: var(--font-mono); font-size: 0.88rem; color: var(--text-primary); text-transform: uppercase;">Signals are Found, Not Broadcast</strong>
+                    <p style="color: var(--text-secondary); font-size: 0.88rem; margin-top: 0.35rem; line-height: 1.5;">Information does not demand attention. The observer must tune physical instruments to the resonant properties of the terrain.</p>
+                  </div>
+                </li>
+                <li style="display: flex; gap: 1rem;">
+                  <span style="font-family: var(--font-mono); color: var(--accent-rust); font-weight: 700;">[02]</span>
+                  <div>
+                    <strong style="font-family: var(--font-mono); font-size: 0.88rem; color: var(--text-primary); text-transform: uppercase;">Damage is Not Loss</strong>
+                    <p style="color: var(--text-secondary); font-size: 0.88rem; margin-top: 0.35rem; line-height: 1.5;">Corrupted records are not discarded. Fracture and decay are normal conditions of material existence that invite tactile care and mending.</p>
+                  </div>
+                </li>
+                <li style="display: flex; gap: 1rem;">
+                  <span style="font-family: var(--font-mono); color: var(--accent-rust); font-weight: 700;">[03]</span>
+                  <div>
+                    <strong style="font-family: var(--font-mono); font-size: 0.88rem; color: var(--text-primary); text-transform: uppercase;">The Instrument as Lens</strong>
+                    <p style="color: var(--text-secondary); font-size: 0.88rem; margin-top: 0.35rem; line-height: 1.5;">The Reader does not think on behalf of the user; it acts as a mechanical and sensory transducer, extending human auditory and haptic perception.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-transition-glyph">✦ ✦ ✦</div>
+
+      <!-- ================================================================
+           03. SECTION 3 — THE WORLD AND ITS CONCEPTS
+           ================================================================ -->
+      <section id="the-concepts" class="archive-section">
+        <div class="section-archival-header">
+          <div class="section-meta-header">
+            <span class="section-num">03 // SPECULATIVE ONTOLOGY</span>
+            <div class="section-line"></div>
+            <span class="archival-badge">ANTHROPOLOGY & MATERIALS</span>
+          </div>
+          <h2 class="section-title">The World and Its Concepts</h2>
+          <p class="section-tagline">
+            Understanding DACians, the practice of Fillámend, and the physical substrates through which memory resonates.
+          </p>
+        </div>
+
+        <div class="case-study-narrative" style="max-width: 100%;">
+          <div class="grid-2col">
+            <div>
+              <h3 style="font-family: var(--font-serif); font-size: 1.6rem; margin-bottom: 0.75rem;">Who are the DACians?</h3>
+              <p>
+                <strong>DACians</strong> are the inhabitants and practitioners of this era. They do not maintain disembodied server farms or cloud subscriptions. Instead, they view reality as an interconnected field of physical processes. DACians possess an acute sensitivity to environmental acoustics, micro-vibrations, tidal rhythms, and the friction of particles.
+              </p>
+              <p>
+                Their knowledge systems are situated and communal: rather than consulting a centralized database, a DACian travels to an estuary, a dry lakebed, or a decommissioned stone foundation, using sensitive instruments to listen to the records lingering there.
+              </p>
+            </div>
+
+            <div>
+              <h3 style="font-family: var(--font-serif); font-size: 1.6rem; margin-bottom: 0.75rem;">What is Fillámend?</h3>
+              <p>
+                <strong>Fillámend</strong> is the core conceptual anchor of the DACian world. It is neither a proprietary technology nor a single mechanical part. Rather, <em>fillámend is an encounter</em>:
+              </p>
+              <ul style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6; padding-left: 1.25rem;">
+                <li>It represents something that <strong>fills a gap</strong> where information has decayed.</li>
+                <li>It describes the act that <strong>mends a broken connection</strong> between human attention and physical matter.</li>
+                <li>It acts as an <strong>echo</strong> carried forward from earlier encounters.</li>
+                <li>It gives an ecosystem a voice, translating environmental vibrations into audible harmonics.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3D Artifact Specimen Plinth -->
+        <div class="artifact-viewer-container" style="margin-top: 2rem;">
+          <div class="plate-header">
+            <span class="plate-title">RECOVERED ARTIFACT // SPECIMEN DAC-04 ELIE-READER</span>
+            <span class="plate-index">PHYSICAL PROTOTYPE ARCHIVE</span>
+          </div>
+
+          <div id="artifact-3d-container" class="artifact-3d-box">
+            <!-- Fallback image loaded directly if WebGL is disabled or initialising -->
+            <img src="assets/reader-artifact.png" alt="Physical Reader Artifact Specimen" class="artifact-image-fallback" id="artifact-fallback-img">
+          </div>
+
+          <div class="artifact-viewer-controls">
+            <span>ROTATION ORIENTATION:</span>
+            <input type="range" id="artifact-rotate-slider" min="0" max="360" value="0">
+            <span>INTERACTIVE SPECIMEN INSPECTOR // DRAG TO ROTATE</span>
+          </div>
+        </div>
+
+        <!-- Substrate Matrix -->
+        <div style="margin-top: 3rem;">
+          <div class="plate-header">
+            <span class="plate-title">MATERIAL CARRIERS // SUBSTRATE ONTOLOGY</span>
+            <span class="plate-index">SPEC-MAT-04</span>
+          </div>
+
+          <div class="material-matrix">
+            <div class="material-node">
+              <div class="material-num">SUBSTRATE // 01</div>
+              <div class="material-name" style="color: var(--accent-water);">Aqueous Silt</div>
+              <div class="material-desc">
+                Fine underwater sediment that traps low-frequency hydrostatic pressure waves. In the controlled simulation, this resonates around 440 Hz.
+              </div>
+            </div>
+            <div class="material-node">
+              <div class="material-num">SUBSTRATE // 02</div>
+              <div class="material-name" style="color: var(--accent-sand);">Quartz Residue</div>
+              <div class="material-desc">
+                Dry, shifting granular silica that generates high-frequency friction and shear noise. Resonates around 820 Hz in controlled sweeps.
+              </div>
+            </div>
+            <div class="material-node">
+              <div class="material-num">SUBSTRATE // 03</div>
+              <div class="material-name" style="color: var(--accent-rust);">Alloy Filament</div>
+              <div class="material-desc">
+                Conductive metallic traces woven through masonry and earth. When a fracture occurs, it requires continuous skin contact to mend the circuit.
+              </div>
+            </div>
+            <div class="material-node">
+              <div class="material-num">SUBSTRATE // 04</div>
+              <div class="material-name" style="color: var(--accent-cyan);">The Cymatic Medium</div>
+              <div class="material-desc">
+                Particles and liquid surfaces that physically rearrange under acoustic excitation, rendering invisible frequencies into geometric nodal forms.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-transition-glyph">✦ ✦ ✦</div>
+
+      <!-- ================================================================
+           04. SECTION 4 — THE READER (INSTRUMENT TOPOLOGY)
+           ================================================================ -->
+      <section id="the-reader" class="archive-section">
+        <div class="section-archival-header">
+          <div class="section-meta-header">
+            <span class="section-num">04 // INSTRUMENT DESIGN</span>
+            <div class="section-line"></div>
+            <span class="archival-badge alert">APPARATUS ARCHITECTURE</span>
+          </div>
+          <h2 class="section-title">The Reader</h2>
+          <p class="section-tagline">
+            A dual-terminal apparatus combining a handheld field sensor and a stationary monitoring station.
+          </p>
+        </div>
+
+        <div class="case-study-narrative">
+          <p>
+            The <strong>READER</strong> is the physical mediation tool developed for this world. In the physical realm, it takes the form of a handheld ergonomic form fabricated with weighted materials, embedded tactile switches, and bone-conduction transducers. In software, it is expressed through a synchronized dual-terminal interaction:
+          </p>
+        </div>
+
+        <!-- Interactive Instrument Topology Diagram -->
+        <div class="topology-diagram-container">
+          <div class="plate-header">
+            <span class="plate-title">DUAL-DEVICE INTERACTION TOPOLOGY</span>
+            <span class="plate-index">SCHEMATIC DAC-TOPOLOGY-01</span>
+          </div>
+
+          <div class="topology-schematic">
+            <!-- Node 1: Laptop Receiver -->
+            <div class="topology-node active-field">
+              <div class="topology-node-icon">💻</div>
+              <div class="topology-node-title">FIELD RECEIVER</div>
+              <div class="archival-badge" style="margin-bottom: 0.5rem;">LAPTOP STATION</div>
+              <p class="topology-node-desc">
+                Stationary cartographic and cymatic monitor. Visualizes real-time Chladni particle physics, tracks spectrum sweeps, and aggregates recorded field logs.
+              </p>
+            </div>
+
+            <!-- Arrow 1 -->
+            <div class="topology-arrow">
+              <span>WEBSOCKET</span>
+              <div class="topology-arrow-line"></div>
+              <span>SIGNAL</span>
+            </div>
+
+            <!-- Node 2: Handheld Phone Reader -->
+            <div class="topology-node active-field">
+              <div class="topology-node-icon">📱</div>
+              <div class="topology-node-title">READER</div>
+              <div class="archival-badge alert" style="margin-bottom: 0.5rem;">HANDHELD SMARTPHONE</div>
+              <p class="topology-node-desc">
+                Agile mobile sensor held in the researcher's palm. Sweeps carrier frequencies, emits acoustic layers, pulses with haptic feedback, and provides tactile mending.
+              </p>
+            </div>
+
+            <!-- Arrow 2 -->
+            <div class="topology-arrow">
+              <span>HAPTIC + SOUND</span>
+              <div class="topology-arrow-line"></div>
+              <span>FEEDBACK</span>
+            </div>
+
+            <!-- Node 3: Field Researcher -->
+            <div class="topology-node">
+              <div class="topology-node-icon">👁️👂✋</div>
+              <div class="topology-node-title">RESEARCHER</div>
+              <div class="archival-badge" style="margin-bottom: 0.5rem;">PERCEPTION & TOUCH</div>
+              <p class="topology-node-desc">
+                The human interpreter. Listens for buried phrases, detects mechanical vibration shifts, locates the fillámend, and records qualitative observations.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <div class="instrument-spec-grid" style="margin-top: 2.5rem;">
+          <div class="spec-column archival-plate">
+            <h4>FIELD RECEIVER (LAPTOP)</h4>
+            <div class="spec-list">
+              <div class="spec-item">
+                <span class="spec-label">Primary Role</span>
+                <span class="spec-value">Overview, Cartography, & Collective Archive</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Visual Field</span>
+                <span class="spec-value">Interactive Cymatic Simulation & Geographic Map</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Acoustic Feedback</span>
+                <span class="spec-value">DSP modifiers (Preamp gain, resonance co-processor)</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Data Retention</span>
+                <span class="spec-value">Permanent JSON database of situated logs</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="spec-column archival-plate">
+            <h4>READER (HANDHELD SMARTPHONE)</h4>
+            <div class="spec-list">
+              <div class="spec-item">
+                <span class="spec-label">Primary Role</span>
+                <span class="spec-value">Primary Field Exploration & Situated Probe</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Sensory Output</span>
+                <span class="spec-value">Spatial WebAudio synthesis + Haptic pulses</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Controls</span>
+                <span class="spec-value">Flow (Frequency sweep), Depth (Bandwidth), Listen, Mend</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Contribution</span>
+                <span class="spec-value">On-screen Archival Keypad for qualitative logs</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-transition-glyph">✦ ✦ ✦</div>
+
+      <!-- ================================================================
+           05. SECTION 5 — HOW THE CONTROLLED PROTOTYPE WORKS
+           ================================================================ -->
+      <section id="controlled-prototype" class="archive-section">
+        <div class="section-archival-header">
+          <div class="section-meta-header">
+            <span class="section-num">05 // CONTROLLED PROTOTYPE</span>
+            <div class="section-line"></div>
+            <span class="archival-badge alert">LIVE DEPLOYMENT</span>
+          </div>
+          <h2 class="section-title">How the Controlled Prototype Works</h2>
+          <p class="section-tagline">
+            Documenting the existing prototype deployed at dacian-era.onrender.com: preset elements, synthetic audio, and dual-terminal synchronization.
+          </p>
+        </div>
+
+        <div class="comparison-card controlled" style="margin-bottom: 2.5rem;">
+          <div class="plate-header">
+            <span class="comparison-badge controlled">LIVE CONTROLLED PROTOTYPE SYSTEM</span>
+            <span class="comparison-status-pill deployed">DEPLOYED // ONRENDER</span>
+          </div>
+          <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem;">
+            The controlled prototype is live and publicly accessible at <a href="https://dacian-era.onrender.com" target="_blank" rel="noopener noreferrer" style="color: var(--accent-rust); text-decoration: underline;">https://dacian-era.onrender.com</a>. It serves as an interactive demonstration of the core speculative mechanics in a lab setting:
+          </p>
+          <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="https://dacian-era.onrender.com" target="_blank" rel="noopener noreferrer" class="btn-primary js-enter-sim-btn">
+              LAUNCH CONTROLLED SIMULATION ↗
+            </a>
+            <a href="https://dacian-era.onrender.com/phone/" target="_blank" rel="noopener noreferrer" class="btn-secondary js-phone-url-btn">
+              OPEN PHONE READER DIRECTLY ↗
+            </a>
+          </div>
+        </div>
+
+        <div class="grid-2col" style="margin-bottom: 3rem;">
+          <div class="case-study-narrative">
+            <h3 style="font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 0.75rem;">1. Communication & Telemetry Relay</h3>
+            <p>
+              The controlled prototype runs on a unified Node.js WebSocket server (`simulation/server.js`). When a user launches the laptop Field Receiver and scans the QR code with their mobile phone, both clients establish a persistent bi-directional WebSocket connection. Any frequency sweep, mode switch, or listening toggle made on the phone immediately updates the laptop's telemetry monitors.
+            </p>
+
+            <h3 style="font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 0.75rem;">2. Preset WATER and SAND Fields</h3>
+            <p>
+              In this controlled setup, the system provides two curated preset scenarios:
+            </p>
+            <ul style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6; padding-left: 1.25rem;">
+              <li><strong>FIELD 01: WATER (440 Hz target)</strong>: Simulates submerged hydrostatic silt. Acoustic feedback uses low-pass filtering and deep sine harmonics. The narrative presents an old settlement buried beneath shallow water.</li>
+              <li><strong>FIELD 02: SAND (820 Hz target)</strong>: Simulates dry shifting quartz. Acoustic feedback employs granular white-noise modulations and high friction frequencies. The narrative depicts wind eroding structures in an arid basin.</li>
+            </ul>
+
+            <h3 style="font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 0.75rem;">3. The 8-Step Operational Cycle</h3>
+            <p>
+              The user follows a defined sequence: <em>Prepare &rarr; Connect &rarr; Select Field &rarr; Frequency Sweep &rarr; Resonant Lock (acoustic clarity + haptics) &rarr; Locate Fillámend &rarr; Continuous Touch Mending &rarr; Observation Logging</em>.
+            </p>
+          </div>
+
+          <div>
+            <div class="archival-plate">
+              <div class="plate-header">
+                <span class="plate-title">DOCUMENTED LIMITATIONS</span>
+                <span class="plate-index">LAB BENCHMARK NOTE</span>
+              </div>
+              <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                While the controlled prototype successfully demonstrates the speculative mechanics, it has specific design boundaries:
+              </p>
+              <ul style="display: flex; flex-direction: column; gap: 1rem; list-style: none; padding: 0;">
+                <li style="display: flex; gap: 0.75rem; font-size: 0.86rem; color: var(--text-secondary);">
+                  <span style="color: var(--accent-rust); font-family: var(--font-mono);">[—]</span>
+                  <div><strong>Synthetic Rather Than Live Audio:</strong> Sound is generated mathematically by browser WebAudio oscillators and pre-recorded audio buffers rather than capturing the actual physical environment around the listener.</div>
+                </li>
+                <li style="display: flex; gap: 0.75rem; font-size: 0.86rem; color: var(--text-secondary);">
+                  <span style="color: var(--accent-rust); font-family: var(--font-mono);">[—]</span>
+                  <div><strong>Predetermined Resonant Frequencies:</strong> The resonance points (440 Hz and 820 Hz) are hardcoded into the simulation rather than emerging from ambient terrain.</div>
+                </li>
+                <li style="display: flex; gap: 0.75rem; font-size: 0.86rem; color: var(--text-secondary);">
+                  <span style="color: var(--accent-rust); font-family: var(--font-mono);">[—]</span>
+                  <div><strong>Stationary Dual-Device Expectation:</strong> Requires a simultaneous desk setup with both a laptop and smartphone connected to the same server, limiting spontaneous outdoor field exploration.</div>
+                </li>
+                <li style="display: flex; gap: 0.75rem; font-size: 0.86rem; color: var(--text-secondary);">
+                  <span style="color: var(--accent-rust); font-family: var(--font-mono);">[—]</span>
+                  <div><strong>No Geographic Situatedness:</strong> Logs are stored with timestamps but lack geographical coordinates or an interactive map showing spatial filament accumulation.</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-transition-glyph">✦ ✦ ✦</div>
+
+      <!-- ================================================================
+           06. SECTION 6 — RESEARCH AND DESIGN PROCESS (CASE STUDY)
+           ================================================================ -->
+      <section id="case-study" class="archive-section">
+        <div class="section-archival-header">
+          <div class="section-meta-header">
+            <span class="section-num">06 // RESEARCH & DESIGN DOSSIER</span>
+            <div class="section-line"></div>
+            <span class="archival-badge">FULL CASE STUDY</span>
+          </div>
+          <h2 class="section-title">Research & Design Process</h2>
+          <p class="section-tagline">
+            Documenting the trajectory from theoretical inquiry and physical clay prototypes to digital dual-terminal interaction design.
+          </p>
+        </div>
+
+        <div class="case-study-narrative" style="max-width: 100%;">
+          <div class="grid-2col">
+            <div>
+              <h3 style="font-family: var(--font-serif); font-size: 1.6rem; margin-bottom: 0.85rem;">1. Initial Inquiry & Project Framing</h3>
+              <p>
+                The project began with an investigation into the materiality of sound and the aesthetics of repair. As digital interfaces become increasingly slick and automated, human tactile engagement is flattened into glass screen swipes. We asked:
+              </p>
+              <div class="case-study-quote">
+                “Can we design an instrument that makes listening an active, physical, interpretive labor rather than passive consumption?”
+              </div>
+              <p>
+                Rather than designing another utility app, we adopted a <strong>speculative design methodology</strong>. By imagining a world (the DACian Era) where digital clouds had dissolved into earth, we could defamiliarize modern computing habits and explore alternative interaction models.
+              </p>
+
+              <h3 style="font-family: var(--font-serif); font-size: 1.6rem; margin-top: 2rem; margin-bottom: 0.85rem;">2. Theoretical Lineage & Acoustic References</h3>
+              <p>
+                The project draws heavily on four bodies of thought:
+              </p>
+              <ul style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6; padding-left: 1.25rem;">
+                <li><strong>Acoustic Ecology (R. Murray Schafer):</strong> Understanding soundscapes as complex ecological systems that reflect cultural health and environmental balance.</li>
+                <li><strong>Deep Listening (Pauline Oliveros):</strong> Moving from involuntary hearing to intentional, embodied listening that expands human spatial consciousness.</li>
+                <li><strong>Cymatics & Chladni Figures (Ernst Chladni, 1787):</strong> The historic discovery that physical sand particles on vibrating plates rearrange into geometric nodal lines, proving sound has geometric form.</li>
+                <li><strong>Speculative Realism & Material Culture:</strong> Recognizing that non-human materials (water, quartz, silt) hold physical memory and agency.</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 style="font-family: var(--font-serif); font-size: 1.6rem; margin-bottom: 0.85rem;">3. Physical Prototyping & Iteration 1</h3>
+              <p>
+                Before writing any code, physical forms were sculpted using clay, polyurethane resin, and conductive copper foils. We explored handheld ergonomic silhouettes that would feel like archaeological tools rather than consumer electronics.
+              </p>
+              
+              <div class="archival-plate" style="margin: 1.5rem 0; text-align: center;">
+                <img src="assets/reader-device.png" alt="Physical Prototype Iteration in Studio" style="max-width: 100%; border-radius: 2px; filter: contrast(1.05) brightness(0.95);">
+                <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); margin-top: 0.75rem;">
+                  STUDIO ARCHIVE // PHYSICAL INSTRUMENT PROTOTYPE (DAC-04 ELIE-READER)
+                </div>
+              </div>
+
+              <p>
+                Early physical tests integrated small coin vibration motors and bone-conduction transducers. Participants reported that feeling the vibration in the fleshy pad of their thumb created an immediate intuitive sense of "proximity" before they could consciously identify the audio pitch.
+              </p>
+            </div>
+          </div>
+
+          <div style="margin-top: 3rem;">
+            <h3 style="font-family: var(--font-serif); font-size: 1.6rem; margin-bottom: 1rem;">4. Key Design Decisions & Rationale</h3>
+            
+            <div class="grid-3col">
+              <div class="archival-plate">
+                <div class="plate-header">
+                  <span class="plate-title">DECISION 01</span>
+                  <span class="plate-index">FREQUENCY SWEEP</span>
+                </div>
+                <strong style="font-family: var(--font-sans); font-size: 1rem; color: var(--text-primary);">Why Frequency Sweeping Instead of Search?</strong>
+                <p style="color: var(--text-secondary); font-size: 0.88rem; margin-top: 0.5rem; line-height: 1.55;">
+                  Modern interfaces use predictive search bars that assume you already know what you want. Sweeping a continuous frequency spectrum forces the user to encounter liminal static, discordant intervals, and unexpected harmonics, reinstating discovery.
+                </p>
+              </div>
+
+              <div class="archival-plate">
+                <div class="plate-header">
+                  <span class="plate-title">DECISION 02</span>
+                  <span class="plate-index">TACTILE MENDING</span>
+                </div>
+                <strong style="font-family: var(--font-sans); font-size: 1rem; color: var(--text-primary);">Why Touch-Sustained Repair?</strong>
+                <p style="color: var(--text-secondary); font-size: 0.88rem; margin-top: 0.5rem; line-height: 1.55;">
+                  In digital systems, error correction algorithms discard broken packets without user awareness. By requiring a continuous tactile touch to "mend" a waveform, the interface instills a sense of responsibility and somatic care.
+                </p>
+              </div>
+
+              <div class="archival-plate">
+                <div class="plate-header">
+                  <span class="plate-title">DECISION 03</span>
+                  <span class="plate-index">ANONYMOUS LOGGING</span>
+                </div>
+                <strong style="font-family: var(--font-sans); font-size: 1rem; color: var(--text-primary);">Why No User Accounts?</strong>
+                <p style="color: var(--text-secondary); font-size: 0.88rem; margin-top: 0.5rem; line-height: 1.55;">
+                  Public usernames and social profiles turn listening into performative content creation. A log in the DACian Era is a situated trace of attention left in a place, not an ego-driven identity token.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 3rem;">
+            <h3 style="font-family: var(--font-serif); font-size: 1.6rem; margin-bottom: 1rem;">5. Testing Observations & Discovered Limitations</h3>
+            <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.65; max-width: var(--max-readable);">
+              Testing the controlled prototype with participants revealed surprising somatic behaviors: users frequently closed their eyes while moving the frequency slider, relying entirely on the vibration pulses. However, testing also highlighted that staying seated in front of a laptop created an artificial "desktop" feeling that contradicted the speculative concept of field expeditions. This directly prompted the design of the <strong>new Experimental Reader</strong>.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-transition-glyph">✦ ✦ ✦</div>
+
+      <!-- ================================================================
+           07. SECTION 7 — THE EXPERIMENTAL DIRECTION
+           ================================================================ -->
+      <section id="experimental-direction" class="archive-section">
+        <div class="section-archival-header">
+          <div class="section-meta-header">
+            <span class="section-num">07 // NEW RESEARCH HORIZON</span>
+            <div class="section-line"></div>
+            <span class="archival-badge active">THE EXPERIMENTAL READER</span>
+          </div>
+          <h2 class="section-title">The Experimental Direction</h2>
+          <p class="section-tagline">
+            Evolving from controlled simulation presets toward unguided environmental listening, geographic exploration, voluntary element selection, and anonymous filament discovery.
+          </p>
+        </div>
+
+        <div class="comparison-card experimental" style="margin-bottom: 3rem;">
+          <div class="plate-header">
+            <span class="comparison-badge experimental">NEW EXPERIMENTAL READER EXPERIMENT</span>
+            <span class="comparison-status-pill active-dev">INDEPENDENT DEVELOPMENT // SIMULATION FOLDER</span>
+          </div>
+          <p style="color: var(--text-secondary); line-height: 1.65; font-size: 0.96rem;">
+            The <strong>Experimental Reader</strong> is developed independently inside <code style="color: var(--accent-water); font-family: var(--font-mono);">simulation/experimental/</code>. It does not replace the deployed controlled prototype, but rather investigates what happens when listening becomes genuine, unguided, situated in actual physical geography, and collective.
+          </p>
+          <div style="margin-top: 1.25rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="/simulation/experimental/" target="_blank" rel="noopener noreferrer" class="btn-experiment js-experimental-sim-btn">
+              LAUNCH EXPERIMENTAL PHONE READER ↗
+            </a>
+            <a href="/simulation/experimental/receiver.html" target="_blank" rel="noopener noreferrer" class="btn-secondary js-experimental-receiver-btn">
+              OPEN EXPERIMENTAL LAPTOP OVERVIEW ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- Architectural Comparison Matrix -->
+        <div class="comparison-matrix-grid">
+          <div class="comparison-card controlled">
+            <div class="comparison-badge controlled">CONTROLLED PROTOTYPE (DEPLOYED)</div>
+            <h4 class="comparison-title">Controlled Demonstration</h4>
+            <ul class="comparison-features">
+              <li><strong>Audio Source:</strong> Preset WebAudio synthetic oscillators and audio buffers.</li>
+              <li><strong>Element Nature:</strong> Preset scenarios (Water 440 Hz, Sand 820 Hz) with predefined stories.</li>
+              <li><strong>Interaction Model:</strong> Synchronized dual-terminal expectation (Laptop + Smartphone paired).</li>
+              <li><strong>Geographic Scope:</strong> Abstract lab setting without geographic coordinates.</li>
+              <li><strong>Filament Nature:</strong> Predefined signal targets that must be found and mended.</li>
+              <li><strong>Deployment:</strong> Live on Render at <a href="https://dacian-era.onrender.com" target="_blank" rel="noopener noreferrer">dacian-era.onrender.com</a>.</li>
+            </ul>
+          </div>
+
+          <div class="comparison-card experimental">
+            <div class="comparison-badge experimental">EXPERIMENTAL READER (NEW EXPERIMENT)</div>
+            <h4 class="comparison-title">Unguided Field Practice</h4>
+            <ul class="comparison-features">
+              <li><strong>Audio Source:</strong> Actual ambient environmental audio captured via device microphone.</li>
+              <li><strong>Element Nature:</strong> Voluntary practice of attention chosen by the listener (NOT auto-detected).</li>
+              <li><strong>Interaction Model:</strong> Phone is primary field device with full map access; laptop provides overview.</li>
+              <li><strong>Geographic Scope:</strong> Situated OpenStreetMap cartography with Indian geographic context.</li>
+              <li><strong>Filament Nature:</strong> Records of attention and encounter created anywhere by anyone.</li>
+              <li><strong>Deployment:</strong> Independent experimental application in <code style="font-family: var(--font-mono);">simulation/experimental/</code>.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Voluntary Elements Dossier: WATER vs SAND -->
+        <div style="margin-top: 3rem;">
+          <div class="plate-header">
+            <span class="plate-title">VOLUNTARY PRACTICES OF ATTENTION // WATER VS SAND</span>
+            <span class="plate-index">ONTOLOGICAL DISTINCTION</span>
+          </div>
+
+          <p style="font-size: 0.95rem; color: var(--text-secondary); max-width: var(--max-readable); margin-bottom: 2rem; line-height: 1.65;">
+            In the experimental Reader, an element is <strong>not</strong> an automated acoustic classifier. Choosing WATER does not mean the microphone detected water, and choosing SAND does not mean the user is on a beach. Rather, an element is a <em>voluntary choice of attention</em>—how the observer chooses to listen and respond to an environment.
+          </p>
+
+          <div class="element-dossier-grid">
+            <!-- WATER DOSSIER -->
+            <div class="element-dossier-card water">
+              <div class="element-dossier-header">
+                <span>PRACTICE MODE // 01</span>
+                <span>RESONANCE & CONTINUITY</span>
+              </div>
+              <h3 class="element-dossier-title" style="color: var(--accent-water);">WATER</h3>
+              <div class="element-dossier-subtitle">Flow, Resonance, Echo, & Continuity</div>
+              <p style="font-size: 0.9rem; color: #b8ded9; line-height: 1.6; margin-bottom: 1.25rem;">
+                Attending to transitions, fluid movements, ongoing background drones, and the ways separate sounds blend and carry across distances.
+              </p>
+              <div style="border-top: 1px solid rgba(78, 205, 196, 0.2); padding-top: 1rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-water);">
+                VISUAL BEHAVIOUR: Overlapping wave ripples, continuous cyan interference nodal lines, fluid morphing forms.
+              </div>
+            </div>
+
+            <!-- SAND DOSSIER -->
+            <div class="element-dossier-card sand">
+              <div class="element-dossier-header">
+                <span>PRACTICE MODE // 02</span>
+                <span>RESIDUE & ACCUMULATION</span>
+              </div>
+              <h3 class="element-dossier-title" style="color: var(--accent-sand);">SAND</h3>
+              <div class="element-dossier-subtitle">Residue, Friction, Strata, & Erosion</div>
+              <p style="font-size: 0.9rem; color: #dfcaa8; line-height: 1.6; margin-bottom: 1.25rem;">
+                Attending to friction, isolated cracks, particulate details, what remains behind after a louder event ceases, and the physical resistance of structures.
+              </p>
+              <div style="border-top: 1px solid rgba(212, 163, 115, 0.2); padding-top: 1rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-sand);">
+                VISUAL BEHAVIOUR: Granular particle clusters, stratified ochre contour layers, drift erosion lines.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Geographic Context & Sparse Archives -->
+        <div style="margin-top: 3.5rem;">
+          <div class="plate-header">
+            <span class="plate-title">GEOGRAPHY & ARCHIVAL DENSITY</span>
+            <span class="plate-index">SPATIAL DISTRIBUTION</span>
+          </div>
+
+          <div class="grid-2col">
+            <div class="case-study-narrative">
+              <p>
+                In the Indian context and across complex urban and ecological landscapes, places are shaped by overlapping historical, civic, and natural layers—waterways, transport corridors, residential enclaves, and informal markets.
+              </p>
+              <p>
+                A filament is <strong>not</strong> an anomaly created by the system. It is created solely when a human being pauses, listens to their surroundings, and leaves a record. The Reader’s map tracks the accumulation of these encounters into three archival states:
+              </p>
+              <ul style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; padding-left: 1.25rem;">
+                <li><strong style="color: var(--text-muted);">Untraced:</strong> Areas with no recorded listening encounters—a gentle invitation for someone to contribute attention.</li>
+                <li><strong style="color: var(--accent-water);">Traced:</strong> One or two isolated listening observations have been anchored here.</li>
+                <li><strong style="color: var(--accent-rust);">Layered:</strong> Multiple listeners have logged observations over time, revealing different temporal and sensory interpretations of the same spot.</li>
+              </ul>
+            </div>
+
+            <div class="archival-plate">
+              <div class="plate-header">
+                <span class="plate-title">RESEARCH QUESTION</span>
+                <span class="plate-index">CORE HYPOTHESIS</span>
+              </div>
+              <div class="case-study-quote" style="margin: 0; font-size: 1.15rem;">
+                “When the Reader encounters a gap in its own listening archive, what kind of invitation is enough to make someone stop, listen, interpret, and leave a trace?”
+              </div>
+              <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 1.25rem; line-height: 1.5;">
+                By developing the experimental Reader as an unguided field instrument, we test whether people will voluntarily participate in building an acoustic archive without gamified badges or algorithmic incentives.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-transition-glyph">✦ ✦ ✦</div>
+
+      <!-- ================================================================
+           08. SECTION 8 — REFLECTION & OPEN QUESTIONS
+           ================================================================ -->
+      <section id="reflection" class="archive-section">
+        <div class="section-archival-header">
+          <div class="section-meta-header">
+            <span class="section-num">08 // CRITICAL REFLECTION</span>
+            <div class="section-line"></div>
+            <span class="archival-badge">EVALUATION</span>
+          </div>
+          <h2 class="section-title">Reflection & Open Questions</h2>
+          <p class="section-tagline">
+            What the project enables, what it cannot yet do, and the ethical dilemmas of environmental sensing.
+          </p>
+        </div>
+
+        <div class="grid-2col">
+          <div class="case-study-narrative">
+            <h3 style="font-family: var(--font-serif); font-size: 1.45rem; margin-bottom: 0.5rem;">What the Project Achieves</h3>
+            <p>
+              DACian Era demonstrates that speculative world-building can be concretely embodied through functioning hardware and interaction prototypes. It moves the discourse of speculative design beyond gallery posters into interactive devices that people can actually hold, tune, and listen through. It creates an evocative, defamiliarizing experience that makes participants conscious of ambient soundscapes they typically ignore.
+            </p>
+
+            <h3 style="font-family: var(--font-serif); font-size: 1.45rem; margin-top: 1.75rem; margin-bottom: 0.5rem;">What it Cannot (and Should Not) Claim</h3>
+            <p>
+              The system does not claim to use artificial intelligence to "solve" listening or translate hidden animal languages. A microphone captures a physical mixture of acoustic vibrations; frequency filtering can isolate frequency bands, but it cannot recover information that was never there. We deliberately avoid claiming pseudo-scientific certainty, maintaining the Reader as an <strong>interpretive poetic apparatus</strong>.
+            </p>
+          </div>
+
+          <div>
+            <div class="archival-plate">
+              <div class="plate-header">
+                <span class="plate-title">UNRESOLVED QUESTIONS</span>
+                <span class="plate-index">OPEN INQUIRIES</span>
+              </div>
+              <ul style="display: flex; flex-direction: column; gap: 1.25rem; list-style: none; padding: 0;">
+                <li style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;">
+                  <strong style="color: var(--text-primary); display: block; margin-bottom: 0.25rem;">Acoustic Privacy & Public Space:</strong>
+                  How do we balance environmental microphone listening with the privacy of passersby whose conversations might be inadvertently captured? The experimental Reader enforces anonymous local processing and explicit opt-in sharing to honor this boundary.
+                </li>
+                <li style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;">
+                  <strong style="color: var(--text-primary); display: block; margin-bottom: 0.25rem;">Ephemeral vs Permanent Archives:</strong>
+                  Should filaments persist forever, or should they naturally fade and erode over time, mimicking the physical substrates (sand and water) they represent?
+                </li>
+                <li style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;">
+                  <strong style="color: var(--text-primary); display: block; margin-bottom: 0.25rem;">Communities of Practice:</strong>
+                  Will listeners naturally adopt distinct WATER or SAND observational styles, or will they treat the choice casually?
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-transition-glyph">✦ ✦ ✦</div>
+
+      <!-- ================================================================
+           09. SECTION 9 — CREDITS, REFERENCES & ABOUT THE MAKER
+           ================================================================ -->
+      <section id="about-maker" class="archive-section">
+        <div class="section-archival-header">
+          <div class="section-meta-header">
+            <span class="section-num">09 // DOSSIER & CREDITS</span>
+            <div class="section-line"></div>
+            <span class="archival-badge">RESEARCH CREDITS</span>
+          </div>
+          <h2 class="section-title">About the Maker & References</h2>
+          <p class="section-tagline">
+            Design research situated between human-centred systems, sensory perception, and speculative material worlds.
+          </p>
+        </div>
+
+        <div class="maker-profile-card">
+          <div class="plate-header">
+            <span class="plate-title">RESEARCHER SPECIFICATION</span>
+            <span class="plate-index">DOSSIER // DAC-04-R</span>
+          </div>
+
+          <h3 id="creator-name-display" class="maker-name">Aabha Wagh</h3>
+          <div id="creator-role-display" class="maker-role">Speculative Designer & Systems Researcher</div>
+
+          <p id="creator-bio-display" class="maker-bio">
+            Focused on human-centred design, design research, systems, perception, speculative worlds, and invisible interactions between people, materials, and environments.
+          </p>
+
+          <div class="grid-2col" style="gap: 2rem; margin-top: 2rem;">
+            <div>
+              <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">INSTITUTION / CURRICULUM</span>
+              <div id="creator-inst-display" style="font-weight: 600; margin-top: 0.25rem; color: var(--text-primary);">
+                Master of Design in Human-Centred Design
+              </div>
+            </div>
+            <div>
+              <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">PROJECT REPOSITORIES</span>
+              <div style="margin-top: 0.25rem; display: flex; gap: 1rem;">
+                <a href="https://dacian-era.onrender.com" target="_blank" rel="noopener noreferrer" style="color: var(--accent-rust); text-decoration: underline; font-family: var(--font-mono); font-size: 0.82rem;">
+                  Deployed Prototype [Render]
+                </a>
+                <a href="/simulation/experimental/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-water); text-decoration: underline; font-family: var(--font-mono); font-size: 0.82rem;">
+                  Experimental Reader [Local]
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="maker-facets-list" style="margin-top: 2rem;">
+            <span class="maker-facet-tag">Human-Centred Design</span>
+            <span class="maker-facet-tag">Acoustic Ecology</span>
+            <span class="maker-facet-tag">Speculative Realism</span>
+            <span class="maker-facet-tag">Tactile Interaction</span>
+            <span class="maker-facet-tag">Sensory Ethnography</span>
+            <span class="maker-facet-tag">Physical Computing</span>
+          </div>
+        </div>
+
+        <!-- Literature References & Framework Credits -->
+        <div class="archival-plate" style="margin-top: 2.5rem;">
+          <div class="plate-header">
+            <span class="plate-title">LITERATURE & TECHNICAL REFERENCES</span>
+            <span class="plate-index">BIBLIOGRAPHY</span>
+          </div>
+
+          <div class="grid-2col" style="font-size: 0.86rem; color: var(--text-secondary); line-height: 1.6;">
+            <div>
+              <h4 style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent-rust); text-transform: uppercase; margin-bottom: 0.75rem;">Theoretical Texts</h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.65rem; list-style: none; padding: 0;">
+                <li>• Schafer, R. Murray. <em>The Soundscape: Our Sonic Environment and the Tuning of the World</em> (1977).</li>
+                <li>• Oliveros, Pauline. <em>Deep Listening: A Composer’s Sound Practice</em> (2005).</li>
+                <li>• Ingold, Tim. <em>Making: Anthropology, Archaeology, Art and Architecture</em> (2013).</li>
+                <li>• Haraway, Donna. <em>Staying with the Trouble: Making Kin in the Chthulucene</em> (2016).</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent-water); text-transform: uppercase; margin-bottom: 0.75rem;">Frameworks & Tools</h4>
+              <ul style="display: flex; flex-direction: column; gap: 0.65rem; list-style: none; padding: 0;">
+                <li>• <strong>WebAudio API:</strong> Real-time biquad filtering, spectral Fourier analysis, oscillator synthesis.</li>
+                <li>• <strong>HTML5 Canvas:</strong> Chladni mathematical cymatic simulation and waveform oscilloscope.</li>
+                <li>• <strong>Leaflet & OpenStreetMap:</strong> Geospatial cartography with dark mineral styling.</li>
+                <li>• <strong>Node.js & WebSocket (ws):</strong> Low-latency bi-directional multi-client telemetry relay.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-transition-glyph">✦ ✦ ✦</div>
+
+      <!-- ================================================================
+           CALL TO ACTION // LAUNCH SIMULATION TRANSITION
+           ================================================================ -->
+      <section id="enter-simulation" class="archive-section" style="border-bottom: none; padding-bottom: 4rem;">
+        <div class="transition-hero-card">
+          <div class="transition-lead-label">
+            TRANSITION FROM ARCHIVE INTO PRACTICE
+          </div>
+
+          <h2 class="transition-headline">
+            THE ARCHIVE ENDS HERE.<br>
+            THE FIELD BEGINS.
+          </h2>
+
+          <p class="transition-subtext">
+            Choose whether to experience the controlled prototype deployed with dual-terminal synchronization, or enter the new experimental unguided field reader.
+          </p>
+
+          <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
+            <a href="https://dacian-era.onrender.com" target="_blank" rel="noopener noreferrer" class="btn-primary js-enter-sim-btn" style="padding: 16px 32px; font-size: 0.95rem;">
+              LAUNCH SIMULATION ↗
+            </a>
+            <a href="/simulation/experimental/" target="_blank" rel="noopener noreferrer" class="btn-experiment js-experimental-sim-btn" style="padding: 16px 30px; font-size: 0.95rem;">
+              ENTER EXPERIMENTAL FIELD READER ↗
+            </a>
+          </div>
+
+          <div style="margin-top: 2rem;">
+            <div class="sim-url-meta-box" style="display: inline-flex; flex-direction: column; gap: 0.35rem; text-align: left;">
+              <div>CONTROLLED PROTOTYPE ENDPOINT: <strong class="sim-url-code js-sim-url-display">https://dacian-era.onrender.com</strong></div>
+              <div>EXPERIMENTAL FIELD ENDPOINT: <strong class="sim-url-code js-exp-url-display">/simulation/experimental/</strong></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ==================================================================
+         ARCHIVAL FOOTER & COLOPHON
+         ================================================================== -->
+    <footer class="archive-footer">
+      <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem; margin-bottom: 2.5rem;">
+        <div>
+          <div style="font-family: var(--font-mono); font-weight: 700; font-size: 1.05rem; letter-spacing: 0.12em; color: var(--text-primary); margin-bottom: 0.5rem;">
+            DACIAN ERA // FIELD INSTRUMENT ARCHIVE
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); max-width: 48ch; line-height: 1.55;">
+            Master of Design in Human-Centred Design. An investigation of physical computing, speculative ecology, and situated acoustic memory.
+          </p>
+        </div>
+
+        <div style="display: flex; gap: 3rem; font-family: var(--font-mono); font-size: 0.75rem;">
+          <div>
+            <div style="color: var(--accent-rust); font-weight: 700; margin-bottom: 0.5rem;">SECTIONS</div>
+            <ul style="display: flex; flex-direction: column; gap: 0.4rem; list-style: none; padding: 0; color: var(--text-secondary);">
+              <li><a href="#why-this-world" style="color: inherit;">Why This World</a></li>
+              <li><a href="#the-concepts" style="color: inherit;">Fillámend</a></li>
+              <li><a href="#the-reader" style="color: inherit;">The Reader</a></li>
+              <li><a href="#controlled-prototype" style="color: inherit;">Controlled Prototype</a></li>
+              <li><a href="#case-study" style="color: inherit;">Case Study</a></li>
+              <li><a href="#experimental-direction" style="color: inherit;">Experimental Direction</a></li>
+            </ul>
+          </div>
+          <div>
+            <div style="color: var(--accent-water); font-weight: 700; margin-bottom: 0.5rem;">SIMULATIONS</div>
+            <ul style="display: flex; flex-direction: column; gap: 0.4rem; list-style: none; padding: 0; color: var(--text-secondary);">
+              <li><a href="https://dacian-era.onrender.com" target="_blank" rel="noopener noreferrer" style="color: inherit;">Controlled: Laptop Receiver</a></li>
+              <li><a href="https://dacian-era.onrender.com/phone/" target="_blank" rel="noopener noreferrer" style="color: inherit;">Controlled: Phone Reader</a></li>
+              <li><a href="/simulation/experimental/" target="_blank" rel="noopener noreferrer" style="color: inherit;">Experimental: Phone Field</a></li>
+              <li><a href="/simulation/experimental/receiver.html" target="_blank" rel="noopener noreferrer" style="color: inherit;">Experimental: Laptop Archive</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div style="border-top: 1px solid var(--border-light); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">
+        <div>
+          ARCHIVE SPECIMEN © DACIAN EXPEDITION // DESIGN RESEARCH DOSSIER
+        </div>
+        <div style="font-style: italic;">
+          Notice: Website operates as responsive editorial documentation. Simulations run independently.
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ====================================================================
+       IN-PAGE CONFIGURATION QUICK-SWITCH MODAL
+       ==================================================================== -->
+  <div id="config-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.82); z-index: 9999; align-items: center; justify-content: center; padding: 1.5rem; backdrop-filter: blur(8px);">
+    <div style="background: var(--bg-card); border: 1px solid var(--border-medium); border-radius: 4px; padding: 2.5rem; max-width: 580px; width: 100%; box-shadow: 0 16px 40px rgba(0,0,0,0.6);">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-light); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+        <span class="plate-title" style="color: var(--text-primary);">ENDPOINT CONFIGURATION</span>
+        <button id="close-config-btn" style="background: transparent; border: none; color: var(--text-primary); font-family: var(--font-mono); font-size: 1.25rem; cursor: pointer;">✕</button>
+      </div>
+
+      <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.5;">
+        You can configure the simulation destination URL here without modifying code. 
+        Changes take effect immediately across all buttons and QR code.
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+        <div>
+          <label style="display: block; font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; margin-bottom: 0.35rem; color: var(--text-secondary);">
+            SIMULATION_URL (Controlled Prototype Destination):
+          </label>
+          <input type="text" id="modal-sim-url-input" style="width: 100%; padding: 10px 12px; font-family: var(--font-mono); font-size: 0.85rem; background: var(--bg-dark); color: var(--text-primary); border: 1px solid var(--border-medium); border-radius: 2px;">
+        </div>
+
+        <div>
+          <label style="display: block; font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; margin-bottom: 0.35rem; color: var(--text-secondary);">
+            PHONE_READER_URL (Handheld Phone Link / QR Target):
+          </label>
+          <input type="text" id="modal-phone-url-input" style="width: 100%; padding: 10px 12px; font-family: var(--font-mono); font-size: 0.85rem; background: var(--bg-dark); color: var(--text-primary); border: 1px solid var(--border-medium); border-radius: 2px;">
+        </div>
+      </div>
+
+      <div style="margin-top: 2rem; display: flex; justify-content: flex-end; gap: 1rem;">
+        <button id="save-config-btn" class="btn-primary" style="padding: 10px 20px; font-size: 0.8rem;">
+          SAVE & APPLY ENDPOINTS
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modular Scripts -->
+  <script src="js/signal-canvas.js"></script>
+  <script src="js/field-notes.js"></script>
+  <script src="js/artifact.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

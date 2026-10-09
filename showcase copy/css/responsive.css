@@ -1,0 +1,161 @@
+/* ==========================================================================
+   READER ARCHIVE — RESPONSIVE ADAPTATIONS
+   ========================================================================== */
+
+/* Utility: hide elements only intended for desktop viewport */
+.desktop-only {
+  display: inline-flex;
+}
+
+@media (max-width: 1024px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding: 2rem 0;
+    padding-top: 0;
+  }
+
+  .grid-2col, .grid-1-2, .grid-2-1 {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .fragment-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .material-matrix {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .notes-cards-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .archive-shell {
+    padding: 0 1rem;
+    border-left: none;
+    border-right: none;
+  }
+
+  .archive-header {
+    margin: 0 -1rem;
+    padding: 0 1rem;
+  }
+
+  .header-top-bar {
+    font-size: 0.65rem;
+  }
+
+  /* Hide secondary telemetry metadata on mobile */
+  .desktop-only {
+    display: none;
+  }
+
+  .archive-section {
+    padding: 4rem 0;
+  }
+
+  .hero-title {
+    font-size: 3.2rem;
+  }
+
+  .hero-intro {
+    font-size: 1.25rem;
+  }
+
+  .fragment-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .material-matrix {
+    grid-template-columns: 1fr;
+  }
+
+  .fields-dual-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .instrument-spec-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .notes-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Topology schematic becomes vertical on small screens */
+  .topology-schematic {
+    flex-direction: column;
+  }
+
+  .topology-arrow {
+    transform: rotate(90deg);
+    margin: 1rem 0;
+  }
+
+  .step-card-active {
+    padding: 1.75rem 1.25rem;
+  }
+
+  .step-title-text {
+    font-size: 1.35rem;
+  }
+
+  .transition-hero-card {
+    padding: 3rem 1.5rem;
+  }
+
+  .btn-enter-simulation {
+    width: 100%;
+    justify-content: center;
+    font-size: 1rem;
+    padding: 16px 24px;
+  }
+
+  /* Nav: hide the full link list on very small screens, keep brand + CTAs */
+  .nav-links {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.4rem;
+  }
+
+  .hero-cta-group {
+    flex-direction: column;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   REDUCED MOTION: Main site animations
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html, body {
+    scroll-behavior: auto;
+  }
+
+  .pulse-dot {
+    animation: none;
+    opacity: 1;
+  }
+}

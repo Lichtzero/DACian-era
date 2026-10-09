@@ -1,0 +1,67 @@
+/* ==========================================================================
+   DACIAN ERA — NOCTRA OBSERVATORY DESIGN SYSTEM & TOKENS
+   Aesthetic Reference: Noctra Observatory // Deep Mineral, Obsidian, Archival
+   ========================================================================== */
+
+:root {
+  /* Surface & Substrate Palette: Deep Mineral Obsidian */
+  --bg-primary: #0a0c0f;          /* Deep obsidian void */
+  --bg-surface: #101318;          /* Observatory dark slate */
+  --bg-card: #151921;             /* Instrument panel card */
+  --bg-card-hover: #1c222c;       /* Tactile hover elevation */
+  --bg-card-elevated: #1f2531;    /* Raised instrument bay */
+  --bg-dark: #050608;             /* Pure sensor black */
+  --bg-highlight: #1d232e;        /* Subtle mineral strata */
+  --bg-translucent: rgba(16, 19, 24, 0.88);
+
+  /* Typography / Text Inks: Warm Off-White & Mineral Tones */
+  --text-primary: #f2eee3;        /* Warm parchment / off-white */
+  --text-secondary: #b3ac9f;      /* Muted mineral sand / stone text */
+  --text-muted: #7d766a;          /* Archival telemetry / annotation */
+  --text-faint: #4c473f;          /* Subterranean grid notation */
+  --text-inverse: #0a0c0f;        /* Deep void ink */
+  --text-inverse-muted: #1e222a;
+
+  /* Instrument & Signal Accents (Restrained, Grounded, Mineral) */
+  --accent-rust: #c95a3f;         /* Calibrated mineral signal / terracotta */
+  --accent-rust-glow: rgba(201, 90, 63, 0.18);
+  --accent-rust-hover: #dd684c;
+  
+  --accent-water: #4ecdc4;        /* Aqueous resonance / glacial hydrophone */
+  --accent-water-dim: #23524e;
+  --accent-water-glow: rgba(78, 205, 196, 0.18);
+  
+  --accent-sand: #d4a373;         /* Granular quartz / warm silica */
+  --accent-sand-dim: #543f2a;
+  --accent-sand-glow: rgba(212, 163, 115, 0.18);
+  
+  --accent-signal: #e59866;       /* Active telemetry indicator */
+  --accent-cyan: #4ecdc4;
+  --accent-amber: #c48e42;
+  --accent-slate: #8fa0ad;
+
+  /* Structural Rules & Precision Instrument Borders */
+  --border-light: rgba(242, 238, 227, 0.08);
+  --border-medium: rgba(242, 238, 227, 0.15);
+  --border-dark: rgba(242, 238, 227, 0.24);
+  --border-accent: rgba(201, 90, 63, 0.45);
+  --border-dashed: rgba(242, 238, 227, 0.12);
+
+  /* Typography Stacks */
+  --font-serif: 'Newsreader', 'Cormorant Garamond', 'Spectral', 'Georgia', serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Space Mono', 'SFMono-Regular', 'Menlo', monospace;
+
+  /* Dimensions & Spacing */
+  --max-width: 1260px;
+  --max-readable: 760px;
+  --header-height: 56px;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+
+  /* Transitions & Animation Easings */
+  --trans-fast: 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  --trans-base: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  --trans-slow: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
